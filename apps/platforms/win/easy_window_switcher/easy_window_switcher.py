@@ -6,7 +6,7 @@ ctx = Context()
 apps = mod.apps
 apps.easy_window_switcher = """
 os: windows
-and app.name: "Easy Window Switcher"
+and app.name: Easy Window Switcher
 os: windows
 and app.exe: wincycle.exe
 """
