@@ -1,6 +1,4 @@
-from talon import Context, actions
-
-from talon import Context, actions, ui, Module
+from talon import Context, actions, Module
 
 mod = Module()
 ctx = Context()
