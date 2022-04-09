@@ -50,7 +50,7 @@ def on_ready():
     system_paths = get_list_from_csv(
         "system_paths.csv",
         headers=("Path", "Spoken"),
-        default=default_system_paths
+        # default=default_system_paths
     )
 
     ctx.lists["user.system_paths"] = system_paths
@@ -59,4 +59,4 @@ def on_ready():
 def system_path(m) -> str:
     return m.system_paths
 
-app.register("ready", on_ready)
+# app.register("ready", on_ready)
