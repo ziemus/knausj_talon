@@ -33,7 +33,7 @@ grab folder {user.file_manager_directories}: user.file_manager_select_directory(
 # grab file <number_small>: 
 #     file = user.file_manager_get_file_by_index(number_small - 1)
 #     user.file_manager_select_file(file)
-grab file {user.file_manager_files}: user.file_manager_select_file(file_manager_files)
+
 
 copy path {user.file_manager_files}:
     user.file_manager_select_file(file_manager_files)

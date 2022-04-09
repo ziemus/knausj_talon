@@ -10,7 +10,6 @@ go info: key(cmd-shift-i)
 # Navigation
 focus (move | next): key(ctrl-`)
 go next: key(f6)
-go (previous | last): key(shift-f6)
 go messages: key(cmd-shift-k)
 go threads: key(cmd-shift-t)
 go shortcuts: key(cmd-/)
