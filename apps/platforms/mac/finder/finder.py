@@ -11,17 +11,14 @@ directories_to_remap = {"": "/Volumes"}
 directories_to_exclude = {}
 
 
-@ctx.action_class("user")
+@ctx.action_class('user')
 class UserActions:
     def file_manager_open_parent():
-        actions.key("cmd-up")
-
+        actions.key('cmd-up')
     def file_manager_go_forward():
-        actions.key("cmd-]")
-
+        actions.key('cmd-]')
     def file_manager_go_back():
-        actions.key("cmd-[")
-
+        actions.key('cmd-[')
     def file_manager_current_path():
         title = ui.active_window().title
 
@@ -58,7 +55,7 @@ class UserActions:
     def file_manager_open_directory(path: str):
         """opens the directory that's already visible in the view"""
         actions.key("cmd-shift-g")
-        actions.sleep("200ms")
+        actions.sleep("50ms")
         actions.insert(path)
         actions.key("enter")
 

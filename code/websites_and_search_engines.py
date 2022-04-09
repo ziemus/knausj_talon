@@ -11,6 +11,11 @@ mod.list(
 )
 
 website_defaults = {
+    "talon home page":"http://talonvoice.com",
+    "talon slack":"http://talonvoice.slack.com/messages/help",
+    "talon wiki":"https://talon.wiki/",
+    "talon practice":"https://chaosparrot.github.io/talon_practice/",
+    "talon repository search": "https://search.talonvoice.com/search/",
     "amazon": "https://www.amazon.com/",
     "dropbox": "https://dropbox.com/",
     "google": "https://www.google.com/",
@@ -34,10 +39,14 @@ _search_engine_defaults = {
 
 ctx = Context()
 ctx.lists["self.website"] = get_list_from_csv(
-    "websites.csv", headers=("URL", "Spoken name"),
+    "websites.csv",
+    headers=("URL", "Spoken name"),
+    default=website_defaults,
 )
 ctx.lists["self.search_engine"] = get_list_from_csv(
-    "search_engines.csv", headers=("URL Template", "Name"),
+    "search_engines.csv",
+    headers=("URL Template", "Name"),
+    default=_search_engine_defaults,
 )
 
 

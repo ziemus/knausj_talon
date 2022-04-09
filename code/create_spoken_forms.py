@@ -315,13 +315,11 @@ class Actions:
         spoken_forms_without_symbols = create_spoken_forms_from_regex(
             source, REGEX_NO_SYMBOLS
         )
-        # print(spoken_forms_without_symbols)
 
         # todo: this could probably be optimized out if there's no symbols
         spoken_forms_with_symbols = create_spoken_forms_from_regex(
             source, REGEX_WITH_SYMBOLS
         )
-        # print(spoken_forms_with_symbols)
 
         # some may be identical, so ensure the list is reduced
         full_spoken_forms = list(
