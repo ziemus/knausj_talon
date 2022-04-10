@@ -43,7 +43,7 @@ settings():
 
 # uncomment tag to enable mouse grid
 tag(): user.cursorless_experimental_snippets
-tag(): talon_plugins.eye_zoom_mouse.zoom_mouse_noise
+# tag(): talon_plugins.eye_zoom_mouse.zoom_mouse_noise
 # tag(): talon_plugins.eye_zoom_mouse.zoom_mouse_pedal
 tag(): user.cursorless_experimental_snippets
 
