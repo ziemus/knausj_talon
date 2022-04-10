@@ -1,3 +1,4 @@
+os: windows
 app: beyond_compare
 -
 tag(): user.tabs

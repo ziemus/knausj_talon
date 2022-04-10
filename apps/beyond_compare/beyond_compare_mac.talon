@@ -1,3 +1,4 @@
+os: mac
 app: beyond_compare
 -
 tag(): user.tabs
