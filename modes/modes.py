@@ -70,7 +70,7 @@ class Actions:
     def welcome_back():
         """Enables all things"""
         actions.user.mouse_wake()
-        actions.user.enable_hud()
+        actions.user.hud_enable()
         # user.history_enable()
         actions.user.talon_mode()
         actions.mode.enable("noise")
@@ -78,7 +78,7 @@ class Actions:
     def sleep_all():
         """Disables all things"""
         actions.user.switcher_hide_running()
-        actions.user.disable_hud()
+        actions.user.hud_disable()
         # user.history_disable()
         actions.user.homophones_hide()
         actions.user.help_hide()

@@ -21,7 +21,7 @@ class Actions:
     def foot_pedal_right_left():
         """document string goes here"""
         actions.user.mouse_toggle_zoom_mouse()
-        #actions.key("pageup")
+        # actions.key("pageup")
 
     def foot_pedal_right_middle():
         """document string goes here"""
@@ -33,11 +33,11 @@ class Actions:
             actions.speech.enable()
             actions.user.microphone_preferred()
             actions.user.mouse_wake()
-            actions.user.enable_hud()
-            #actions.user.clickless_mouse_enable()
+            actions.user.hud_enable()
+            # actions.user.clickless_mouse_enable()
         else:
             actions.user.sleep_all()
             actions.speech.set_microphone("None")
             actions.user.mouse_sleep()
-            actions.user.disable_hud()
-            #actions.user.clickless_mouse_disable()
+            actions.user.hud_disable()
+            # actions.user.clickless_mouse_disable()
