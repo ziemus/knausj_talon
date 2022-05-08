@@ -37,7 +37,7 @@ if app.platform == "windows":
         default_folder = os.path.join("~", "Desktop")
 
         ctx.lists["self.directories"] = {
-            "applications": "shell:Applications",
+            "applications": "shell:AppsFolder",
             "desk": os.path.join(one_drive_path, "Desktop"),
             "docks": os.path.join(one_drive_path, "Documents"),
             "downloads": os.path.expanduser("~/Downloads"),
@@ -71,7 +71,7 @@ if app.platform == "windows":
             "talent plugins": os.path.expandvars(
                 "%ProgramFiles%\\Talon\\talon_plugins"
             ),
-            "root": "/",
+            "root": "\\",
         }
 
 
