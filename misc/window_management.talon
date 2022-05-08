@@ -4,7 +4,7 @@ win last: app.window_previous()
 win close: app.window_close()
 win list: user.switcher_show_application_windows()
 win list exit: user.switcher_hide_application_windows()
-win <number_small>: user.switcher_switch_window(number_small)
+#win <number_small>: user.switcher_switch_window(number_small)
 focus <user.running_applications>: 
     user.switcher_focus(running_applications)
     #sleep(100ms)
