@@ -134,6 +134,7 @@ modifier_keys = {
 if app.platform == "mac":
     modifier_keys["man"] = "cmd"
     modifier_keys["option"] = "alt"
+    modifier_keys["alt"] = "alt"
 else:
     modifier_keys["alt"] = "alt"
     modifier_keys["man"] = "super"
@@ -284,7 +285,7 @@ class Actions:
     def move_cursor(s: str):
         """Given a sequence of directions, eg. 'left left up', moves the cursor accordingly using edit.{left,right,up,down}."""
         for d in s.split():
-            if d in ('left','right','up','down'):
+            if d in ("left", "right", "up", "down"):
                 getattr(actions.edit, d)()
             else:
-                raise RuntimeError(f'invalid arrow key: {d}')
+                raise RuntimeError(f"invalid arrow key: {d}")
