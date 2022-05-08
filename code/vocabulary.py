@@ -110,13 +110,12 @@ assert rep.replace_string('this is a tricky one') == 'stopping early a tricky on
 
 phrase_replacer = PhraseReplacer(phrases_to_replace)
 
-@mod.action_class
-class Actions:
-    def replace_phrases(words: Sequence[str]) -> Sequence[str]:
-        """Replace phrases according to words_to_replace.csv"""
+@ctx.action_class('dictate')
+class OverwrittenActions:
+    def replace_words(words: Sequence[str]) -> Sequence[str]:
         try:
             return phrase_replacer.replace(words)
         except:
-            # fall back to dictate.replace_words for error-robustness
+            # fall back to default implementation for error-robustness
             logging.error("phrase replacer failed!")
-            return actions.dictate.replace_words(words)
+            return actions.next(words)
