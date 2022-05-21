@@ -33,13 +33,13 @@ class Actions:
     def hitch2_s3():
         """document string goes here"""
         # actions.user.mouse_scroll_down()
-        actions.mouse_scroll(30)
+        actions.mouse_scroll(20)
 
     def hitch2_s4():
         """document string goes here"""
         # print('scroll up')
         # actions.user.mouse_scroll_up()
-        actions.mouse_scroll(-30)
+        actions.mouse_scroll(-20)
 
     def hitch2_s5():
         """document string goes here"""
@@ -71,12 +71,14 @@ class WindowsZoomMouseInactiveActions:
 
     def hitch2_s3():
         """document string goes here"""
-        actions.user.mouse_scroll_down()
+        # actions.user.mouse_scroll_down()
+        actions.mouse_scroll(20)
 
     def hitch2_s4():
         """document string goes here"""
         # print('scroll up')
-        actions.user.mouse_scroll_up()
+        # actions.user.mouse_scroll_up()
+        actions.mouse_scroll(-20)
 
     def hitch2_s5():
         """document string goes here"""
