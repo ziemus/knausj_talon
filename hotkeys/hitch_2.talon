@@ -2,9 +2,13 @@ key(keypad_1):
     user.hitch2_s1()
 key(keypad_2): 
     user.hitch2_s2()
-key(keypad_3): 
+key(keypad_3:down): 
     user.hitch2_s3()
-key(keypad_4): 
+key(keypad_3:repeat): 
+    user.hitch2_s3()
+key(keypad_4:repeat): 
+    user.hitch2_s4()
+key(keypad_4:down): 
     user.hitch2_s4()
 key(keypad_5): 
     user.hitch2_s5()
