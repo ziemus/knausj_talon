@@ -2,7 +2,7 @@
 app: vscode
 -
 settings():
-    user.context_sensitive_dictation = 1 
+    # user.context_sensitive_dictation = 1 
 
 tag(): user.find_and_replace
 tag(): user.line_commands

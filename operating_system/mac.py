@@ -86,6 +86,10 @@ class UserActionsMac:
         path = os.path.expanduser(path)
         subprocess.Popen(["open", path])
 
+    def system_show_clipboard():
+        actions.key('cmd-shift-c')
+        
+
 def on_ready():
     update_preferences_list()
 

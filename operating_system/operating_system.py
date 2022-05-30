@@ -48,3 +48,6 @@ class Actions:
 
     def system_open_directory(path: str):
         """opens directory in default file manager"""
+
+    def system_show_clipboard():
+        """opens the systems default clipboard or equivalent"""

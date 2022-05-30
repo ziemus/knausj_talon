@@ -8,8 +8,8 @@ zoom out [<number>]:
 	repeat(numb - 1)
 copy take: edit.copy()
 snip take: edit.cut()
-patch that: edit.paste()
-veto [<number>]: 
+pace: edit.paste()
+nope [<number>]: 
 	numb  = number or 1
 	edit.undo()
 	repeat(numb - 1)
@@ -18,7 +18,7 @@ again [<number>]:
 	edit.redo()
 	repeat(numb - 1)
 paste match: edit.paste_match_style()
-file save: edit.save()
+disc: edit.save()
 #wipe: key(backspace)    
 #(pad | padding): 
 #	insert("  ") 
