@@ -211,7 +211,7 @@ symbol_key_words = {
     "caret": "^",
     "amper": "&",
     "pipe key": "|",
-    "dubquote": '"',
+    "dub quote": '"',
     # "double quote": '"',
 }
 
@@ -266,7 +266,7 @@ alternate_keys = {
     "tail": "end",
     "head": "home",
     "next": "tab",
-    'clap':'enter',
+    "clap": "enter",
 }
 # mac apparently doesn't have the menu key.
 if app.platform in ("windows", "linux"):
