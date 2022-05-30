@@ -1,10 +1,23 @@
 from talon import Context, Module, actions
-import os
+
+#
 
 
 mod = Module()
 mod.list("launch_command", desc="List of applications to launch")
 mod.list("directories", desc="List of directories")
+portal_name = mod.setting(
+    "system_portal_name",
+    type=str,
+    default="firefox",
+    desc="The default portal to switch to",
+)
+coder_name = mod.setting(
+    "system_coder_name",
+    type=str,
+    default="code",
+    desc="The default coder to switch to",
+)
 ctx = Context()
 ctx.lists["self.launch_command"] = {}
 ctx.lists["self.directories"] = {}
@@ -42,7 +55,7 @@ class Actions:
 
     def system_search():
         """Triggers system search (e.g. spotlight/powerrunner)"""
-    
+
     def system_last_application():
         """triggers alt-tab"""
 
@@ -51,3 +64,15 @@ class Actions:
 
     def system_show_clipboard():
         """opens the systems default clipboard or equivalent"""
+
+    def system_show_portal(phrase: str = None):
+        """Opens the default browser for the up operating system and performs the phrase command"""
+        actions.user.switcher_focus(portal_name.get())
+        actions.sleep("250ms")
+        actions.user.parse_phrase(phrase or "")
+
+    def system_show_coder(phrase: str = None):
+        """Opens the default browser for the up operating system and performs the phrase command"""
+        actions.user.switcher_focus(coder_name.get())
+        actions.sleep("250ms")
+        actions.user.parse_phrase(phrase or "")
