@@ -9,7 +9,7 @@ settings():
     user.clickless_mouse_idle_time_before_display = .150
     # toggle autohide hide. if <= 0, an "x" appears to exit the options.
     # otherwise, ka (keep alive) appears and the options auto hide
-    user.clickless_mouse_auto_hide = 1
+    user.clickless_mouse_auto_hide = 0
     # after X seconds, auto hide the options when autohide is enabled
     user.clickless_mouse_auto_hide_time = 2.5
     # when auto hide is active, option to prevent redisplay for minor motions

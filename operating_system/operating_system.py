@@ -6,6 +6,7 @@ from talon import Context, Module, actions
 mod = Module()
 mod.list("launch_command", desc="List of applications to launch")
 mod.list("directories", desc="List of directories")
+
 portal_name = mod.setting(
     "system_portal_name",
     type=str,
