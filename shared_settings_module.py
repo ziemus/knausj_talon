@@ -1,4 +1,4 @@
-from talon import Module
+from talon import Module, app, actions
 
 mod = Module()
 grids_put_one_bottom_left = mod.setting(
@@ -7,3 +7,8 @@ grids_put_one_bottom_left = mod.setting(
     default=False,
     desc="""Allows you to switch mouse grid and friends between a computer numpad and a phone numpad (the number one goes on the bottom left or the top left)""",
 )
+
+def disable():
+    actions.speech.disable()
+
+app.register("ready", disable)

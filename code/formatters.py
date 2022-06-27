@@ -69,6 +69,17 @@ def format_phrase_without_adding_to_history(word_list, formatters: str):
 def surround(by):
     return lambda i, word, last: (by if i == 0 else "") + word + (by if last else "")
 
+def separate_characters_by_space(word, is_end):
+    formatted_word = ""
+    if not is_end:
+        for c in word:
+            formatted_word += c + " "
+    else:
+        length = len(word)
+        for j in range(length - 1):
+            formatted_word += word[j] + " "
+        formatted_word += word[length - 1]
+    return formatted_word
 
 def words_with_joiner(joiner):
     """Pass through words unchanged, but add a separator between them."""
@@ -131,6 +142,10 @@ formatters_dict = {
         if i == 0 or word not in words_to_keep_lowercase
         else word,
     ),
+    "SPACE_AFTER_CHARACTER": (
+        SEP,
+        lambda _, word, is_end: separate_characters_by_space(word, is_end),
+    ),
 }
 
 # This is the mapping from spoken phrases to formatters
@@ -150,6 +165,7 @@ formatters_words = {
     "snake": formatters_dict["SNAKE_CASE"],
     "string": formatters_dict["SINGLE_QUOTED_STRING"],
     "title": formatters_dict["CAPITALIZE_ALL_WORDS"],
+    "shrapnel": formatters_dict["SPACE_AFTER_CHARACTER"]
 }
 
 all_formatters = {}
