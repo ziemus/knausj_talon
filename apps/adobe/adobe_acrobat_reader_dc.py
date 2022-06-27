@@ -10,6 +10,8 @@ and app.exe: Acrobat.exe
 os: windows
 and app.name: Adobe Acrobat Reader DC
 os: windows
+and app.name: Adobe Acrobat Reader DC (64-bit)
+os: windows
 and app.exe: AcroRd32.exe
 """
 # TODO: mac context and implementation
