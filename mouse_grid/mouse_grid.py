@@ -35,7 +35,8 @@ class MouseSnapNine:
         self.count = 0
         self.was_control_mouse_active = False
         self.was_zoom_mouse_active = False
-
+        self.screen_num = 0
+        
     def setup(self, *, rect: Rect = None, screen_num: int = None):
         screens = ui.screens()
         # each if block here might set the rect to None to indicate failure
@@ -45,8 +46,10 @@ class MouseSnapNine:
             except Exception:
                 rect = None
         if rect is None and screen_num is not None:
-            screen = screens[screen_num % len(screens)]
+            screen_num = screen_num % len(screens)
+            screen = screens[screen_num]
             rect = screen.rect
+            self.screen_num = screen_num
         if rect is None:
             screen = screens[0]
             rect = screen.rect
@@ -270,7 +273,7 @@ class GridActions:
     def grid_reset():
         """Resets the grid to fill the whole screen again"""
         if mg.active:
-            mg.setup()
+            mg.setup(screen_num=mg.screen_num)
 
     def grid_select_screen(screen: int):
         """Brings up mouse grid"""
@@ -290,7 +293,10 @@ class GridActions:
         """Sets the grid state back to what it was before the last command"""
         mg.go_back()
 
-    def grid_close():
+    def grid_close(keepGridOpen : int = 1):
         """Close the active grid"""
-        ctx.tags = []
-        mg.close()
+        if keepGridOpen == 1:
+            actions.self.grid_reset()
+        else:
+            ctx.tags = []
+            mg.close()
