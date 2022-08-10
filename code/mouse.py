@@ -242,6 +242,9 @@ class Actions:
         rect = ui.active_window().rect
         ctrl.mouse_move(rect.left + (rect.width / 2), rect.top + (rect.height / 2))
 
+    def is_default_eye_mouse_noise_behavior():
+        """to be overridden by contexts when a context requires for the default mouse pop/hiss behavior to be overridden"""
+        return True
 
 def show_cursor_helper(show):
     """Show/hide the cursor"""
@@ -279,11 +282,12 @@ def show_cursor_helper(show):
 
 
 def on_pop(active):
+    if not actions.user.is_default_eye_mouse_noise_behavior():
+        return
     if setting_mouse_enable_pop_stops_scroll.get() >= 1 and (gaze_job or scroll_job):
         stop_scroll()
     elif (
         not eye_zoom_mouse.zoom_mouse.enabled
-        and eye_mouse.mouse.attached_tracker is not None
     ):
         if setting_mouse_enable_pop_click.get() >= 1:
             ctrl.mouse_click(button=0, hold=16000)
