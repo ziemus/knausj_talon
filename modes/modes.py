@@ -1,4 +1,5 @@
 from talon import Module, actions, app, speech_system
+from user.talon_hud.content.programming_language_poller import add_statusbar_programming_icon
 
 mod = Module()
 
@@ -45,3 +46,7 @@ class Actions:
                 actions.user.engine_wake()
                 # note: this may not do anything for all versions of Dragon. Requires Pro.
                 actions.user.engine_mimic("start normal mode")
+
+    def command_mode_set_up():
+            """Custom command mode set up actions"""
+            add_statusbar_programming_icon()

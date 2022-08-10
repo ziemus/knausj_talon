@@ -12,6 +12,8 @@ not mode: sleep
     mode.disable("dictation")
     user.disable_game_mode()
     mode.enable("command")
+    sleep(100ms)
+    user.command_mode_set_up()
 
 
 ^game mode$:
