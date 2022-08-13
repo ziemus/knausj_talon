@@ -18,7 +18,7 @@ class GameModeActions:
 
     def disable_game_mode():
         """Switches the game mode off"""
-        GameModeHelper.release_pressed_keys()
+        GameModeHelper.release_held_keys()
         GameModeHelper.remove_active_game_icon()
         actions.user.custom_game_cleanup()
         actions.mode.disable("user.game")
