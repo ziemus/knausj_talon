@@ -15,7 +15,6 @@ not mode: sleep
     sleep(100ms)
     user.command_mode_set_up()
 
-
 ^game mode$:
     mode.disable("sleep")
     mode.disable("command")
