@@ -32,10 +32,6 @@ class GameModeHelper:
         modes = scope.get('mode')
         return 'user.game' in modes and 'sleep' not in modes
 
-    def release_held_keys():
-        for key in actions.user.get_pressed_game_keys():
-            actions.key(key + ':up')
-
     def get_game_talonscript_directory(file):
         # FIXME: return actual games directory and eliminate passing the __file__ variable each time
         return path.dirname(path.abspath(file))

@@ -59,6 +59,11 @@ class GameActions:
         """"""
         actions.key(key + ':up')
 
+    def release_held_game_keys():
+        """"""
+        for key in actions.user.get_held_game_keys():
+            actions.user.release_game_key(key)
+
     def get_game_movement_keys():
         """this method must be overridden with game-specific contexts
         unless the game movement is the standard WSAD
@@ -74,9 +79,9 @@ class GameActions:
         keys = ['w' , 's' , 'a' , 'd']
         return keys
 
-    def get_pressed_game_keys():
+    def get_held_game_keys():
         """
-        Returns a list of frequently pressed keys in games
+        Returns a list of frequently held (long pressed) keys in games
         so that they can be released upon exiting from game mode.
         May be overridden with contexts to suit a specific game.
         """
