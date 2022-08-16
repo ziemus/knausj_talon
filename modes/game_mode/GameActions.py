@@ -2,16 +2,9 @@ from talon import actions, scope, Context
 from .game_mode import game_mode_module
 from .GameModeHelper import GameModeHelper
 
-default_game_mode_context = Context()
-default_game_mode_context.lists['user.game_directions'] = {
-    'north': 'w'
-    , 'south': 's'
-    , 'west': 'a'
-    , 'east': 'd'
-}
 
 # TODO get current user.game_directions list according to the active context
-current_game_movement_direction = default_game_mode_context.lists['user.game_directions']['north']
+current_game_movement_direction = 'w'
 is_moving : bool = False
 
 @game_mode_module.action_class
@@ -76,8 +69,7 @@ class GameActions:
         # TODO get current user.game_directions list according to the active context
         # Or create tags or different types of movement controls: arrows
         # and apply contexts for them specificly, overriding this method too
-        keys = ['w' , 's' , 'a' , 'd']
-        return keys
+        return []
 
     def get_held_game_keys():
         """

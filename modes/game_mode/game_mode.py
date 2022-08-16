@@ -6,6 +6,7 @@ from .GameModeHelper import GameModeHelper
 game_mode_module = Module()
 game_mode_module.mode("game", "Gaming Mode that doesn't accept regular commands")
 game_mode_module.list('game_directions')
+game_mode_module.tag('first_person_game_controls')
 
 @game_mode_module.action_class
 class GameModeActions:
