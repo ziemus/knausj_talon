@@ -5,3 +5,6 @@ settings():
     user.mouse_enable_pop_stops_scroll = 1
 	#enable pop click with 'control mouse' mode
 	user.mouse_enable_pop_click = 1
+
+ceil: key(pageup)
+day: key(pagedown)
