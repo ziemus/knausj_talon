@@ -5,3 +5,4 @@ __pycache__
 # Locally generated
 /settings
 .vscode/settings.json
+/modes/game_mode/game_icons/*
