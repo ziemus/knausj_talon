@@ -21,6 +21,7 @@ class GameModeActions:
         """Switches the game mode off"""
         actions.user.release_held_game_keys()
         GameModeHelper.remove_active_game_icon()
+        actions.user.game_sprint_state_reset()
         actions.user.custom_game_cleanup()
         actions.mode.disable("user.game")
 

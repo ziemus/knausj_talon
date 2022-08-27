@@ -10,12 +10,24 @@ and tag: user.first_person_game_controls
 [switch] [direction] {user.game_directions}:
     user.switch_game_movement_direction(game_directions)
 go|move:
-    user.start_game_movement()
+    user.switch_game_movement(1)
 stop|freeze:
-    user.stop_game_movement()
-jump|joe:
-    user.press_game_key('space')
-[toggle] (sprint|run):
+    user.switch_game_movement(0)
+jump|joe|ja:
+    user.game_jump()
+[toggle] (sprint|run|fast) (hold|press):
     user.hold_game_key('shift')
-[toggle] walk:
+[toggle] (walk|slow) hold:
     user.release_game_key('shift')
+[toggle] (sprint|run|fast):
+    user.game_switch_sprint(1)
+[toggle] (walk|slow):
+    user.game_switch_sprint(0)
+
+#Resets is_sprinting to False
+#in case the game overrides sprint behavior
+#after, for example, a loading screen
+#which would mess up the execution of 'run' and 'walk' commands
+#with the default game_switch_sprint()
+^sprint state reset$:
+    user.game_sprint_state_reset() 

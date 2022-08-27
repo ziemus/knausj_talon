@@ -121,6 +121,7 @@ def on_app_deactivate(deactivated_app):
         return
     is_deactivated_game = deactivated_app.name == game.get_app_name()
     if is_deactivated_game and GameModeHelper.is_game_mode():
+        actions.user.game_sprint_state_reset()
         GameModeHelper.remove_active_game_icon()
 
 ui.register('app_activate', on_app_activate)
