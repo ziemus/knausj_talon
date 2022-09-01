@@ -4,7 +4,7 @@ and tag: user.first_person_game_controls
 [turn] <user.arrow_key>:
     user.hold_game_key('{arrow_key}', '283ms')
 [turn] (around|round):
-    user.hold_game_key('left', '460ms')
+    user.game_turn_camera_around()
 [turn] (around|round) <user.arrow_key>:
     user.hold_game_key('{arrow_key}', '460ms')
 [switch] [direction] {user.game_directions}:
@@ -30,4 +30,6 @@ jump|joe|ja:
 #which would mess up the execution of 'run' and 'walk' commands
 #with the default game_switch_sprint()
 ^sprint state reset$:
-    user.game_sprint_state_reset() 
+    user.game_sprint_state_reset()
+^movement state reset$:
+    user.game_movement_state_reset()

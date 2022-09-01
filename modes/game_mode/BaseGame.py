@@ -1,7 +1,8 @@
 class BaseGame:
-    __app_name : str
-    __icon_path : str
-    def __init__(self, app_name : str, icon_path : str):
+    __app_name: str
+    __icon_path: str
+
+    def __init__(self, app_name: str, icon_path: str):
         self.__app_name = app_name
         self.__icon_path = icon_path
 
