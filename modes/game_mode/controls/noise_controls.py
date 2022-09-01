@@ -79,7 +79,7 @@ def _execute_noise_binding(noise, is_active):
             actions.user.game_click()
 
 
-def on_pop(is_active):
+def on_pop(_):
     global lock_binding
 
     if actions.user.is_default_eye_mouse_noise_behavior():
@@ -89,7 +89,7 @@ def on_pop(is_active):
 
     with lock_binding:
         actions.user.game_before_on_pop()
-        _execute_noise_binding('pop', is_active)
+        _execute_noise_binding('pop', True)
         actions.user.game_after_on_pop()
 
 
