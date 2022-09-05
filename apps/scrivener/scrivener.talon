@@ -1,12 +1,20 @@
-os: windows
-and app.name: Scrivener
-and app.exe: Scrivener.exe
+app: scrivener3
 -
 # add items
-(document|doc) add:
+(document|doc) (add|new):
     key(ctrl-n)
-folder add:
+[document|doc] duplicate:
+    key(ctrl-d)
+[document|doc] no sub [doc|document] duplicate:
+    key(ctrl-shift-d)
+folder (add|new):
     key(alt-shift-n)
+
+# editing
+spelling learn:
+    key(super-alt-;)
+spelling ignore:
+    key(super-ctrl-;)
 
 # import files
 file import:
@@ -19,10 +27,14 @@ image [[from] file] (add|insert):
     key(shift-f4)
 (footnote|foot|note) (add|insert):
     key(shift-f5) 
-(comment|come|footnote|foot|note) show:
+(comment|come|footnote|foot|note) [popup] show:
     key(alt:down)
     mouse_click(0)
     key(alt:up)
+
+# keywords
+(keywords|keyword|key) (project|all) [show]:
+    key(super-shift-k)
 
 # navigation
 (document|doc) [go] (next|ness):
@@ -75,6 +87,10 @@ binder reveal:
     key(super-shift-h)
 (footer|foot) view [show|toggle|hide]:
     key(super-shift-f)
+zoom in:
+    key(ctrl-=)
+zoom out:
+    key(ctrl--)
 
 # corkboard
 (corkboard|cork|board) edges label [color] [use|show|toggle|hide]:
