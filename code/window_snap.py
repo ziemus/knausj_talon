@@ -119,6 +119,7 @@ def _move_to_screen(
         width = window.rect.width * proportional_width
         height = window.rect.height * proportional_height
     _set_window_pos(window, x=x, y=y, width=width, height=height)
+    actions.key('super-up')
 
 
 def _snap_window_helper(window, pos):
