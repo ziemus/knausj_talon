@@ -1,6 +1,9 @@
 find it:
     edit.find()
 
+find <phrase>:
+    edit.find("{phrase}")
+
 next one:
     edit.find_next()
 

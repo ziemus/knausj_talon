@@ -44,7 +44,7 @@ mid click:
 	mouse_click()
 	# close the mouse grid
 	user.grid_close()
-(trip click | trip lick):
+(trip click | trip lick | trip):
 	mouse_click()
 	mouse_click()
 	mouse_click()
