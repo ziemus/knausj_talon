@@ -57,7 +57,7 @@ class EditActions:
         actions.insert(str(n))
         actions.key("enter")
 
-    def find(text: str):
+    def find(text: str = ""):
         actions.key("ctrl-f")
         actions.insert(text)
 
