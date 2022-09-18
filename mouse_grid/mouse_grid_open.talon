@@ -5,8 +5,6 @@ tag: user.mouse_grid_showing
 grid off:
     user.grid_close(0)
 
-grid reset:
-    user.grid_reset()
+grid reset: user.grid_reset()
 
-grid back:
-    user.grid_go_back()
+grid back: user.grid_go_back()
