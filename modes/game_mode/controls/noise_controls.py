@@ -9,7 +9,16 @@ mod.list("game_noise_controls")
 ctx = Context()
 noises = ('pop', 'hiss')
 ctx.lists['user.game_noises'] = noises
-noise_controls = ('jump', 'move', 'use', 'click', 'off')
+noise_controls = {
+    'jump': 'jump',
+    'move': 'move',
+    'use': 'use',
+    'touch': 'click',
+    'click': 'click',
+    'duke': 'double click',
+    'double click': 'double click',
+    'off': 'off'
+}
 ctx.lists['user.game_noise_controls'] = noise_controls
 
 binding = None
@@ -19,7 +28,7 @@ lock_binding = Lock()
 def _noise_control_reset():
     global binding, lock_binding
     with lock_binding:
-        binding = {'pop': 'move', 'hiss': 'use'}
+        binding = {'pop': 'click', 'hiss': 'off'}
 
 
 _noise_control_reset()
@@ -52,7 +61,7 @@ class GameNoiseActions:
         """switch noise binding"""
         global noises, noise_controls, binding, lock_binding
 
-        if not (noise in noises and control in noise_controls):
+        if not (noise in noises and control in noise_controls.values()):
             # print a warning or notify
             return
 
@@ -62,8 +71,8 @@ class GameNoiseActions:
 
 def _execute_noise_binding(noise, is_active):
     global binding
-
     action = binding[noise]
+
     if action == 'move':
         if noise == 'pop':
             actions.user.switch_game_movement()
@@ -76,6 +85,10 @@ def _execute_noise_binding(noise, is_active):
         elif action == 'use':
             actions.user.game_use()
         elif action == 'click':
+            actions.user.game_click()
+        elif action == 'double click':
+            actions.user.game_click()
+            actions.sleep('50ms')
             actions.user.game_click()
 
 
