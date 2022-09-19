@@ -1,0 +1,25 @@
+title: /KeePass/
+-
+user get: key(ctrl-b)
+pass get: key(ctrl-c)
+address get: key(ctrl-shift-u)
+address go: key(ctrl-u)
+entry edit: key(enter)
+entry add: key(ctrl-i)
+entry fill: key(ctrl-v)
+
+password change:
+	key(enter)
+	sleep(100ms)
+	key(tab:3)
+	sleep(100ms)
+	key(ctrl-v)
+	sleep(100ms)
+	key(tab:2)
+	sleep(100ms)
+	key(ctrl-v)
+	sleep(100ms)
+	key(enter)
+	sleep(100ms)
+	key(down)
+	sleep(100ms)
