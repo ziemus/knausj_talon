@@ -1,9 +1,8 @@
 from talon import Context, Module, actions, app
-
-default_alphabet = "air bat cap drum each fine gust harp sit jury crunch look made near odd pit quench red sun trap urge vest whale plex yank zip".split(
-    " "
-)
-letters_string = "abcdefghijklmnopqrstuvwxyz"
+#"air bat cow drum eat fine grow high sit joe corn look made now ought peak quick red sea trap urge vest walk lex yank zip atch chow cheat watch niche hooch shore zhet jet zhoosh jush juj"
+default_alphabet = "air bat cap drum eat fine grow harp sit jury corn look made near odd peak quick red sun trap urge vest walk lex yank zip atch chow cheat watch niche hooch shore zhet jet zhoosh jush juj".split(
+    " ")
+letters_string = "abcdefghijklmnopqrstuvwxyząćęłńóśźźżżż"
 
 default_digits = "zero one two three four five six seven eight nine".split(" ")
 numbers = [str(i) for i in range(10)]
@@ -110,7 +109,8 @@ def letters(m) -> str:
 ctx = Context()
 modifier_keys = {
     # If you find 'alt' is often misrecognized, try using 'alter'.
-    "alt": "alt",  #'alter': 'alt',
+    #"alt": "alt",  #'alter': 'alt',
+    "salt": "alt",
     "control": "ctrl",  #'troll':   'ctrl',
     "shift": "shift",  #'sky':     'shift',
     "super": "super",
@@ -132,6 +132,8 @@ punctuation_words = {
     "back tick": "`",
     "grave": "`",
     "comma": ",",
+    # Workaround for issue with conformer b-series; see #946
+    "coma": ",",
     "period": ".",
     "full stop": ".",
     "semicolon": ";",
