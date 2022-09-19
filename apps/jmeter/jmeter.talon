@@ -46,3 +46,33 @@ clean find:
 	key(alt-r)
 	key(alt-s)
 	key(alt-r)
+
+var:
+	insert("${}")
+	key(left)
+
+prop:
+	insert("${__P()")
+	insert("}")
+	key(left:2)
+
+funk:
+	insert('${')
+	insert('__()}')
+	key(left:3)
+
+simple controller:
+	mouse_click(1)
+	sleep(10ms)
+	#add
+	key(down)
+	key(right)
+	sleep(10ms)
+	#controllers
+	key(down)
+	key(right)
+	sleep(10ms)
+	#simple controller
+	key(down:13)
+	key(enter)
+	
