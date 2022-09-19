@@ -127,6 +127,7 @@ abbreviations = {
     "microphone": "mic",
     "milligram": "mg",
     "millisecond": "ms",
+    "minute": "min",
     "miscellaneous": "misc",
     "module": "mod",
     "mount": "mnt",
