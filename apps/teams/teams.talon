@@ -17,6 +17,8 @@ open (apps | applications): key(ctrl-`)
 open settings: key(ctrl-,)
 open help: key(f1)
 close: key(escape)
+page up | ceil | seal: user.mouse_scroll_up(18)
+page down | day: user.mouse_scroll_down(18)
 
 # navigations
 open activity: key(ctrl-1)
