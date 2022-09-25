@@ -1,7 +1,6 @@
 from threading import Lock
 import win32api, win32con
-from talon import actions, scope, Context, ui, ctrl
-from talon.types import Point2d
+from talon import actions, ui, ctrl
 from .game_mode import game_mode_module
 from .GameModeHelper import GameModeHelper
 
@@ -11,7 +10,6 @@ is_moving: bool = False
 lock_is_moving = Lock()
 is_sprinting: bool = False
 lock_is_sprinting = Lock()
-WIN_API_SCREEN_RESOLUTION: float = 65535.0
 
 
 def _start_game_movement():
@@ -111,6 +109,8 @@ class GameActions:
                 actions.user.press_game_key(toggle_sprint_key)
                 is_sprinting = False
 
+            GameModeHelper.game_hud_add_sprint_icon(is_sprinting)
+
     def game_sprint_state_reset():
         """Resets is_sprinting to False
         in case the game overrides sprint behavior
@@ -120,6 +120,7 @@ class GameActions:
         global is_sprinting, lock_is_sprinting
         with lock_is_sprinting:
             is_sprinting = actions.user.game_get_default_sprint_state()
+            GameModeHelper.game_hud_add_sprint_icon(is_sprinting)
 
     def game_get_default_sprint_state():
         """see GameActions.game_sprint_state_reset()
@@ -145,6 +146,10 @@ class GameActions:
     def game_use():
         """"""
         actions.user.press_game_key('e')
+
+    def game_character_sheet_show():
+        """"""
+        actions.user.press_game_key('c')
 
     def game_click():
         """"""

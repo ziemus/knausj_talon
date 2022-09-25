@@ -78,8 +78,16 @@ class GameModeHelper:
             icon = GameModeHelper._current_game.get_icon_path()
             actions.user.hud_add_status_icon("active_game", icon)
 
-    def remove_active_game_icon():
+    def game_hud_add_sprint_icon(is_sprint: bool):
+        if is_sprint:
+            icon = 'game_run'
+        else:
+            icon = 'game_walk'
+        actions.user.hud_add_status_icon("game_sprint_state", icon)
+
+    def game_hud_remove_icons():
         actions.user.hud_remove_status_icon("active_game")
+        actions.user.hud_remove_status_icon("game_sprint_state")
 
     def is_game_mode():
         modes = scope.get("mode")
@@ -113,6 +121,8 @@ class GameModeHelper:
 
 def on_app_activate(_):
     if GameModeHelper.is_current_game_active_and_game_mode():
+        GameModeHelper.game_hud_add_sprint_icon(
+            actions.user.game_get_default_sprint_state())
         GameModeHelper.add_active_game_icon()
 
 
@@ -122,7 +132,7 @@ def on_app_deactivate(deactivated_app):
         return
     is_deactivated_game = deactivated_app.name == game.get_app_name()
     if is_deactivated_game and GameModeHelper.is_game_mode():
-        GameModeHelper.remove_active_game_icon()
+        GameModeHelper.game_hud_remove_icons()
 
 
 ui.register("app_activate", on_app_activate)
