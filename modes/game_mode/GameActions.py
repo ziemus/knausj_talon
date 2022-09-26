@@ -151,9 +151,12 @@ class GameActions:
         """"""
         actions.user.press_game_key('c')
 
-    def game_click():
-        """"""
-        ctrl.mouse_click(0)
+    def game_click(button: int = 0, times: int = 1, hold: int = 16000):
+        """Clicks specified number of times.
+        Waits betwen each click for the time period of hold.
+        This way it intgrates better with most games."""
+        for i in range(times):
+            ctrl.mouse_click(button, hold=hold, wait=hold)
 
     def press_game_key(key: str):
         """"""
