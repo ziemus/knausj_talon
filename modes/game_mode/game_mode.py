@@ -1,5 +1,4 @@
-from talon import Module, actions, speech_system, scope
-from talon.grammar import Phrase
+from talon import Module, actions
 from user.talon_hud.content.programming_language_poller import (
     remove_statusbar_programming_icon,)
 
