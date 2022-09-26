@@ -111,3 +111,8 @@ copy mouse position: user.copy_mouse_position()
 curse no:
     # Command added 2021-12-13, can remove after 2022-06-01
     app.notify("Please activate the user.mouse_cursor_commands_enable tag to enable this command")
+
+[curse] stay:
+    user.mouse_stay_in_place(1)
+curse come | [curse] stay no:
+    user.mouse_stay_in_place(0)

@@ -10,6 +10,9 @@ scroll_amount = 0
 click_job = None
 scroll_job = None
 gaze_job = None
+_stay_job = None
+_stay_x = 0
+_stay_y = 0
 cancel_scroll_on_pop = True
 control_mouse_forced = False
 
@@ -246,6 +249,18 @@ class Actions:
         """to be overridden by contexts when a context requires for the default mouse pop/hiss behavior to be overridden"""
         return True
 
+    def mouse_stay_in_place(is_stay: bool):
+        """stay in place so that for example
+        content that is not hoverable
+        but activates on hover
+        can be read without turning the eye tracker off only for a couple of seconds
+        which in theory may damage it if done too frequently"""
+        if is_stay:
+            _start_stay_job()
+        else:
+            _stop_stay_job()
+
+
 def show_cursor_helper(show):
     """Show/hide the cursor"""
     if app.platform == "windows":
@@ -313,7 +328,7 @@ def scroll_continuous_helper():
     global scroll_amount
     # print("scroll_continuous_helper")
     if scroll_amount and (
-        eye_zoom_mouse.zoom_mouse.state == eye_zoom_mouse.STATE_IDLE
+            eye_zoom_mouse.zoom_mouse.state == eye_zoom_mouse.STATE_IDLE
     ):  # or eye_zoom_mouse.zoom_mouse.state == eye_zoom_mouse.STATE_SLEEP):
         actions.mouse_scroll(by_lines=False, y=int(scroll_amount / 10))
 
@@ -329,7 +344,7 @@ def gaze_scroll():
     # print("gaze_scroll")
     if (
         eye_zoom_mouse.zoom_mouse.state == eye_zoom_mouse.STATE_IDLE
-    ):  # or eye_zoom_mouse.zoom_mouse.state == eye_zoom_mouse.STATE_SLEEP:
+       ):  # or eye_zoom_mouse.zoom_mouse.state == eye_zoom_mouse.STATE_SLEEP:
         x, y = ctrl.mouse_pos()
 
         # the rect for the window containing the mouse
@@ -386,6 +401,26 @@ def start_cursor_scrolling():
     gaze_job = cron.interval("60ms", gaze_scroll)
     # if eye_zoom_mouse.zoom_mouse.enabled and eye_mouse.mouse.attached_tracker is not None:
     #    eye_zoom_mouse.zoom_mouse.sleep(True)
+
+
+def _mouse_stay():
+    ctrl.mouse_move(_stay_x, _stay_y, dx=0, dy=0)
+
+
+def _start_stay_job():
+    global _stay_job, _stay_x, _stay_y
+    if _stay_job:
+        return
+    _stay_x, _stay_y = ctrl.mouse_pos()
+    _stay_job = cron.interval("1ms", _mouse_stay)
+
+
+def _stop_stay_job():
+    global _stay_job
+    if not _stay_job:
+        return
+    cron.cancel(_stay_job)
+    _stay_job = None
 
 
 if app.platform == "mac":
