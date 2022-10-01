@@ -1,6 +1,6 @@
 from os import path
 import csv
-from talon import actions, scope, ui, resource
+from talon import actions, scope, ui, resource, settings
 from user.knausj_talon.code.user_settings import SETTINGS_DIR
 from .BaseGame import BaseGame
 
@@ -121,8 +121,8 @@ class GameModeHelper:
 
 def on_app_activate(_):
     if GameModeHelper.is_current_game_active_and_game_mode():
-        GameModeHelper.game_hud_add_sprint_icon(
-            actions.user.game_get_default_sprint_state())
+        is_sprinting = settings.get("user.game_sprint_state_default")
+        GameModeHelper.game_hud_add_sprint_icon(is_sprinting)
         GameModeHelper.add_active_game_icon()
 
 

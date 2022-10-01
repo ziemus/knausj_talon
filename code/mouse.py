@@ -54,6 +54,12 @@ setting_mouse_enable_pop_click = mod.setting(
     default=0,
     desc="Enable pop to click when control mouse is enabled.",
 )
+setting_mouse_hiss = mod.setting(
+    "mouse_enable_hiss",
+    type=bool,
+    default=False,
+    desc="enable default hiss behavior, false by default",
+)
 setting_mouse_enable_pop_stops_scroll = mod.setting(
     "mouse_enable_pop_stops_scroll",
     type=int,
@@ -90,7 +96,18 @@ setting_mouse_wheel_horizontal_amount = mod.setting(
     default=40,
     desc="The amount to scroll left/right",
 )
-
+setting_mouse_hold = mod.setting(
+    "mouse_hold",
+    type=int,
+    default=16000,
+    desc="nanoseconds to wait between mouse button press and release",
+)
+setting_mouse_wait = mod.setting(
+    "mouse_wait",
+    type=int,
+    default=0,
+    desc="nanoseconds to wait between consecutive mouse button release and press",
+)
 continuous_scoll_mode = ""
 
 
@@ -104,6 +121,7 @@ def gui_wheel(gui: imgui.GUI):
 
 @mod.action_class
 class Actions:
+
     def mouse_show_cursor():
         """Shows the cursor"""
         show_cursor_helper(True)
@@ -245,10 +263,6 @@ class Actions:
         rect = ui.active_window().rect
         ctrl.mouse_move(rect.left + (rect.width / 2), rect.top + (rect.height / 2))
 
-    def is_default_eye_mouse_noise_behavior():
-        """to be overridden by contexts when a context requires for the default mouse pop/hiss behavior to be overridden"""
-        return True
-
     def mouse_stay_in_place(is_stay: bool):
         """stay in place so that for example
         content that is not hoverable
@@ -297,15 +311,14 @@ def show_cursor_helper(show):
 
 
 def on_pop(active):
-    if not actions.user.is_default_eye_mouse_noise_behavior():
-        return
     if setting_mouse_enable_pop_stops_scroll.get() >= 1 and (gaze_job or scroll_job):
         stop_scroll()
     elif (
         not eye_zoom_mouse.zoom_mouse.enabled
     ):
         if setting_mouse_enable_pop_click.get() >= 1:
-            ctrl.mouse_click(button=0, hold=16000)
+            hold = setting_mouse_hold.get()
+            ctrl.mouse_click(button=0, hold=hold)
 
 
 noise.register("pop", on_pop)

@@ -1,6 +1,6 @@
 from threading import Lock
 from user.knausj_talon.modes.game_mode.GameModeHelper import GameModeHelper
-from talon import Module, Context, actions, noise
+from talon import Module, Context, actions, noise, settings
 
 mod = Module()
 mod.list("game_noises")
@@ -21,17 +21,22 @@ noise_controls = {
 }
 ctx.lists['user.game_noise_controls'] = noise_controls
 
-binding = None
+binding: dict[str, str] = {'pop': 'click', 'hiss': 'off'}
 lock_binding = Lock()
 
+setting_pop_default = mod.setting(
+    "game_noise_pop_binding_default",
+    type=str,
+    default="click",
+    desc="""Default pop binding for hot-swappable game mode noise controls.
+        See the list of available bindings under user.game_noise_controls.""")
 
-def _noise_control_reset():
-    global binding, lock_binding
-    with lock_binding:
-        binding = {'pop': 'click', 'hiss': 'off'}
-
-
-_noise_control_reset()
+setting_hiss_default = mod.setting(
+    "game_noise_hiss_binding_default",
+    type=str,
+    default="off",
+    desc="""Default hiss binding for hot-swappable game mode noise controls.
+        See the list of available bindings under user.game_noise_controls.""")
 
 
 @mod.action_class
@@ -39,23 +44,27 @@ class GameNoiseActions:
 
     def game_before_on_pop():
         """customizable behavior before on pop executes its default game binding"""
-        return 0
+        pass
 
     def game_after_on_pop():
         """customizable behavior after on pop executes its default game binding"""
-        return 0
+        pass
 
     def game_before_on_hiss():
         """customizable behavior before on hiss executes its default game binding"""
-        return 0
+        pass
 
     def game_after_on_hiss():
         """customizable behavior after on hiss executes its default game binding"""
-        return 0
+        pass
 
     def game_noise_control_reset():
         """reset to default"""
-        _noise_control_reset()
+        global binding, lock_binding
+        with lock_binding:
+            pop_binding = setting_pop_default.get()
+            hiss_binding = setting_hiss_default.get()
+            binding = {"pop": pop_binding, "hiss": hiss_binding}
 
     def game_noise_control_switch(noise: str, control: str):
         """switch noise binding"""
@@ -87,36 +96,32 @@ def _execute_noise_binding(noise, is_active):
         elif action == 'click':
             actions.user.game_click()
         elif action == 'double click':
-            actions.user.game_click()
-            actions.sleep('50ms')
-            actions.user.game_click()
+            actions.user.game_click(0, 2)
 
 
 def on_pop(_):
     global lock_binding
 
-    if actions.user.is_default_eye_mouse_noise_behavior():
-        return
     if not GameModeHelper.is_current_game_active_and_game_mode():
         return
 
     with lock_binding:
         actions.user.game_before_on_pop()
-        _execute_noise_binding('pop', True)
+        if not settings.get("user.mouse_enable_pop_click"):
+            _execute_noise_binding('pop', True)
         actions.user.game_after_on_pop()
 
 
 def on_hiss(is_active):
     global lock_binding
 
-    if actions.user.is_default_eye_mouse_noise_behavior():
-        return
     if not GameModeHelper.is_current_game_active_and_game_mode():
         return
 
     with lock_binding:
         actions.user.game_before_on_hiss()
-        _execute_noise_binding('hiss', is_active)
+        if not settings.get("user.mouse_enable_hiss"):
+            _execute_noise_binding('hiss', is_active)
         actions.user.game_after_on_hiss()
 
 

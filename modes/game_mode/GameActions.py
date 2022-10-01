@@ -1,7 +1,7 @@
 from threading import Lock
 import win32api, win32con
-from talon import actions, ui, ctrl
-from .game_mode import game_mode_module
+from talon import actions, ui, ctrl, settings
+from .game_mode import game_mode_module, setting_turn_around_delta, setting_default_sprint_state
 from .GameModeHelper import GameModeHelper
 
 # TODO get current user.game_directions list according to the active context
@@ -45,6 +45,20 @@ ui.register("app_close", _on_app_launch_close)
 ui.register("app_launch", _on_app_launch_close)
 
 
+def on_app_activate(app):
+    if GameModeHelper._is_game_in_library(app):
+        actions.user.custom_game_setup()
+
+
+def on_app_deactivate(deactivated_app):
+    if GameModeHelper._is_game_in_library(deactivated_app):
+        actions.user.custom_game_cleanup()
+
+
+ui.register("app_activate", on_app_activate)
+ui.register("app_deactivate", on_app_deactivate)
+
+
 @game_mode_module.action_class
 class GameActions:
 
@@ -75,22 +89,8 @@ class GameActions:
 
     def game_turn_camera_around():
         """WIP turn camera around"""
-        dx = actions.user.game_get_mouse_delta_x_for_turning_camera_around()
+        dx = setting_turn_around_delta.get()
         win32api.mouse_event(win32con.MOUSEEVENTF_MOVE, dx, 0)
-
-    def game_get_mouse_delta_x_for_turning_camera_around():
-        """ for each game there needs to be defined a particular horizontal delta
-        that mouse needs to be moved by
-        in order to turn the camera around
-
-        this action needs to be overridden with game-specific contexts
-
-        basically the user needs to experiment a little
-        and find the right value
-
-        in my experience, it will never be perfectly accurate
-        but it will be enough to play"""
-        pass
 
     def game_jump():
         """"""
@@ -112,20 +112,16 @@ class GameActions:
             GameModeHelper.game_hud_add_sprint_icon(is_sprinting)
 
     def game_sprint_state_reset():
-        """Resets is_sprinting to False
+        """Resets is_sprinting to default value
         in case the game overrides sprint behavior
         after, for example, a loading screen
         which would mess up the execution of 'run' and 'walk' commands
-        with the default game_switch_sprint()"""
+        with the default game_switch_sprint()
+        that tracks the current in game sprinting state"""
         global is_sprinting, lock_is_sprinting
         with lock_is_sprinting:
-            is_sprinting = actions.user.game_get_default_sprint_state()
+            is_sprinting = setting_default_sprint_state.get()
             GameModeHelper.game_hud_add_sprint_icon(is_sprinting)
-
-    def game_get_default_sprint_state():
-        """see GameActions.game_sprint_state_reset()
-        to be overridden with game specific contexts"""
-        return False
 
     def game_movement_state_reset():
         """Resets is_moving to False
@@ -151,12 +147,16 @@ class GameActions:
         """"""
         actions.user.press_game_key('c')
 
-    def game_click(button: int = 0, times: int = 1, hold: int = 16000):
+    def game_click(button: int = 0, times: int = 1, hold: int = None):
         """Clicks specified number of times.
         Waits betwen each click for the time period of hold.
         This way it intgrates better with most games."""
+        wait = hold
+        if hold is None:
+            hold = settings.get("user.mouse_hold")
+            wait = settings.get("user.mouse_wait")
         for i in range(times):
-            ctrl.mouse_click(button, hold=hold, wait=hold)
+            ctrl.mouse_click(button, hold=hold, wait=wait)
 
     def press_game_key(key: str):
         """"""
