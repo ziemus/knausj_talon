@@ -17,11 +17,12 @@ noise_controls = {
     'click': 'click',
     'duke': 'double click',
     'double click': 'double click',
-    'off': 'off'
+    'off': 'off',
+    "default": "default",
 }
 ctx.lists['user.game_noise_controls'] = noise_controls
 
-binding: dict[str, str] = {'pop': 'click', 'hiss': 'off'}
+hotswappable_binding: dict[str, str] = {'pop': "default", 'hiss': "default"}
 lock_binding = Lock()
 
 setting_pop_default = mod.setting(
@@ -38,49 +39,51 @@ setting_hiss_default = mod.setting(
     desc="""Default hiss binding for hot-swappable game mode noise controls.
         See the list of available bindings under user.game_noise_controls.""")
 
+default_noise_settings = {"pop": setting_pop_default, "hiss": setting_hiss_default}
 
 @mod.action_class
 class GameNoiseActions:
 
     def game_before_on_pop():
         """customizable behavior before on pop executes its default game binding"""
-        pass
+        return 0
 
     def game_after_on_pop():
         """customizable behavior after on pop executes its default game binding"""
-        pass
+        return 0
 
     def game_before_on_hiss():
         """customizable behavior before on hiss executes its default game binding"""
-        pass
+        return 0
 
     def game_after_on_hiss():
         """customizable behavior after on hiss executes its default game binding"""
-        pass
+        return 0
 
     def game_noise_control_reset():
         """reset to default"""
-        global binding, lock_binding
+        global hotswappable_binding, lock_binding
         with lock_binding:
-            pop_binding = setting_pop_default.get()
-            hiss_binding = setting_hiss_default.get()
-            binding = {"pop": pop_binding, "hiss": hiss_binding}
+            hotswappable_binding = {"pop": "default", "hiss": "default"}
 
     def game_noise_control_switch(noise: str, control: str):
         """switch noise binding"""
-        global noises, noise_controls, binding, lock_binding
+        global noises, noise_controls, hotswappable_binding, lock_binding
 
         if not (noise in noises and control in noise_controls.values()):
             # print a warning or notify
             return
 
         with lock_binding:
-            binding[noise] = control
+            hotswappable_binding[noise] = control
 
 
 def _execute_noise_binding(noise, is_active):
-    global binding
-    action = binding[noise]
+    global hotswappable_binding
+    action = hotswappable_binding[noise]
+
+    if action == "default":
+        action = default_noise_settings[noise].get()
 
     if action == 'move':
         if noise == 'pop':

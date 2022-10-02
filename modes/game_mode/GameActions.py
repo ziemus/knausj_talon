@@ -39,6 +39,7 @@ def _on_app_launch_close(app):
         actions.user.game_sprint_state_reset()
         actions.user.game_movement_state_reset()
         actions.user.release_held_game_keys()
+        actions.user.game_noise_control_reset()
 
 
 ui.register("app_close", _on_app_launch_close)
