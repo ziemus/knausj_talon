@@ -31,9 +31,15 @@ setting_default_sprint_state = game_mode_module.setting(
     default=False,
     desc="""Helps in tracking the in-game sprint/walk state.
         See the comment on GameActions.game_sprint_state_reset() for more information.
-        Should be set to true when the default in-game behavior is running instead of walking (e.g. in Antichamber).
+        Sho5uld be set to true when the default in-game behavior is running instead of walking (e.g. in Antichamber).
         By default false.""")
-
+setting_default_movement_direction = game_mode_module.setting(
+    "game_default_movement_key",
+    type=str,
+    default="w",
+    desc="""Default movement key.
+    Can be modified so that you don't have to issue the movement direction change command
+    by voice after launching the game every time.""")
 @game_mode_module.action_class
 class GameModeActions:
 

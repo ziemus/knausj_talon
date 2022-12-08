@@ -1,11 +1,11 @@
 from threading import Lock
 import win32api, win32con
 from talon import actions, ui, ctrl, settings
-from .game_mode import game_mode_module, setting_turn_around_delta, setting_default_sprint_state
+from .game_mode import game_mode_module, setting_turn_around_delta, setting_default_sprint_state, setting_default_movement_direction
 from .GameModeHelper import GameModeHelper
 
 # TODO get current user.game_directions list according to the active context
-current_game_movement_direction = "w"
+current_game_movement_direction_key: str = None
 is_moving: bool = False
 lock_is_moving = Lock()
 is_sprinting: bool = False
@@ -14,8 +14,10 @@ lock_is_sprinting = Lock()
 
 def _start_game_movement():
     """Start moving in game direction. Not thread safe."""
-    global is_moving, current_game_movement_direction
-    actions.user.hold_game_key(current_game_movement_direction)
+    global is_moving, current_game_movement_direction_key
+    if current_game_movement_direction_key is None:
+        current_game_movement_direction_key = setting_default_movement_direction.get()
+    actions.user.hold_game_key(current_game_movement_direction_key)
     is_moving = True
 
 
@@ -28,16 +30,18 @@ def _stop_game_movement():
     is_moving = False
 
 
-def _set_game_movement_direction(new_direction: str):
+def _set_game_movement_direction(new_direction_key: str):
     """Sets the key currently used to move in game. Not thread safe."""
-    global current_game_movement_direction
-    current_game_movement_direction = new_direction
+    global current_game_movement_direction_key
+    current_game_movement_direction_key = new_direction_key
 
 
 def _on_app_launch_close(app):
+    global current_game_movement_direction_key
     if GameModeHelper._is_game_in_library(app):
         actions.user.game_sprint_state_reset()
         actions.user.game_movement_state_reset()
+        current_game_movement_direction_key = None
         actions.user.release_held_game_keys()
         actions.user.game_noise_control_reset()
 
@@ -158,6 +162,11 @@ class GameActions:
             wait = settings.get("user.mouse_wait")
         for i in range(times):
             ctrl.mouse_click(button, hold=hold, wait=wait)
+
+    def game_press_mouse(button: int, down: bool):
+        """"""
+        up = not down
+        ctrl.mouse_click(button, down=down, up=up)
 
     def press_game_key(key: str):
         """"""
