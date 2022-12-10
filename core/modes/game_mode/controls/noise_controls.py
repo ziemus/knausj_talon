@@ -90,14 +90,19 @@ def _execute_noise_binding(noise, is_active):
             actions.user.switch_game_movement()
         elif noise == 'hiss':
             actions.user.switch_game_movement(is_active)
-
+    elif action == 'click':
+        if noise == 'pop' and is_active:
+            actions.user.game_click()
+        elif noise == "hiss":
+            if is_active:
+                actions.user.game_press_mouse(button=0, down=True)
+            else:
+                actions.user.game_press_mouse(button=0, down=False)
     elif is_active:
         if action == 'jump':
             actions.user.game_jump()
         elif action == 'use':
             actions.user.game_use()
-        elif action == 'click':
-            actions.user.game_click()
         elif action == 'double click':
             actions.user.game_click(0, 2)
 
@@ -105,7 +110,7 @@ def _execute_noise_binding(noise, is_active):
 def on_pop(_):
     global lock_binding
 
-    if not GameModeHelper.is_current_game_active_and_game_mode():
+    if not GameModeHelper.is_game_mode():
         return
 
     with lock_binding:
@@ -118,7 +123,7 @@ def on_pop(_):
 def on_hiss(is_active):
     global lock_binding
 
-    if not GameModeHelper.is_current_game_active_and_game_mode():
+    if not GameModeHelper.is_game_mode():
         return
 
     with lock_binding:
