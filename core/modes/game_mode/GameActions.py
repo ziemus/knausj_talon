@@ -165,10 +165,9 @@ class GameActions:
         """Clicks specified number of times.
         Waits betwen each click for the time period of hold.
         This way it intgrates better with most games."""
-        wait = hold
+        wait = settings.get("user.mouse_wait")
         if hold is None:
             hold = settings.get("user.mouse_hold")
-            wait = settings.get("user.mouse_wait")
         for i in range(times):
             ctrl.mouse_click(button, hold=hold, wait=wait)
 
@@ -188,6 +187,13 @@ class GameActions:
             return
         actions.sleep(duration)
         actions.user.release_game_key(key)
+
+    def game_hold_key_native(key: str, duration: int = None):
+        """Hold key infinitely or for the specified duration"""
+        if duration is None:
+            ctrl.key_press(key, down=True)
+            return
+        ctrl.key_press(key, hold=duration)
 
     def release_game_key(key: str):
         """"""
