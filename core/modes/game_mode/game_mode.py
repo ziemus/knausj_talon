@@ -38,7 +38,11 @@ setting_turn_sideways_delta = game_mode_module.setting(
 
         in my experience, it will never be perfectly accurate
         but it will be enough to play""")
-
+setting_sprint_toggle_key = game_mode_module.setting(
+    "game_sprint_toggle_key",
+    type=str,
+    default="capslock",
+    desc="""Keyname for the key that switches sprint on/off. Caps Lock by default.""")
 setting_default_sprint_state = game_mode_module.setting(
     "game_sprint_state_default",
     type=bool,

@@ -1,7 +1,7 @@
 from threading import Lock
 import win32api, win32con
 from talon import actions, ui, ctrl, settings
-from .game_mode import game_mode_module, setting_turn_around_delta, setting_default_sprint_state, setting_default_movement_direction, setting_turn_sideways_delta
+from .game_mode import game_mode_module, setting_turn_around_delta, setting_default_sprint_state, setting_default_movement_direction, setting_turn_sideways_delta, setting_sprint_toggle_key
 from .GameModeHelper import GameModeHelper
 
 # TODO get current user.game_directions list according to the active context
@@ -115,7 +115,7 @@ class GameActions:
         global is_sprinting, lock_is_sprinting
         with lock_is_sprinting:
             do_turn_on = not is_sprinting if do_turn_on is None else do_turn_on
-            toggle_sprint_key = actions.user.game_get_switch_sprint_key()
+            toggle_sprint_key = setting_sprint_toggle_key.get()
             if do_turn_on and not is_sprinting:
                 actions.user.press_game_key(toggle_sprint_key)
                 is_sprinting = True
@@ -147,11 +147,6 @@ class GameActions:
         global is_moving, lock_is_moving
         with lock_is_moving:
             is_moving = False
-
-    def game_get_switch_sprint_key():
-        """Default binding in game mode
-        to be overridden with game specific contexts or in-game controls"""
-        return "\\"
 
     def game_use():
         """"""
