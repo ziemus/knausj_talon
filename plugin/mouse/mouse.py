@@ -66,6 +66,12 @@ setting_mouse_enable_pop_stops_scroll = mod.setting(
     default=0,
     desc="When enabled, pop stops continuous scroll modes (wheel upper/downer/gaze)",
 )
+setting_mouse_enable_hiss_stops_scroll = mod.setting(
+    "mouse_enable_hiss_stops_scroll",
+    type=int,
+    default=0,
+    desc="When enabled, hiss stops continuous scroll modes (wheel upper/downer/gaze)",
+)
 setting_mouse_wake_hides_cursor = mod.setting(
     "mouse_wake_hides_cursor",
     type=int,
@@ -323,6 +329,14 @@ def on_pop(active):
 
 noise.register("pop", on_pop)
 
+
+def on_hiss(active):
+    if active and setting_mouse_enable_hiss_stops_scroll.get() >= 1 and (gaze_job or
+                                                                         scroll_job):
+        stop_scroll()
+
+
+noise.register("hiss", on_hiss)
 
 def mouse_scroll(amount):
     def scroll():
