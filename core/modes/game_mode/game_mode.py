@@ -7,11 +7,13 @@ from .GameModeHelper import GameModeHelper
 game_mode_module = Module()
 game_mode_module.mode("game", "Gaming Mode that doesn't accept regular commands")
 game_mode_module.list("game_directions")
+game_mode_module.list("game_number_shortcuts")
 game_mode_module.tag("first_person_game_controls")
 game_mode_module.tag("game_basic_movement")
 game_mode_module.tag("game_camera_controls")
 game_mode_module.tag("game_sprint_controls")
 game_mode_module.tag("game_character_sheet")
+game_mode_module.tag("game_mouse_enabled")
 setting_turn_around_delta = game_mode_module.setting(
     "game_turn_around_mouse_delta",
     type=int,
