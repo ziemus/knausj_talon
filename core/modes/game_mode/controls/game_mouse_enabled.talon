@@ -9,9 +9,13 @@ righty:
     user.mouse_stay_in_place(1)
 [curse] come:
     user.mouse_stay_in_place(0)
-scroll up | wheel upper:
+(scroll | wheel) up:
+    user.mouse_scroll_up()
+(scroll | wheel) down:
+    user.mouse_scroll_down()
+wheel upper:
     user.mouse_scroll_up_continuous()
-scroll down | wheel downer:
+wheel downer:
     user.mouse_scroll_down_continuous()
 zoom in | closer | close:
     user.mouse_scroll_up_continuous()
