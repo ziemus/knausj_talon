@@ -1,7 +1,7 @@
 from threading import Lock
 import win32api, win32con
 from talon import actions, ui, ctrl, settings
-from .game_mode import game_mode_module, setting_turn_around_delta, setting_default_sprint_state, setting_default_movement_direction, setting_turn_sideways_delta, setting_sprint_toggle_key
+from .game_mode import game_mode_module, setting_turn_around_delta, setting_default_sprint_state, setting_default_movement_direction, setting_turn_horizontally_delta, setting_turn_vertically_delta, setting_sprint_toggle_key
 from .GameModeHelper import GameModeHelper
 
 # TODO get current user.game_directions list according to the active context
@@ -97,14 +97,25 @@ class GameActions:
         dx = setting_turn_around_delta.get()
         win32api.mouse_event(win32con.MOUSEEVENTF_MOVE, dx, 0)
 
-    def game_turn_camera_sideways(direction: str):
-        """WIP turn camera right/left"""
-        if not direction in ["right", 'left']:
-            return
-        dx = setting_turn_sideways_delta.get()
+    def game_turn_camera(direction: str, is_small_movement: bool):
+        """WIP turn camera"""
+        dy = dx = 0
+        if direction in ["right", "left"]:
+            dx = setting_turn_horizontally_delta.get()
+        elif direction in ["down", "up"]:
+            dy = setting_turn_vertically_delta.get()
+
         if direction == "left":
             dx *= -1
-        win32api.mouse_event(win32con.MOUSEEVENTF_MOVE, dx, 0)
+        elif direction == "up":
+            dy *= -1
+
+        if is_small_movement:  # todo: make new settings for this
+            dx = (int)(dx * 0.5)
+            dy = (int)(dy * 0.5)
+
+        win32api.mouse_event(win32con.MOUSEEVENTF_MOVE, dx, dy)
+
 
     def game_jump():
         """"""

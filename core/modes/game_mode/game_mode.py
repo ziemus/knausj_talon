@@ -27,13 +27,26 @@ setting_turn_around_delta = game_mode_module.setting(
 
         in my experience, it will never be perfectly accurate
         but it will be enough to play""")
-setting_turn_sideways_delta = game_mode_module.setting(
-    "game_turn_sideways_mouse_delta",
+setting_turn_horizontally_delta = game_mode_module.setting(
+    "game_turn_horizontally_mouse_delta",
     type=int,
     default=0,
     desc=""" for each game there needs to be defined a particular horizontal delta
         that mouse needs to be moved by
-        in order to turn the camera sideways
+        in order to turn the camera horizontally
+
+        basically the user needs to experiment a little
+        and find the right value
+
+        in my experience, it will never be perfectly accurate
+        but it will be enough to play""")
+setting_turn_vertically_delta = game_mode_module.setting(
+    "game_turn_vertically_mouse_delta",
+    type=int,
+    default=0,
+    desc=""" for each game there needs to be defined a particular vertical delta
+        that mouse needs to be moved by
+        in order to turn the camera vertically
 
         basically the user needs to experiment a little
         and find the right value
