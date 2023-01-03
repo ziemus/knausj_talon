@@ -5,9 +5,9 @@ touch | click:
 	user.game_click(0)
 righty:
 	user.game_click(1)
-[curse] stay:
+curse stay:
     user.mouse_stay_in_place(1)
-[curse] come:
+curse come:
     user.mouse_stay_in_place(0)
 (scroll | wheel) up:
     user.mouse_scroll_up()
@@ -17,9 +17,13 @@ wheel upper:
     user.mouse_scroll_up_continuous()
 wheel downer:
     user.mouse_scroll_down_continuous()
-zoom in | closer | close:
+zoom in:
+    user.mouse_scroll_up()
+zoom out:
+    user.mouse_scroll_down()
+zoom inner | closer:
     user.mouse_scroll_up_continuous()
-zoom out | farther | far:
+zoom outer | farther:
     user.mouse_scroll_down_continuous()
 drag:
 	user.mouse_drag(0)
