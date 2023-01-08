@@ -1,4 +1,3 @@
-import win32api, win32con
 from talon import Module
 
 game_camera_module = Module()
@@ -46,16 +45,31 @@ setting_turn_vertically_delta = game_camera_module.setting(
 game_camera_module.tag("game_camera_controls")
 
 
+def _mouse_move(dx: int, dy: int):
+    import platform
+    os = platform.system().lower()
+    if os.startswith("windows"):
+        import win32api, win32con
+        win32api.mouse_event(win32con.MOUSEEVENTF_MOVE, dx, dy)
+        # I couldn't get the usual ctrl.mouse_move call to work with most first/third person games on windows
+        # winAPI does not produce the most reproducible results but it works well enough
+    else:
+        #todo find out what API best integrates with games for each platform
+        from talon import ctrl
+        (x, y) = ctrl.mouse_pos()
+        ctrl.mouse_move(x, y, dx=dx, dy=dy)
+
+
 @game_camera_module.action_class
 class CameraActions:
 
     def game_turn_camera_around():
         """WIP turn camera around"""
         dx = setting_turn_around_delta.get()
-        win32api.mouse_event(win32con.MOUSEEVENTF_MOVE, dx, 0)
+        _mouse_move(dx, 0)
 
-    def game_turn_camera(direction: str, is_small_movement: bool):
-        """WIP turn camera"""
+    def game_turn_camera(direction: str, cursor_movement_multiplier: float = None):
+        """WIP turn camera in the specified direction"""
         dy = dx = 0
         if direction in ["right", "left"]:
             dx = setting_turn_horizontally_delta.get()
@@ -67,8 +81,8 @@ class CameraActions:
         elif direction == "up":
             dy *= -1
 
-        if is_small_movement:  # todo: make new settings for this
-            dx = (int)(dx * 0.5)
-            dy = (int)(dy * 0.5)
+        if cursor_movement_multiplier:
+            dx = (int)(dx * cursor_movement_multiplier)
+            dy = (int)(dy * cursor_movement_multiplier)
 
-        win32api.mouse_event(win32con.MOUSEEVENTF_MOVE, dx, dy)
+        _mouse_move(dx, dy)
