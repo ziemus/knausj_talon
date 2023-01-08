@@ -8,19 +8,16 @@ tag: user.wsad_game_controls
 """
 context.lists["user.game_directions"] = {
     "north": "w",
+    "nor": "w",
     "no": "w",
-    "knee": "w",
     "south": "s",
-    "sun": "s",
-    "saw": "s",
     "so": "s",
     "west": "a",
-    "way": "a",
+    "wet": "a",
     "we": "a",
     "east": "d",
-    "eye": "d",
+    "ease": "d",
     "aye": "d",
-    "I": "d",
 }
 
 
