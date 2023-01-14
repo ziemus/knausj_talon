@@ -17,14 +17,6 @@ wheel upper:
     user.mouse_scroll_up_continuous()
 wheel downer:
     user.mouse_scroll_down_continuous()
-zoom in:
-    user.mouse_scroll_up()
-zoom out:
-    user.mouse_scroll_down()
-zoom inner | closer:
-    user.mouse_scroll_up_continuous()
-zoom outer | farther:
-    user.mouse_scroll_down_continuous()
 drag:
 	user.mouse_drag(0)
 end drag | drag end:
