@@ -11,17 +11,119 @@ basic_game_actions_module.list("game_number_shortcuts")
 @basic_game_actions_module.action_class
 class BasicGameActions:
 
+    def game_crouch():
+        """Duck or crouch"""
+        actions.key("c")
+
+    def game_dodge():
+        """Dodge roll"""
+        actions.key("ctrl")
+
+    def game_dive_start():
+        """Start diving"""
+        actions.key("ctrl:down")
+
+    def game_dive_stop():
+        """Stop diving"""
+        actions.key("ctrl:up")
+
+    def game_take():
+        """Take an object. Defaults to user.game_use if not overridden."""
+        actions.user.game_use()
+
+    def game_take_all():
+        """Take all selected objects. Defaults to user.game_take() if not overridden."""
+        actions.user.game_take()
+
+    def game_talk():
+        """Talk to an NPC.
+        Defaults to user.game_use if not overridden."""
+        actions.user.game_use()
+
+    def game_loot():
+        """Loot an object. Defaults to user.game_use if not overridden."""
+        actions.user.game_use()
+
     def game_jump():
-        """"""
-        actions.user.press_game_key("space")
+        """Basic (single) jump"""
+        actions.key("space")
 
     def game_use():
-        """"""
-        actions.user.press_game_key('e')
+        """Basic use/interact with an object"""
+        actions.key("e")
 
     def game_character_sheet_show():
+        """Show character sheet/skill tree/ability menu etc."""
+        actions.key("c")
+
+    def game_skill_learn():
+        """Learn a skill. No binding by default. Needs to be overridden."""
+        return
+
+    def game_skill_unlearn():
+        """Unlearn a skill. Defaults to user.game_skill_learn()"""
+        actions.user.game_skill_learn()
+
+    def game_heal():
+        """Shortcut for healing.
+        Not every game has healing or quick potion use shortcut
+        so this action is only there to be overridden if needed
+        without having to declare a new voice command"""
+        return
+
+    def game_craft():
+        """Craft an object.
+        Not every game has crafting mechanics
+        so this action is only there to be overridden if needed
+        without having to declare a new voice command"""
+        return
+
+    def game_tool_use():
+        """Use selected tool or trap, like in a souls-like game.
+        As not every game has this mechanic, it's left blank to be overridden if needed."""
+        return
+
+    def game_tool_switch_left():
+        """Switch selected tool or trap left, like in a souls-like game.
+        As not every game has this mechanic, it's left blank to be overridden if needed."""
+        return
+
+    def game_tool_switch_right():
+        """Switch selected tool or trap right, like in a souls-like game.
+        As not every game has this mechanic, it's left blank to be overridden if needed."""
+        return
+
+    def game_manual_save():
         """"""
-        actions.user.press_game_key('c')
+        return
+
+    def game_quick_save():
+        """"""
+        actions.key("f5")
+
+    def game_menu():
+        """"""
+        actions.key("escape")
+
+    def game_inventory_show():
+        """Show or had inventory"""
+        actions.key("i")
+
+    def game_skill_tree_show():
+        """Show or hide skill tree menu"""
+        actions.key("k")
+
+    def game_crafting_menu_show():
+        """Show or hide crafting menu"""
+        actions.key("o")
+
+    def game_quest_log_show():
+        """Show or hide quest log or journal"""
+        actions.key("j")
+
+    def game_bestiary_show():
+        """Show or hide glossary/bestiary/index/notebook"""
+        actions.key("n")
 
     def game_click(button: int = 0, times: int = 1, hold: int = None):
         """Clicks specified number of times.
