@@ -48,6 +48,20 @@ def _set_game_movement_direction(new_direction_key: str):
     current_game_movement_direction_key = new_direction_key
 
 
+def _switch_game_movement(do_turn_on: bool = None):
+    do_turn_on = not is_moving if do_turn_on is None else do_turn_on
+    if do_turn_on:
+        _start_game_movement()
+    else:
+        _stop_game_movement()
+
+
+def _switch_game_movement_direction(direction_key: str):
+    _set_game_movement_direction(direction_key)
+    if is_moving:
+        _stop_game_movement()
+        _start_game_movement()
+
 @game_movement_module.action_class
 class GameActions:
 
@@ -55,11 +69,7 @@ class GameActions:
         """toggle or switch game movement on/off. Thread safe."""
         global is_moving, lock_is_moving
         with lock_is_moving:
-            do_turn_on = not is_moving if do_turn_on is None else do_turn_on
-            if do_turn_on:
-                _start_game_movement()
-            else:
-                _stop_game_movement()
+            _switch_game_movement(do_turn_on)
 
     def set_game_movement_direction(new_direction: str):
         """Sets the key currently used to move in game. Thread safe."""
@@ -71,10 +81,19 @@ class GameActions:
         """Switches the key currently used to move in game. Continues moving in the new direction if movement is active. Thread safe."""
         global is_moving, lock_is_moving
         with lock_is_moving:
-            _set_game_movement_direction(new_direction)
-            if is_moving:
-                _stop_game_movement()
-                _start_game_movement()
+            _switch_game_movement_direction(new_direction)
+
+    def game_movement_toggle_direction_switch(direction_key: str):
+        """Start movement in the given direction if not moving
+        or stop movement if the direction is equal to the current direction and moving
+        or change the current direction while continuing movement."""
+        global is_moving, lock_is_moving
+        with lock_is_moving:
+            if direction_key == current_game_movement_direction_key:
+                _switch_game_movement()
+            else:
+                _switch_game_movement_direction(direction_key)
+
 
     def get_game_movement_keys():
         """this method must be overridden with game-specific contexts
