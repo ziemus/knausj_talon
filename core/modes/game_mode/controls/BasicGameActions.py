@@ -4,7 +4,6 @@ basic_game_actions_module = Module()
 
 basic_game_actions_module.tag("game_character_sheet")
 basic_game_actions_module.tag("game_mouse_enabled")
-basic_game_actions_module.tag("first_person_game_controls")
 basic_game_actions_module.list("game_number_shortcuts")
 
 
