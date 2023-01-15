@@ -24,8 +24,8 @@ class Actions:
         return
 
     def game_trade_sell_multiple_items():
-        """Sell multiple items. Defaults to user.game_trade_sell_multiple_items()"""
-        actions.user.game_trade_sell_multiple_items()
+        """Sell multiple items. Defaults to user.game_trade_buy_multiple_items()"""
+        actions.user.game_trade_buy_multiple_items()
 
     def game_trade_mark_to_sell():
         """Mark an item to sell. No binding by default."""
