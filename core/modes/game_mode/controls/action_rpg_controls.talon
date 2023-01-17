@@ -10,7 +10,7 @@ settings():
     user.mouse_hold = 64000
 	user.mouse_wait = 0
     user.game_noise_pop_binding_default = "move"
-    user.game_noise_hiss_binding_default = "click"
+    user.game_noise_hiss_binding_default = "long click"
 
 tag(): user.first_person_game_controls
 tag(): user.game_mouse_enabled
@@ -29,7 +29,7 @@ tag(): user.game_weapon_aim
 #when you have to turn around
 noise binding exploration mode | noise explore | exploring:
 	user.game_noise_control_switch("pop","move")
-	user.game_noise_control_switch("hiss","click")
+	user.game_noise_control_switch("hiss","long click")
 #in a fight switching movement direction by voice takes too much time
 #and being able to move only in the direction of the camera is too restricting.
 #If possible, it is encouraged to use some other kind of controller, like a set of 3 foot pedals.
@@ -42,37 +42,15 @@ noise binding fight mode | noise fight | fighting:
 	user.game_noise_control_switch("pop","dodge")
 	user.game_noise_control_switch("hiss","long click")
 
-#miscellanies movement
-crouch | duck:
-	user.game_crouch()
-roll | dodge | dog:
-	user.game_dodge()
-dive:
-	user.game_dive_start()
-dive done:
-	user.game_dive_stop()
-
-#basic interactions
-(loot | search) (it | that):
-	user.game_loot()
-take | pick [up] | gather:
-    user.game_take()
-(take | pick [up] | gather) all:
-	user.game_take_all()
-talk (with | to):
-    user.game_talk()
-
 #tools
 [selected] tool [use]:
 	user.game_tool_use()
-tool [switch] left | zip:
+tool [switch] (previous | prev | pre) | zip:
 	user.game_tool_switch_left()
-tool [switch] right | zap | zoop:
+tool [switch] (next | ness) | zap:
 	user.game_tool_switch_right()
 
 #shortcuts
-[fast] [equip | switch] {user.game_number_shortcuts}:
-	key(game_number_shortcuts)
 heal:
 	user.game_heal()
 crafting [show]:
@@ -83,7 +61,9 @@ craft:
 	user.game_skill_learn()
 (skill | perk) unlearn:
 	user.game_skill_unlearn()
-(skill tree | character sheet | car sheet) [show]:
+skill tree [show]:
+	user.game_skill_tree_show()
+(character sheet | car sheet) [show]:
 	user.game_character_sheet_show()
 (journal | quest log) [show]:
 	user.game_quest_log_show()
