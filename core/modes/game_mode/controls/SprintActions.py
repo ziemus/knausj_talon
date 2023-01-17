@@ -4,11 +4,6 @@ from ..GameModeHelper import GameModeHelper
 
 game_sprint_module = Module()
 
-setting_sprint_toggle_key = game_sprint_module.setting(
-    "game_sprint_toggle_key",
-    type=str,
-    default="capslock",
-    desc="""Keyname for the key that switches sprint on/off. Caps Lock by default.""")
 setting_default_sprint_state = game_sprint_module.setting(
     "game_sprint_state_default",
     type=bool,
@@ -21,35 +16,73 @@ setting_default_sprint_state = game_sprint_module.setting(
 game_sprint_module.tag("game_sprint_controls")
 
 is_sprinting: bool = False
-lock_is_sprinting = Lock()
 
 
 @game_sprint_module.action_class
 class SprintActions:
 
     def game_switch_sprint(do_turn_on: bool = None):
-        """"""
-        global is_sprinting, lock_is_sprinting
-        with lock_is_sprinting:
-            do_turn_on = not is_sprinting if do_turn_on is None else do_turn_on
-            toggle_sprint_key = setting_sprint_toggle_key.get()
-            if do_turn_on and not is_sprinting:
-                actions.user.press_game_key(toggle_sprint_key)
-                is_sprinting = True
-            elif not do_turn_on and is_sprinting:
-                actions.user.press_game_key(toggle_sprint_key)
-                is_sprinting = False
+        """If do_turn_on is True, start sprinting.
+        If do_turn_on is is False, stop sprinting.
+        If do_turn_on is None, the action toggles between sprinting/not sprinting, based on tracked sprint state.
 
-            GameModeHelper.game_hud_add_sprint_icon(is_sprinting)
+        This action should be called instead of actions.user.game_sprint_start
+        and actions.user.game_sprint_stop if any of those 2 get overridden.
+        This action shouldn't be overridden. Doing so may desynchronize the tracked sprint state.
+
+        This function does not handle any sprinting logic. It defaults to calling
+        actions.user.game_sprint_start() or actions.user.game_sprint_stop().
+        Its main purpose is to be called upon the shorthand "sprint"/"print" voice command
+        instead of "sprint start" and "sprint done" to shorten the voice commands
+        necessary for such a basic game interaction.
+
+        Tracks sprint state independently of underlying action calls
+        in case the main logic needs to be overridden."""
+        global is_sprinting
+        do_turn_on = not is_sprinting if do_turn_on is None else do_turn_on
+
+        if do_turn_on:
+            actions.user.game_sprint_start()
+        else:
+            actions.user.game_sprint_stop()
+
+        is_sprinting = do_turn_on
+        GameModeHelper.game_hud_add_sprint_icon(is_sprinting)
+
+    def game_sprint_start():
+        """Start sprinting.
+        Defaults to pressing down the shift key.
+        May be overridden to implement custom sprint start game mechanic.
+        Tracks sprint state if not overridden."""
+        global is_sprinting
+        actions.key("shift:down")
+        is_sprinting = True  # in case game_switch_sprintgets overridden
+        GameModeHelper.game_hud_add_sprint_icon(is_sprinting)
+
+    def game_sprint_stop():
+        """Stop sprinting.
+        Defaults to releasing the shift key.
+        May be overridden to implement custom sprint stop game mechanic.
+        Tracks sprint state if not overidden."""
+        global is_sprinting
+        actions.key("shift:up")
+        is_sprinting = False  # in case game_switch_sprintgets overridden
+        GameModeHelper.game_hud_add_sprint_icon(is_sprinting)
+
+    def game_start_running():
+        """Start running. Defaults to calling actions.user.game_switch_sprint(True)
+        as in most games running means the same as sprinting.
+        May be overridden to implement custom running game mechanic."""
+        actions.user.game_switch_sprint(True)
+
+    def game_start_walking():
+        """Stop running. Defaults to calling actions.user.game_switch_sprint(False)
+        as in most games walking means not sprinting.
+        May be overridden to implement custom walking game mechanic."""
+        actions.user.game_switch_sprint(False)
 
     def game_sprint_state_reset():
-        """Resets is_sprinting to default value
-        in case the game overrides sprint behavior
-        after, for example, a loading screen
-        which would mess up the execution of 'run' and 'walk' commands
-        with the default game_switch_sprint()
-        that tracks the current in game sprinting state"""
-        global is_sprinting, lock_is_sprinting
-        with lock_is_sprinting:
-            is_sprinting = setting_default_sprint_state.get()
-            GameModeHelper.game_hud_add_sprint_icon(is_sprinting)
+        """Resets is_sprinting to default"""
+        global is_sprinting
+        is_sprinting = setting_default_sprint_state.get()
+        GameModeHelper.game_hud_add_sprint_icon(is_sprinting)
