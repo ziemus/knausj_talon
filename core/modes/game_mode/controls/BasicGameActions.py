@@ -15,8 +15,12 @@ class BasicGameActions:
         actions.key("c")
 
     def game_dodge():
-        """Dodge roll"""
+        """Dodge roll. Defaults to pressing ctrl."""
         actions.key("ctrl")
+
+    def game_long_dodge():
+        """Long dodge roll. Defaults to pressing the ctrl key for 650 milliseconds."""
+        actions.user.press_game_key("ctrl", 1, 650000)
 
     def game_dive_start():
         """Start diving"""
@@ -43,16 +47,22 @@ class BasicGameActions:
         """Loot an object. Defaults to user.game_use if not overridden."""
         actions.user.game_use()
 
-    def game_jump():
-        """Basic (single) jump"""
-        actions.key("space")
+    def game_jump(is_hold: bool = None):
+        """if is_hold is not provided or None, perform a basic jump.
+        If is_hold is True, press the jump key down indefinitely
+        If is_hold is False, release the jump key.
+        Key defaults to space."""
+        if is_hold is None:
+            actions.key("space")
+        else:
+            ctrl.key_press("space", down=is_hold, up=not is_hold)
 
     def game_use():
         """Basic use/interact with an object"""
         actions.key("e")
 
     def game_character_sheet_show():
-        """Show character sheet/skill tree/ability menu etc."""
+        """Show character sheet"""
         actions.key("c")
 
     def game_skill_learn():
@@ -100,6 +110,10 @@ class BasicGameActions:
         """"""
         actions.key("f5")
 
+    def game_quick_load():
+        """Load quick save. Left blank to be overridden if needed."""
+        return
+
     def game_menu():
         """"""
         actions.key("escape")
@@ -109,7 +123,7 @@ class BasicGameActions:
         actions.key("i")
 
     def game_skill_tree_show():
-        """Show or hide skill tree menu"""
+        """Show or hide skill tree/ability menu etc"""
         actions.key("k")
 
     def game_crafting_menu_show():
@@ -139,9 +153,14 @@ class BasicGameActions:
         up = not down
         ctrl.mouse_click(button, down=down, up=up)
 
-    def press_game_key(key: str):
-        """"""
-        actions.key(key)
+    def press_game_key(key: str, times: int = 1, hold: int = None):
+        """Press key specified number of times,
+        optionally holding for the specified number of microseconds each time.
+        If hold is Non then hold defaults to the key_hold setting"""
+        hold = settings.get("key_hold") if hold is None else hold
+        for i in range(times):
+            wait = 0 if i == 0 else hold
+            ctrl.key_press(key, hold=hold, wait=wait)
 
     def hold_game_key(key: str, duration: str = None):
         """Hold key infinitely or for the specified duration"""
