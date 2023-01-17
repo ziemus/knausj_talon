@@ -40,9 +40,9 @@ class Actions:
         is_weapon_aim = True  #in case game_weapon_aim_toggle is overridden
 
     def game_weapon_aim_stop():
-        """Stop aiming.
-        It defaults to really sing the right mouse button
+        """Stops aiming (releases RMB). Releases firing button (LMB).
         Tracks aiming state."""
         global is_weapon_aim
         actions.user.game_press_mouse(1, False)
+        actions.user.game_press_mouse(0, False)
         is_weapon_aim = False  #in case game_weapon_aim_toggle is overridden
