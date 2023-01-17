@@ -13,12 +13,15 @@ noise_action_names = {
     "jump": "jump",
     "move": "move",
     "dodge": "dodge",
+    "long dodge": "long dodge",
     "use": "use",
     "touch": "click",
     "click": "click",
     "duke": "double click",
     "double click": "double click",
     "long click": "long click",
+    "righty": "right click",
+    "right click": "right click",
     "off": "off",
     "default": "default",
 }
@@ -26,19 +29,23 @@ ctx.lists["user.game_noise_controls"] = noise_action_names
 
 action_name_to_action = {
     "jump":
-        lambda _: actions.user.game_jump(),
+        lambda is_active: actions.user.game_jump(is_active),
     "move":
         lambda _: actions.user.switch_game_movement(),
     "dodge":
         lambda _: actions.user.game_dodge(),
+    "long dodge":
+        lambda _: actions.user.game_long_dodge(),
     "use":
         lambda _: actions.user.game_use(),
     "click":
-        lambda _: actions.user.game_click(0, 1),
+        lambda _: actions.user.game_click(0),
     "long click":
         lambda is_active: actions.user.game_press_mouse(button=0, down=is_active),
     "double click":
         lambda _: actions.user.game_click(0, 2),
+    "right click":
+        lambda _: actions.user.game_click(1),
 }
 
 hotswappable_binding: dict[str, str] = {"pop": "default", "hiss": "default"}
@@ -107,8 +114,10 @@ def _execute_noise_binding(noise, is_active):
     if action_name == "off":
         return
 
-    does_action_require_input = action_name == "long click" or (action_name == "move" and
-                                                                noise == "hiss")
+    does_action_require_input = action_name in [
+        "long click",
+        "jump",
+    ] or (action_name == "move" and noise == "hiss")
 
     if does_action_require_input:
         action_name_to_action[action_name](is_active)
