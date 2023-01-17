@@ -1,6 +1,5 @@
 tag: user.game_arrow_keys_toggle_wsad_movement
 and mode: user.game
-and not mode: sleep
 -
 tag(): user.wsad_game_controls
 
