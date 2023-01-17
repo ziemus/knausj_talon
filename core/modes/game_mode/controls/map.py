@@ -16,8 +16,8 @@ class Actions:
         actions.user.game_map_show()
 
     def game_map_marker_place():
-        """Place a marker on the map. LMB by default."""
-        actions.user.game_click(0)
+        """Place a marker on the map. RMB by default."""
+        actions.user.game_click(1)
 
     def game_map_marker_clear():
         """Clear a marker from the map. Defaults to user.game_map_marker_place() if not overridden."""
