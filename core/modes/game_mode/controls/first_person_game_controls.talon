@@ -39,3 +39,7 @@ talk (with | to):
 
 (inventory | equipment | bag) [show]:
     user.game_inventory_show()
+(character sheet | car sheet) [show]:
+	user.game_character_sheet_show()
+(journal | quest log) [show]:
+	user.game_quest_log_show()

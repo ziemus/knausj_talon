@@ -63,9 +63,5 @@ craft:
 	user.game_skill_unlearn()
 skill tree [show]:
 	user.game_skill_tree_show()
-(character sheet | car sheet) [show]:
-	user.game_character_sheet_show()
-(journal | quest log) [show]:
-	user.game_quest_log_show()
 (notebook | notes | bestiary | glossary) [show]:
 	user.game_bestiary_show()
