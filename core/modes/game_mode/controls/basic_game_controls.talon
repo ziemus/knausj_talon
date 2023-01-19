@@ -1,13 +1,19 @@
 mode: user.game
 and not mode: sleep
 -
-manual save:
+^manual save$:
 	user.game_manual_save()
-quicksave:
+^quick save$:
 	user.game_quick_save()
-quick load:
+^quick load$:
 	user.game_quick_load()
-menu [pause] | escape | back:
+^(menu [pause] | escape | back)$:
 	user.game_menu()
-enter:
+^enter$:
     key(enter)
+^backspace$:
+	key(backspace)
+^game console show$:
+    key(`)
+^control mouse$:
+    user.mouse_toggle_control_mouse()
