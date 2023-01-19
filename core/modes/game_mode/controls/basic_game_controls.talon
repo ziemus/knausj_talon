@@ -16,4 +16,4 @@ and not mode: sleep
 ^game console show$:
     key(`)
 ^control mouse$:
-    user.mouse_toggle_control_mouse()
+    tracking.control_toggle()
