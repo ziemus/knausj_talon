@@ -57,6 +57,8 @@ def _mouse_move(dx: int, dy: int):
         #todo find out what API best integrates with games for each platform
         from talon import ctrl
         (x, y) = ctrl.mouse_pos()
+        x += dx
+        y += dy
         ctrl.mouse_move(x, y, dx=dx, dy=dy)
 
 
