@@ -51,6 +51,12 @@ settings():
     # per-application basis.
     # user.context_sensitive_dictation = 1
 
+    # How to resize windows moved across physical screens (eg. via `snap next`).
+    # Default is 'proportional', which preserves window size : screen size ratio.
+    # 'size aware' keeps absolute window size the same, except full-height or
+    # -width windows are resized to stay full-height/width.
+    #user.window_snap_screen = "size aware"
+
     speech._subtitles = 0
 
 # Uncomment this to enable the curse yes/curse no commands (show hide mouse cursor). See issue #688.
