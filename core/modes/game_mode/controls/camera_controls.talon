@@ -11,3 +11,8 @@ and mode: user.game
     user.game_turn_camera('{arrow_key}', 1.25)
 [camera] [turn] (around | round):
     user.game_turn_camera_around()
+
+[camera] first person [switch | toggle]:
+    user.game_camera_first_person()
+[camera] third person [switch | toggle]:
+    user.game_camera_third_person()

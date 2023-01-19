@@ -1,4 +1,4 @@
-from talon import Module
+from talon import Module, actions
 
 game_camera_module = Module()
 
@@ -86,3 +86,11 @@ class CameraActions:
             dy = (int)(dy * cursor_movement_multiplier)
 
         _mouse_move(dx, dy)
+
+    def game_camera_first_person():
+        """Change camera to first person perspective. No action performed by default. Needs to be overridden."""
+        return
+
+    def game_camera_third_person():
+        """Change camera to third person perspective. Defaults to calling actions.user.game_camera_first_person()"""
+        actions.user.game_camera_first_person()
