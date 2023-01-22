@@ -71,20 +71,42 @@ default_noise_settings = {"pop": setting_pop_default, "hiss": setting_hiss_defau
 @mod.action_class
 class GameNoiseActions:
 
-    def game_before_on_pop():
-        """customizable behavior before on pop executes its default game binding"""
-        return 0
+    def game_before_on_pop() -> tuple[bool, bool]:
+        """Customizable behavior. This action is called before the binding for pop is executed.
+        Handy for quickly interrupting a game interaction that requires a more precise timing than
+        talon is able to achieve with a simple voice command (noises are detected more quickly).
+
+        Returns 2 bool values in a tuple:
+            * the first tuple element: execute the action bound to pop if True,
+                skip the execution of the bound action if False,
+            * the second tuple element: execute game_after_on_pop if True,
+                skip execution of game_after_on_pop if False.      
+        Both are True by default."""
+        return (True, True)
 
     def game_after_on_pop():
-        """customizable behavior after on pop executes its default game binding"""
+        """Customizable behavior. This action is called after the binding for pop is executed
+        only if game_before_on_pop returned True as the second element of the returned tuple.
+        Doesn't do anything by default."""
         return 0
 
-    def game_before_on_hiss():
-        """customizable behavior before on hiss executes its default game binding"""
-        return 0
+    def game_before_on_hiss() -> tuple[bool, bool]:
+        """Customizable behavior.  This action is called before the binding for hiss is executed.
+        Handy for quickly interrupting a game interaction that requires a more precise timing than
+        talon is able to achieve with a simple voice command (noises are detected more quickly).
+
+        Returns 2 bool values in a tuple:
+            * the first tuple element: execute the action bound to hiss if True,
+                skip the execution of the bound action if False,
+            * the second tuple element: execute game_after_on_hiss if True,
+                skip execution of game_after_on_hiss if False.      
+        Both are True by default."""
+        return (True, True)
 
     def game_after_on_hiss():
-        """customizable behavior after on hiss executes its default game binding"""
+        """Customizable behavior. This action is called after the binding for hiss is executed
+        only if game_before_on_hiss returned True as the second element of the returned tuple.
+        Doesn't do anything by default."""
         return 0
 
     def game_noise_control_reset():
@@ -132,10 +154,11 @@ def on_pop(_):
         return
 
     with lock_binding:
-        actions.user.game_before_on_pop()
-        if not settings.get("user.mouse_enable_pop_click"):
+        is_execute_binding, is_execute_after = actions.user.game_before_on_pop()
+        if not settings.get("user.mouse_enable_pop_click") and is_execute_binding:
             _execute_noise_binding("pop", True)
-        actions.user.game_after_on_pop()
+        if is_execute_after:
+            actions.user.game_after_on_pop()
 
 
 def on_hiss(is_active):
@@ -145,10 +168,11 @@ def on_hiss(is_active):
         return
 
     with lock_binding:
-        actions.user.game_before_on_hiss()
-        if not settings.get("user.mouse_enable_hiss"):
+        is_execute_binding, is_execute_after = actions.user.game_before_on_hiss()
+        if not settings.get("user.mouse_enable_hiss") and is_execute_binding:
             _execute_noise_binding("hiss", is_active)
-        actions.user.game_after_on_hiss()
+        if is_execute_after:
+            actions.user.game_after_on_hiss()
 
 
 noise.register("pop", on_pop)
