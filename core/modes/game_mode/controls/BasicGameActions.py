@@ -4,7 +4,6 @@ basic_game_actions_module = Module()
 
 basic_game_actions_module.tag("game_character_sheet")
 basic_game_actions_module.tag("game_mouse_enabled")
-basic_game_actions_module.list("game_number_shortcuts")
 
 
 @basic_game_actions_module.action_class
@@ -65,14 +64,6 @@ class BasicGameActions:
         """Show character sheet"""
         actions.key("c")
 
-    def game_skill_learn():
-        """Learn a skill. No binding by default. Needs to be overridden."""
-        return
-
-    def game_skill_unlearn():
-        """Unlearn a skill. Defaults to user.game_skill_learn()"""
-        actions.user.game_skill_learn()
-
     def game_heal():
         """Shortcut for healing.
         Not every game has healing or quick potion use shortcut
@@ -85,21 +76,6 @@ class BasicGameActions:
         Not every game has crafting mechanics
         so this action is only there to be overridden if needed
         without having to declare a new voice command"""
-        return
-
-    def game_tool_use():
-        """Use selected tool or trap, like in a souls-like game.
-        As not every game has this mechanic, it's left blank to be overridden if needed."""
-        return
-
-    def game_tool_switch_left():
-        """Switch selected tool or trap left, like in a souls-like game.
-        As not every game has this mechanic, it's left blank to be overridden if needed."""
-        return
-
-    def game_tool_switch_right():
-        """Switch selected tool or trap right, like in a souls-like game.
-        As not every game has this mechanic, it's left blank to be overridden if needed."""
         return
 
     def game_manual_save():
@@ -121,10 +97,6 @@ class BasicGameActions:
     def game_inventory_show():
         """Show or had inventory"""
         actions.key("i")
-
-    def game_skill_tree_show():
-        """Show or hide skill tree/ability menu etc"""
-        actions.key("k")
 
     def game_crafting_menu_show():
         """Show or hide crafting menu"""

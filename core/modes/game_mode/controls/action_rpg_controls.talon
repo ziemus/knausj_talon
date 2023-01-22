@@ -19,6 +19,9 @@ tag(): user.game_trade
 tag(): user.game_arrow_keys_toggle_wsad_movement
 tag(): user.game_quick_access_menu
 tag(): user.game_mount
+tag(): user.game_skills
+tag(): user.game_weapons
+tag(): user.game_tools
 tag(): user.game_weapon_aim
 
 #it may be more comfortable to move around using only pop as movement toggle
@@ -42,14 +45,6 @@ noise binding fight mode | noise fight | fighting:
 	user.game_noise_control_switch("pop","dodge")
 	user.game_noise_control_switch("hiss","long click")
 
-#tools
-[selected] tool [use]:
-	user.game_tool_use()
-tool [switch] (previous | prev | pre) | zip:
-	user.game_tool_switch_left()
-tool [switch] (next | ness) | zap:
-	user.game_tool_switch_right()
-
 #shortcuts
 heal:
 	user.game_heal()
@@ -57,11 +52,5 @@ crafting [show]:
 	user.game_crafting_menu_show()
 craft:
 	user.game_craft()
-(skill | perk) learn:
-	user.game_skill_learn()
-(skill | perk) unlearn:
-	user.game_skill_unlearn()
-skill tree [show]:
-	user.game_skill_tree_show()
 (notebook | notes | bestiary | glossary) [show]:
 	user.game_bestiary_show()
