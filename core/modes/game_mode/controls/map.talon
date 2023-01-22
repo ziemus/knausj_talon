@@ -1,8 +1,7 @@
 tag: user.game_map
 and mode: user.game
-and not mode: sleep
 -
-map [show]:
+map show:
 	user.game_map_show()
 map hide:
     user.game_map_hide()
