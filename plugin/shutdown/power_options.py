@@ -10,7 +10,7 @@ def short_sleep():
     actions.sleep('300ms')
 
 def control_mouse_disable():
-    actions.user.mouse_toggle_control_mouse(0)
+    actions.tracking.control_toggle(False)
     actions.sleep('1000ms')
 
 def start_menu_power_action(key : str
