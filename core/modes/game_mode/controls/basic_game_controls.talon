@@ -7,7 +7,7 @@ and not mode: sleep
 	user.game_quick_save()
 ^quick load$:
 	user.game_quick_load()
-^(menu [pause] | escape | back)$:
+^(menu [pause] | escape | go back)$:
 	user.game_menu()
 ^enter$:
     key(enter)
