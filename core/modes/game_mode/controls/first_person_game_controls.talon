@@ -22,6 +22,8 @@ dive done:
 #basic interactions
 use [it | that]:
     user.game_use()
+(hold | long) use | using:
+	user.game_hold_use()
 (loot | search) (it | that):
 	user.game_loot()
 take | pick [up] | gather:

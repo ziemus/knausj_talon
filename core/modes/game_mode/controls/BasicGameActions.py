@@ -60,6 +60,10 @@ class BasicGameActions:
         """Basic use/interact with an object"""
         actions.key("e")
 
+    def game_hold_use():
+        """Hold use/interact for approximately half a second"""
+        actions.user.game_hold_key_native("e", 650000)
+
     def game_character_sheet_show():
         """Show character sheet"""
         actions.key("c")
