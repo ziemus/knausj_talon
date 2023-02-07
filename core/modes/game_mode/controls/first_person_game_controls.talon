@@ -5,7 +5,7 @@ tag(): user.game_basic_movement
 tag(): user.game_camera_controls
 tag(): user.game_sprint_controls
 
-#miscellanies movement
+#miscellaneous movement
 jump:
     user.game_jump()
 crouch | duck:
@@ -30,6 +30,14 @@ take | pick [up] | gather:
 	user.game_take_all()
 talk (with | to):
     user.game_talk()
+
+heal:
+	user.game_heal()
+[potion] drink | pot:
+	user.game_potion_drink()
+
+stealth kill | choke:
+	user.game_stealth_kill()
 
 [fast] [equip | switch] {user.game_number_shortcuts}:
 	key(game_number_shortcuts)

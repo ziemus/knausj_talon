@@ -68,8 +68,26 @@ class BasicGameActions:
         """Shortcut for healing.
         Not every game has healing or quick potion use shortcut
         so this action is only there to be overridden if needed
-        without having to declare a new voice command"""
-        return
+        without having to declare a new voice command.
+        The return value does not matter.
+        Returns 0 by default to stop talon from outputting errors to log."""
+        return 0
+
+    def game_potion_drink():
+        """Shortcut for potion drinking.
+        Not every game has quick potion use shortcut
+        so this action is only there to be overridden if needed
+        without having to declare a new voice command.
+        The return value does not matter.
+        Returns 0 by default to stop talon from outputting errors to log."""
+        return 0
+
+    def game_stealth_kill():
+        """Perform a stealth kill.
+        No binding by default, needs to be overridden if needed.
+        The return value does not matter.
+        Returns 0 by default to stop talon from outputting errors to log."""
+        return 0
 
     def game_craft():
         """Craft an object.

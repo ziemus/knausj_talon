@@ -46,8 +46,6 @@ noise binding fight mode | noise fight | fighting:
 	user.game_noise_control_switch("hiss","long click")
 
 #shortcuts
-heal:
-	user.game_heal()
 crafting [show]:
 	user.game_crafting_menu_show()
 craft:
