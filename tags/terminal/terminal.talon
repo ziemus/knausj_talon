@@ -17,3 +17,18 @@ copy paste:
     edit.copy()
     sleep(50ms)
     edit.paste()
+
+PS ox: "ps -aux "
+sed: "sed "
+sed extend: "sed -E "
+sed substitute: "sed -E 's///'"
+grep: "grep "
+grep extend: "grep -E"
+pipe that: " | "
+lisa list: "ls -l "
+lisa list all: "ls -la "
+crontab edit: "crontab -e"
+working directory: "pwd "
+echo: "echo "
+path: "PATH"
+thunar: "thunar "
