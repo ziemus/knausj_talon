@@ -6,7 +6,7 @@ address get: key(ctrl-shift-u)
 address go: key(ctrl-u)
 entry edit: key(enter)
 entry add: key(ctrl-i)
-entry fill: key(ctrl-v)
+entry fill | auto type [perform]: key(ctrl-v)
 
 password change:
 	key(enter)
