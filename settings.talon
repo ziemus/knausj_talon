@@ -17,6 +17,7 @@ settings():
 
     # Stop continuous scroll/gaze scroll with a pop
     user.mouse_enable_pop_stops_scroll = 1
+    user.mouse_enable_hiss_stops_scroll = 1
 
     # Enable pop click with 'control mouse' mode
     user.mouse_enable_pop_click = 1
@@ -49,6 +50,12 @@ settings():
     # work in some applications. You may wish to enable this on a
     # per-application basis.
     # user.context_sensitive_dictation = 1
+
+    # How to resize windows moved across physical screens (eg. via `snap next`).
+    # Default is 'proportional', which preserves window size : screen size ratio.
+    # 'size aware' keeps absolute window size the same, except full-height or
+    # -width windows are resized to stay full-height/width.
+    #user.window_snap_screen = "size aware"
 
     speech._subtitles = 0
 

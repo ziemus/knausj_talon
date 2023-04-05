@@ -6,20 +6,21 @@ from typing import Union
 from talon import Context, Module, actions, canvas, cron, ctrl, screen, settings, ui
 from talon.skia import Paint, Rect
 from talon.types.point import Point2d
-from talon_plugins import eye_mouse, eye_zoom_mouse
 
 mod = Module()
 narrow_expansion = mod.setting(
     "grid_narrow_expansion",
     type=int,
     default=0,
-    desc="""After narrowing, grow the new region by this many pixels in every direction, to make things immediately on edges easier to hit, and when the grid is at its smallest, it allows you to still nudge it around""",
+    desc=
+    """After narrowing, grow the new region by this many pixels in every direction, to make things immediately on edges easier to hit, and when the grid is at its smallest, it allows you to still nudge it around""",
 )
 grids_put_one_bottom_left = mod.setting(
     "grids_put_one_bottom_left",
     type=bool,
     default=False,
-    desc="""Allows you to switch mouse grid and friends between a computer numpad and a phone numpad (the number one goes on the bottom left or the top left)""",
+    desc=
+    """Allows you to switch mouse grid and friends between a computer numpad and a phone numpad (the number one goes on the bottom left or the top left)""",
 )
 
 mod.tag("mouse_grid_showing", desc="Tag indicates whether the mouse grid is showing")
@@ -31,6 +32,7 @@ ctx = Context()
 
 
 class MouseSnapNine:
+
     def __init__(self):
         self.screen = None
         self.rect = None
@@ -39,10 +41,13 @@ class MouseSnapNine:
         self.mcanvas = None
         self.active = False
         self.count = 0
+        self.was_zoom_mouse_active = False
         self.was_control_mouse_active = False
+        self.was_control1_mouse_active = False
+
         self.was_zoom_mouse_active = False
         self.screen_num = 0
-        
+
     def setup(self, *, rect: Rect = None, screen_num: int = None):
         screens = ui.screens()
         # each if block here might set the rect to None to indicate failure
@@ -74,12 +79,15 @@ class MouseSnapNine:
         if self.active:
             return
         # noinspection PyUnresolvedReferences
-        if eye_zoom_mouse.zoom_mouse.enabled:
+        if actions.tracking.control_zoom_enabled():
             self.was_zoom_mouse_active = True
-            eye_zoom_mouse.toggle_zoom_mouse(False)
-        if eye_mouse.control_mouse.enabled:
+            actions.tracking.control_zoom_toggle(False)
+        if actions.tracking.control_enabled():
             self.was_control_mouse_active = True
-            eye_mouse.control_mouse.toggle()
+            actions.tracking.control_toggle(False)
+        if actions.tracking.control1_enabled():
+            self.was_control1_mouse_active = True
+            actions.tracking.control1_toggle(False)
         self.mcanvas.register("draw", self.draw)
         self.mcanvas.freeze()
         self.active = True
@@ -94,13 +102,17 @@ class MouseSnapNine:
         self.img = None
 
         self.active = False
-        if self.was_control_mouse_active and not eye_mouse.control_mouse.enabled:
-            eye_mouse.control_mouse.toggle()
-        if self.was_zoom_mouse_active and not eye_zoom_mouse.zoom_mouse.enabled:
-            eye_zoom_mouse.toggle_zoom_mouse(True)
+
+        if self.was_control_mouse_active and not actions.tracking.control_enabled():
+            actions.tracking.control_toggle(True)
+        if self.was_control1_mouse_active and not actions.tracking.control1_enabled():
+            actions.tracking.control1_toggle(True)
+        if self.was_zoom_mouse_active and not actions.tracking.control_zoom_enabled():
+            actions.tracking.control_zoom_toggle(True)
 
         self.was_zoom_mouse_active = False
         self.was_control_mouse_active = False
+        self.was_control1_mouse_active = False
 
     def draw(self, canvas):
         paint = canvas.paint
@@ -231,6 +243,7 @@ class MouseSnapNine:
             self.mcanvas.freeze()
 
     def update_screenshot(self):
+
         def finish_capture():
             self.img = screen.capture_rect(self.rect)
             self.mcanvas.freeze()
@@ -265,6 +278,7 @@ mg = MouseSnapNine()
 
 @mod.action_class
 class GridActions:
+
     def grid_activate():
         """Show mouse grid"""
         if not mg.mcanvas:
@@ -299,7 +313,7 @@ class GridActions:
         """Sets the grid state back to what it was before the last command"""
         mg.go_back()
 
-    def grid_close(keepGridOpen : int = 1):
+    def grid_close(keepGridOpen: int = 1):
         """Close the active grid"""
         if keepGridOpen == 1:
             actions.self.grid_reset()

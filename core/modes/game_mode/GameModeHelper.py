@@ -1,6 +1,7 @@
 from os import path
 import csv
 from talon import actions, scope, ui, resource, settings
+from talon.ui import App
 from user.knausj_talon.core.user_settings import SETTINGS_DIR
 from .BaseGame import BaseGame
 
@@ -108,15 +109,15 @@ class GameModeHelper:
             return False
         return ui.active_app().name == game.get_app_name()
 
-    def get_game_from_library(app_name: str):
+    def get_game_from_library(app: App):
         game = None
-        if GameModeHelper._is_game_in_library(app_name):
-            icon = GameModeHelper._games[app_name]
-            game = BaseGame(app_name, icon)
+        if GameModeHelper._is_game_in_library(app.name):
+            icon = GameModeHelper._games[app.name]
+            game = BaseGame(app.name, icon)
         return game
 
-    def _is_game_in_library(app_name: str):
-        return app_name in GameModeHelper._games.keys()
+    def _is_game_in_library(app: App):
+        return app.name in GameModeHelper._games.keys()
 
 
 def on_app_activate(_):

@@ -2,8 +2,17 @@ tag: user.game_camera_controls
 and mode: user.game
 -
 [camera] [turn] <user.arrow_key>:
-    user.hold_game_key('{arrow_key}', '283ms')
+    user.game_turn_camera('{arrow_key}')
+[camera] [turn] (tiny | tea) <user.arrow_key>:
+    user.game_turn_camera('{arrow_key}', 0.25)
+[camera] [turn] (little | lil | lee | small) <user.arrow_key>:
+    user.game_turn_camera('{arrow_key}', 0.5)
+[camera] [turn] (big | be) <user.arrow_key>:
+    user.game_turn_camera('{arrow_key}', 1.25)
 [camera] [turn] (around | round):
     user.game_turn_camera_around()
-[camera] [turn] (around | round) <user.arrow_key>:
-    user.hold_game_key('{arrow_key}', '460ms')
+
+[camera] first person [switch | toggle]:
+    user.game_camera_first_person()
+[camera] third person [switch | toggle]:
+    user.game_camera_third_person()
