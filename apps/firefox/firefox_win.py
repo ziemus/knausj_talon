@@ -70,7 +70,7 @@ class BrowserActions:
         actions.key("ctrl-shift-a")
 
     def show_history():
-        actions.key("ctrl-h")
+        actions.key("ctrl-shift-h")
 
     def toggle_dev_tools():
         actions.key("ctrl-shift-i")
