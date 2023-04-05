@@ -6,3 +6,8 @@ timestamp insert high resolution:
 timestamp insert UTC: insert(user.time_format_utc("%Y-%m-%d %H:%M:%S"))
 timestamp insert UTC high resolution:
     insert(user.time_format_utc("%Y-%m-%d %H:%M:%S.%f"))
+
+epoch insert [millis]:
+    insert(user.time_epoch_millis())
+epoch insert seconds:
+        insert(user.time_epoch_seconds())

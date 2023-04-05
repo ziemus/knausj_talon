@@ -1,5 +1,5 @@
 import datetime
-
+import time
 from talon import Module
 
 mod = Module()
@@ -22,3 +22,13 @@ class Actions:
         if fmt is None:
             return now.isoformat()
         return now.strftime(fmt)
+
+    def time_epoch_seconds() -> int:
+        """"""
+        now = time.time_ns()
+        return int(now / 1000000)
+
+    def time_epoch_millis() -> int:
+        """"""
+        now = time.time_ns()
+        return int(now / 1000)
