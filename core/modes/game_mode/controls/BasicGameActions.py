@@ -46,6 +46,15 @@ class BasicGameActions:
         """Loot an object. Defaults to user.game_use if not overridden."""
         actions.user.game_use()
 
+    def game_interactable_objects_highlight_start():
+        """Highlight interactable objects, defaults to pressing tab."""
+        actions.key("tab")
+
+    def game_interactable_objects_highlight_stop():
+        """Stop highlighting interactable objects.
+        Defaults to calling actions.user.game_interactable_objects_highlight_start()."""
+        actions.user.game_interactable_objects_highlight_start()
+
     def game_jump(is_hold: bool = None):
         """if is_hold is not provided or None, perform a basic jump.
         If is_hold is True, press the jump key down indefinitely
@@ -57,12 +66,20 @@ class BasicGameActions:
             ctrl.key_press("space", down=is_hold, up=not is_hold)
 
     def game_use():
-        """Basic use/interact with an object"""
+        """Basic use/interact with an object (e by default)"""
         actions.key("e")
 
-    def game_hold_use():
-        """Hold use/interact for approximately half a second"""
+    def game_long_use():
+        """Hold use/interact key (e by default) for approximately half a second"""
         actions.user.game_hold_key_native("e", 650000)
+
+    def game_hold_use():
+        """hold use/interact key indefinitely (e by default)"""
+        actions.key("e:down")
+
+    def game_release_use():
+        """release use/interact key (e by default)"""
+        actions.key("e:up")
 
     def game_character_sheet_show():
         """Show character sheet"""
@@ -88,6 +105,13 @@ class BasicGameActions:
 
     def game_stealth_kill():
         """Perform a stealth kill.
+        No binding by default, needs to be overridden if needed.
+        The return value does not matter.
+        Returns 0 by default to stop talon from outputting errors to log."""
+        return 0
+
+    def game_stealth_choke():
+        """Perform a non-lethal elimination.
         No binding by default, needs to be overridden if needed.
         The return value does not matter.
         Returns 0 by default to stop talon from outputting errors to log."""

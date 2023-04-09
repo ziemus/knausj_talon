@@ -22,8 +22,13 @@ dive done:
 #basic interactions
 use [it | that]:
     user.game_use()
-(hold | long) use | using:
+long use | using | user:
+	user.game_long_use()
+hold use:
 	user.game_hold_use()
+(release | real | don't) use:
+	user.game_release_use()
+
 (loot | search) (it | that):
 	user.game_loot()
 take | pick [up] | gather:
@@ -38,8 +43,10 @@ heal:
 [potion] drink | pot:
 	user.game_potion_drink()
 
-stealth kill | choke:
+stealth kill | put out | eliminate:
 	user.game_stealth_kill()
+[stealth] choke:
+	user.game_stealth_choke()
 
 [fast] [equip | switch] {user.game_number_shortcuts}:
 	key(game_number_shortcuts)

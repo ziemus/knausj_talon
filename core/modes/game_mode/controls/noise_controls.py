@@ -15,6 +15,7 @@ noise_action_names = {
     "dodge": "dodge",
     "long dodge": "long dodge",
     "use": "use",
+    "long use": "long use",
     "touch": "click",
     "click": "click",
     "duke": "double click",
@@ -38,6 +39,8 @@ action_name_to_action = {
         lambda _: actions.user.game_long_dodge(),
     "use":
         lambda _: actions.user.game_use(),
+    "long use":
+        lambda _: actions.user.game_long_use(),
     "click":
         lambda _: actions.user.game_click(0),
     "long click":
