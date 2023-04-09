@@ -12,5 +12,9 @@ buy many:
 	user.game_trade_buy_multiple_items()
 sell many:
 	user.game_trade_sell_multiple_items()
+buy <digits>:
+	user.game_trade_buy_number_of_items(digits)
+sell <digits>:
+	user.game_trade_sell_number_of_items(digits)
 mark [to] sell:
 	user.game_trade_mark_to_sell()
