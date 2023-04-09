@@ -7,3 +7,4 @@ or to a more abstract video game category (user.first_person_game_controls tag).
 
 mod.tag("first_person_game_controls")
 mod.tag("game_action_rpg")
+mod.tag("game_genre_crpg")
