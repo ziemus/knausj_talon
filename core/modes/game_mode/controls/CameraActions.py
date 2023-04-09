@@ -1,4 +1,4 @@
-from talon import Module, actions
+from talon import Module, actions, Context
 
 game_camera_module = Module()
 
@@ -43,7 +43,17 @@ setting_turn_vertically_delta = game_camera_module.setting(
         but it will be enough to play""")
 
 game_camera_module.tag("game_camera_controls")
-
+game_camera_module.list("game_camera_direction")
+ctx = Context()
+ctx.matches = """mode: user.game"""
+ctx.lists["user.game_camera_direction"] = {
+    "left": "left",
+    "right": "right",
+    "up": "up",
+    "down": "down",
+    "let": "left",
+    "rye": "right",
+}
 
 def _mouse_move(dx: int, dy: int):
     import platform
@@ -96,3 +106,42 @@ class CameraActions:
     def game_camera_third_person():
         """Change camera to third person perspective. Defaults to calling actions.user.game_camera_first_person()"""
         actions.user.game_camera_first_person()
+
+
+game_camera_module.tag("game_camera_zoom")
+
+
+# to do: setting for adjusting zoom amount
+@game_camera_module.action_class
+class CameraZoomActions:
+
+    def game_camera_zoom_level_switch():
+        """Change zoom level, as in an isometric cRPG. Defaults to pressing z."""
+        actions.key("z")
+
+    def game_camera_zoom_in():
+        """Zoom in the camera. Defaults to a singular scroll up.
+        Adjust the setting: user.mouse_wheel_down_amount to adjust the zoom amount."""
+        actions.user.mouse_scroll_up()
+
+    def game_camera_zoom_out():
+        """Zoom out the camera. Defaults to a singular scroll down.
+        Adjust the setting: user.mouse_wheel_down_amount to adjust the zoom amount."""
+        actions.user.mouse_scroll_down()
+
+    def game_camera_zoom_in_continuous():
+        """Zoom in the camera continuously. Defaults to a singular scroll up.
+        Adjust the setting: user.mouse_continuous_scroll_amount to adjust the zoom amount.
+        """
+        actions.user.mouse_scroll_up_continuous()
+
+    def game_camera_zoom_out_continuous():
+        """Zoom out the camera continuously. Defaults to a singular scroll down.
+        Adjust the setting: user.mouse_continuous_scroll_amount to adjust the zoom amount.
+        """
+        actions.user.mouse_scroll_down_continuous()
+
+    def game_camera_zoom_continuous_stop():
+        """Stop continuous camera zoom. Defaults to user.mouse_scroll_stop().
+        See also the settings: user.mouse_enable_pop_stops_scroll, user.mouse_enable_hiss_stops_scroll"""
+        actions.user.mouse_scroll_stop()
