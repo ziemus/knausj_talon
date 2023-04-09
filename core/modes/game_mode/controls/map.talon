@@ -25,13 +25,13 @@ map [filter] toggle:
     user.game_map_filter_toggle()
 map [filter] toggle all:
     user.game_map_filters_toggle_all()
-[map] zoom in:
+map zoom [in]:
     user.game_map_zoom_in()
-[map] zoom out:
+map zoom out:
     user.game_map_zoom_out()
-[map] zoom inner | map closer:
+map zoom inner | map closer:
     user.game_map_zoom_in_continuous()
-[map] zoom outer | map farther:
+map zoom outer | map farther:
     user.game_map_zoom_out_continuous()
-[map] zoom (stop | done):
+map zoom (stop | done):
     user.game_map_zoom_continuous_stop()
