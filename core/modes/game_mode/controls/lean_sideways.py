@@ -70,33 +70,17 @@ class Actions:
         lean_direction = None
 
     def game_lean_left_start():
-        """Start leaning left.
-        Needs to be overwritten with the game-specific binding.
-        Doesn't do anything by default, as there is no universal binding in games
-        and this is not a mechanic all games have.
-        Return value does not matter. Returns 0 by default to stop talon from outputting errors to log."""
-        return 0
+        """Start leaning left. Defaults to holding down q."""
+        actions.key("q:down")
 
     def game_lean_left_stop():
-        """Stop leaning left.
-        Needs to be overwritten with the game-specific binding.
-        Doesn't do anything by default, as there is no universal binding in games
-        and this is not a mechanic all games have.
-        Return value does not matter. Returns 0 by default to stop talon from outputting errors to log."""
-        return 0
+        """Stop leaning left. Defaults to releasing q."""
+        actions.key("q:up")
 
     def game_lean_right_start():
-        """Start leaning right.
-        Needs to be overwritten with the game-specific binding.
-        Doesn't do anything by default, as there is no universal binding in games
-        and this is not a mechanic all games have.
-        Return value does not matter. Returns 0 by default to stop talon from outputting errors to log."""
-        return 0
+        """Start leaning right. Defaults to holding down e."""
+        actions.key("e:down")
 
     def game_lean_right_stop():
-        """Stop leaning right.
-        Needs to be overwritten with the game-specific binding.
-        Doesn't do anything by default, as there is no universal binding in games
-        and this is not a mechanic all games have.
-        Return value does not matter. Returns 0 by default to stop talon from outputting errors to log."""
-        return 0
+        """Stop leaning right. Defaults to releasing e."""
+        actions.key("e:up")
