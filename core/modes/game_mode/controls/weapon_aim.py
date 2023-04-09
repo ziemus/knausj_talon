@@ -46,3 +46,7 @@ class Actions:
         actions.user.game_press_mouse(1, False)
         actions.user.game_press_mouse(0, False)
         is_weapon_aim = False  #in case game_weapon_aim_toggle is overridden
+
+    def game_is_weapon_aim():
+        """"""
+        return is_weapon_aim
