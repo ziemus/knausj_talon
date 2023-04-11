@@ -31,10 +31,14 @@ hold use:
 
 (loot | search) (it | that):
 	user.game_loot()
+	
 take | pick [up] | gather:
     user.game_take()
-(take | pick [up] | gather) all:
+(take | [up] | gather) <digits>:
+	user.game_take_number(digits)
+(take | [up] | gather) many:
 	user.game_take_all()
+
 talk (with | to):
     user.game_talk()
 

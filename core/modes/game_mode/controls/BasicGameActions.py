@@ -33,6 +33,12 @@ class BasicGameActions:
         """Take an object. Defaults to user.game_use if not overridden."""
         actions.user.game_use()
 
+    def game_take_number(digits: int):
+        """Take a specified number of objects.
+        Defaults to calling user.game_take() the specified number of times."""
+        for i in range(digits):
+            actions.user.game_take()
+
     def game_take_all():
         """Take all selected objects. Defaults to user.game_take() if not overridden."""
         actions.user.game_take()
