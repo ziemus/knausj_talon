@@ -4,6 +4,13 @@ from ..GameModeHelper import GameModeHelper
 
 game_sprint_module = Module()
 
+setting_hold_to_walk = game_sprint_module.setting(
+    "game_sprint_hold_to_walk",
+    type=bool,
+    default=False,
+    desc=
+    """If true then the default sprint key will be held to walk instead of held to run."""
+)
 setting_default_sprint_state = game_sprint_module.setting(
     "game_sprint_state_default",
     type=bool,
@@ -55,7 +62,10 @@ class SprintActions:
         May be overridden to implement custom sprint start game mechanic.
         Tracks sprint state if not overridden."""
         global is_sprinting
-        actions.key("shift:down")
+        if setting_hold_to_walk.get():
+            actions.key("shift:up")
+        else:
+            actions.key("shift:down")
         is_sprinting = True  # in case game_switch_sprintgets overridden
         GameModeHelper.game_hud_add_sprint_icon(is_sprinting)
 
@@ -65,7 +75,10 @@ class SprintActions:
         May be overridden to implement custom sprint stop game mechanic.
         Tracks sprint state if not overidden."""
         global is_sprinting
-        actions.key("shift:up")
+        if setting_hold_to_walk.get():
+            actions.key("shift:down")
+        else:
+            actions.key("shift:up")
         is_sprinting = False  # in case game_switch_sprintgets overridden
         GameModeHelper.game_hud_add_sprint_icon(is_sprinting)
 
