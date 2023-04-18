@@ -16,7 +16,18 @@ ctx.lists["user.game_previous_keyword"] = {
     "previous", "prev", "pre", "pray", "last", "left"
 }
 ctx.lists["user.game_next_keyword"] = {"next", "ness", "nest", "net", "neck", "right"}
-
+ctx.lists["user.game_number_shortcuts"] = {
+    "one": "1",
+    "two": "2",
+    "three": "3",
+    "four": "4",
+    "five": "5",
+    "six": "6",
+    "seven": "7",
+    "eight": "8",
+    "nine": "9",
+    "zero": "0",
+}
 
 @mod.action_class
 class Actions:
