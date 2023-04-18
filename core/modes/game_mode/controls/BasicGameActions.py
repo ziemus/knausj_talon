@@ -9,6 +9,16 @@ basic_game_actions_module.tag("game_mouse_enabled")
 @basic_game_actions_module.action_class
 class BasicGameActions:
 
+    def game_attack(is_held: bool = None):
+        """Perform a primary attack. Defaults to LMB.
+        If is_held is None, defaults to a single click.
+        If is_held is True, holds down LMB.
+        If is_held is False, releases LMB."""
+        if is_held is None:
+            actions.user.game_click(0)
+        else:
+            actions.user.game_press_mouse(is_held)
+
     def game_crouch():
         """Duck or crouch"""
         actions.key("c")
