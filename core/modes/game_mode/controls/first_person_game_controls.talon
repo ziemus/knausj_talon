@@ -58,6 +58,9 @@ stealth kill | put out | eliminate:
 [weapon] reload | red:
     key(r)
 
+# basic user interface
+map show:
+	user.game_map_show()
 (inventory | equipment | bag) [show]:
     user.game_inventory_show()
 (character sheet | car sheet) [show]:
