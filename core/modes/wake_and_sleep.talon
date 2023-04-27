@@ -16,7 +16,7 @@ mode: all
 ^mouse off drowse$:
     user.mouse_sleep()
     speech.disable()
-^drowse [<phrase>]$: speech.disable()
+^drowse [<phrase>]$:        speech.disable()
 ^(way key | wakey | wakeup | wake up | talon wake)$:
     speech.enable()
     user.hud_enable()

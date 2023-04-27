@@ -1,6 +1,6 @@
 import os
 
-from talon import Module, actions, app, clip, cron, ctrl, imgui, noise, ui
+from talon import Context, Module, actions, app, clip, cron, ctrl, imgui, ui, noise
 from talon_plugins import eye_zoom_mouse
 
 key = actions.key
@@ -40,6 +40,8 @@ hidden_cursor = os.path.join(os.path.dirname(os.path.realpath(__file__)),
                              r"Resources\HiddenCursor.cur")
 
 mod = Module()
+ctx = Context()
+
 mod.list("mouse_button", desc="List of mouse button words to mouse_click index parameter")
 mod.tag("mouse_cursor_commands_enable",
         desc="Tag enables hide/show mouse cursor commands")
@@ -47,7 +49,14 @@ setting_mouse_enable_pop_click = mod.setting(
     "mouse_enable_pop_click",
     type=int,
     default=0,
-    desc="Enable pop to click when control mouse is enabled.",
+    desc=
+    "Pop noise clicks left mouse button. 0 = off, 1 = on with eyetracker but not with zoom mouse mode, 2 = on but not with zoom mouse mode",
+)
+setting_mouse_hiss = mod.setting(
+    "mouse_enable_hiss",
+    type=bool,
+    default=False,
+    desc="enable default hiss behavior, false by default",
 )
 setting_mouse_hiss = mod.setting(
     "mouse_enable_hiss",
@@ -277,16 +286,24 @@ def show_cursor_helper(show):
         ctrl.cursor_visible(show)
 
 
-def on_pop(active):
+@ctx.action("user.noise_trigger_pop")
+def on_pop():
     if setting_mouse_enable_pop_stops_scroll.get() >= 1 and (gaze_job or scroll_job):
+        # Allow pop to stop scroll
         stop_scroll()
-    elif not actions.tracking.control_zoom_enabled():
-        if setting_mouse_enable_pop_click.get() >= 1:
+    else:
+        # Otherwise respect the mouse_enable_pop_click setting
+        setting_val = setting_mouse_enable_pop_click.get()
+
+        is_using_eye_tracker = (actions.tracking.control_zoom_enabled() or
+                                actions.tracking.control_enabled() or
+                                actions.tracking.control1_enabled())
+        should_click = (setting_val == 2 and not actions.tracking.control_zoom_enabled()
+                       ) or (setting_val == 1 and is_using_eye_tracker and
+                             not actions.tracking.control_zoom_enabled())
+        if should_click:
             hold = setting_mouse_hold.get()
             ctrl.mouse_click(button=0, hold=hold)
-
-
-noise.register("pop", on_pop)
 
 
 def on_hiss(active):
