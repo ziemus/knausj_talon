@@ -34,9 +34,9 @@ hold use:
 	
 take | pick [up] | gather:
     user.game_take()
-(take | [up] | gather) <digits>:
-	user.game_take_number(digits)
-(take | [up] | gather) many:
+take <number>:
+	user.game_take_number(number)
+take many:
 	user.game_take_all()
 
 talk (with | to):
@@ -53,7 +53,7 @@ stealth kill | put out | eliminate:
 	user.game_stealth_choke()
 
 [fast] [equip | switch] {user.game_number_shortcuts}:
-	key(game_number_shortcuts)
+	user.game_number_shortcut(game_number_shortcuts)
 	
 [weapon] reload | red:
     key(r)

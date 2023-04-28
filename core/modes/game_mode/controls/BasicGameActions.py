@@ -172,6 +172,10 @@ class BasicGameActions:
         """Show or hide glossary/bestiary/index/notebook"""
         actions.key("n")
 
+    def game_number_shortcut(game_number_shortcuts: str):
+        """Fast equip or fast use with shortcuts, usually number keys but will handle any keys by default."""
+        actions.key(game_number_shortcuts)
+
     def game_click(button: int = 0, times: int = 1, hold: int = None):
         """Clicks specified number of times.
         Waits betwen each click for the time period of hold.
