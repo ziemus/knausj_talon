@@ -92,7 +92,7 @@ class GameModeHelper:
 
     def is_game_mode():
         modes = scope.get("mode")
-        return "user.game" in modes and "sleep" not in modes
+        return "user.game" in modes
 
     def is_current_game_active_and_game_mode():
         return GameModeHelper.is_game_active_and_game_mode(GameModeHelper._current_game)
