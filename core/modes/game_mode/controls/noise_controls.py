@@ -23,9 +23,11 @@ noise_action_names = {
     "long click": "long click",
     "righty": "right click",
     "right click": "right click",
+    "right long click": "right long click",
     "tar": "target lock toggle",
     "target lock toggle": "target lock toggle",
     "attack": "attack",
+    "block toggle": "block toggle",
     "long attack": "long attack",
     "off": "off",
     "default": "default",
@@ -53,12 +55,16 @@ action_name_to_action = {
         lambda _: actions.user.game_click(0, 2),
     "right click":
         lambda _: actions.user.game_click(1),
+    "right long click":
+        lambda is_active: actions.user.game_press_mouse(button=1, down=is_active),
     "target lock toggle":
         lambda _: actions.user.game_weapon_target_lock_toggle(),
     "attack":
         lambda _: actions.user.game_attack(),
     "long attack":
         lambda is_active: actions.user.game_attack(is_active),
+    "block toggle":
+        lambda _: actions.user.game_weapon_block_toggle()
 }
 
 hotswappable_binding: dict[str, str] = {"pop": "default", "hiss": "default"}
@@ -153,6 +159,7 @@ def _execute_noise_binding(noise, is_active):
         "long click",
         "jump",
         "long attack",
+        "right long click",
     ] or (action_name == "move" and noise == "hiss")
 
     if does_action_require_input:
