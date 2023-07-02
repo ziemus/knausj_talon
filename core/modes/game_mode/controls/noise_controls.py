@@ -13,6 +13,7 @@ noise_action_names = {
     "jump": "jump",
     "move": "move",
     "dodge": "dodge",
+    "aim toggle": "aim toggle",
     "long dodge": "long dodge",
     "use": "use",
     "long use": "long use",
@@ -21,6 +22,8 @@ noise_action_names = {
     "duke": "double click",
     "double click": "double click",
     "long click": "long click",
+    "middle click": "middle click",
+    "mid click": "middle click",
     "righty": "right click",
     "right click": "right click",
     "right long click": "right long click",
@@ -57,6 +60,8 @@ action_name_to_action = {
         lambda _: actions.user.game_click(1),
     "right long click":
         lambda is_active: actions.user.game_press_mouse(button=1, down=is_active),
+    "middle click":
+        lambda _: actions.user.game_click(2),
     "target lock toggle":
         lambda _: actions.user.game_weapon_target_lock_toggle(),
     "attack":
@@ -64,7 +69,9 @@ action_name_to_action = {
     "long attack":
         lambda is_active: actions.user.game_attack(is_active),
     "block toggle":
-        lambda _: actions.user.game_weapon_block_toggle()
+        lambda _: actions.user.game_weapon_block_toggle(),
+    "aim toggle":
+        lambda _: actions.user.game_weapon_aim_toggle(),
 }
 
 hotswappable_binding: dict[str, str] = {"pop": "default", "hiss": "default"}
