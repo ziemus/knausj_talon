@@ -41,9 +41,9 @@ Many people have been separately developing their own game modes and game contro
 
 ## Modularity
 Most of the voice commands are provided in functional sets that can be turned on with tags in .talon files for any game. Examples include:
-* ``user.game_movement`` for [moving around](./controls/basic_movement_controls.talon),
-* ``user.game_map`` for [map management](./controls/map.talon),
-* ``user.game_weapon_aim`` for [aiming weapons](./controls/weapon_aim.talon).
+* ``user.game_movement`` for [moving around](./controls/movement/basic_movement_controls.talon),
+* ``user.game_map`` for [map management](./controls/ui/map/map.talon),
+* ``user.game_weapon_aim`` for [aiming weapons](./controls/weapon/aim/weapon_aim.talon).
 
 This way the same voice commands don't need to be declared each time for every game separately and can be reused throughout different games, which simplifies getting used to voice controls for new users.
 
@@ -51,9 +51,9 @@ Of course, not all games are made identical and need the same interface and ther
 
 ## Predefined control schemes
 Alongside functional sets of voice commands there are also a couple of genre/game type-specific control schemes. Those control schemes include sets of game mode features, settings and voice commands bundled together under a single tag and are supposed to simplify writing game-specific control schemes for a whole genre or a type of game. Examples include:
-* [first/third person perspective game](./controls/first_person_game_controls.talon),
-* [actionRPG](./controls/action_rpg_controls.talon),
-* [cRPG](./controls/crpg.talon).
+* [first/third person perspective game](./controls/control_scheme/first_person_game_controls.talon),
+* [actionRPG](./controls/control_scheme/action_rpg_controls.talon),
+* [cRPG](./controls/control_scheme/crpg.talon).
 
 ## Shorthand commands
 Many in-game actions need to be performed quickly, instead the game becomes unplayable. At least, that's the case for combat-oriented games. Saying "weapon aim start" and "weapon aim stop" each time for pressing and releasing the right mouse button is not enough. That's why most combat and more commonly used in-game interactions come with a shorthand voice command, for example:
@@ -64,7 +64,7 @@ Many in-game actions need to be performed quickly, instead the game becomes unpl
 ## Hot-swappable noise controls
 With some interactions a shorthand command is not enough because of the latency that comes from speech detection itself. If you are subscribed to Talon beta, you may use parrot integration to control your game with different mouth sounds. But since Talon provides instantaneous pop and hiss detection for free, you can just stick to those 2. The problem is - there are likely many more in-game interactions that require an instantaneous response.
 
-That is what the [hot-swappable noise binding](./controls/noise_controls.talon) is for - changing the active noise binding on the fly. You may provide a deafult binding with settings in a .talon file. If you want to change the binding mid-game, you can say eg. ``"pop move"`` to be able to toggle character movement on/off with a pop sound and ``"hiss long click"`` in order to press LMB with a hiss (and release it when you stop hissing). When you need more movement precision, you may swap that for ``"hiss move"``, so that the character moves only when you hiss continuously.
+That is what the [hot-swappable noise binding](./controls/noise/noise_controls.talon) is for - changing the active noise binding on the fly. You may provide a deafult binding with settings in a .talon file. If you want to change the binding mid-game, you can say eg. ``"pop move"`` to be able to toggle character movement on/off with a pop sound and ``"hiss long click"`` in order to press LMB with a hiss (and release it when you stop hissing). When you need more movement precision, you may swap that for ``"hiss move"``, so that the character moves only when you hiss continuously.
 
 ## First/third person camera movement
 Camera control in first (and third) person perspective is one of the bigger difficulties to overcome with hands-free gaming. There is a set of voice commands and settings that takes care of simple camera movement. All can be activated with the ``user.game_camera_controls`` tag and are integrated into the first/third person perspective game voice control scheme under the tag: ``user.first_person_game_controls``.
@@ -72,7 +72,7 @@ Camera control in first (and third) person perspective is one of the bigger diff
 ## Automated setup and cleanup
 [Upon disabling the game mode](game_mode.py#L22), keys frequently used in video games are released so that the user doesn't have to release them manually. 
 
-Similarly, automated game setup and cleanup happens on launching, closing, focusing back in and out of the game window, see the following code for details: [game_controls_setup.py](controls/game_controls_setup.py).
+Similarly, automated game setup and cleanup happens on launching, closing, focusing back in and out of the game window, see the following code for details: [game_controls_setup.py](./game_controls_setup.py).
 
 # Difficulties when gaming by voice
 
@@ -114,7 +114,7 @@ settings():
 # no default binding for hiss
     user.game_noise_hiss_binding_default = "off"
 ```
-See [noise_controls.py](./controls/noise_controls.py) and [noise_controls.talon](./controls/noise_controls.talon) for more details, [available actions](./controls/noise_controls.py#L40) and their [names and aliases](./controls/noise_controls.py#L12) for use with the default binding settings and voice commands. Those mappings can be expanded in code if you find yourself in need of more available bindings.
+See [noise_controls.py](./controls/noise/noise_controls.py) and [noise_controls.talon](./controls/noise/noise_controls.talon) for more details, [available actions](./controls/noise/noise_controls.py#L40) and their [names and aliases](./controls/noise/noise_controls.py#L12) for use with the default binding settings and voice commands. Those mappings can be expanded in code if you find yourself in need of more available bindings.
 
 ## First/third person camera movement
 To be able to use the camera controls, set the ``user.game_camera_controls`` tag for your game and define 3 settings:
@@ -133,13 +133,13 @@ The values for the settings are game-specific and depend on mouse sensitivity. T
 
 Now you'll be able to use ``camera turn around``, ``camera turn right``, ``camera turn left``, ``camera turn up``, ``camera turn down`` to control the camera. It is encouraged to use the short forms of those commands, that is: ``round``, ``rye``, ``let``, ``up``, ``down``. You can combine the direction names with "big/little/tiny" (shorthands: "be/lee/tea") for bigger or smaller movements: ``"be rye"``, ``"big up"``, or ``"camera turn big left"``.
 
-The direction names are defined in the list: [``user.game_camera_direction``](./controls/CameraActions.py#L49) and may therefore be modified to suit individual needs.
-See [camera_controls.talon](controls/camera_controls.talon) and [CameraActions.py](controls/CameraActions.py) for details.
+The direction names are defined in the list: [``user.game_camera_direction``](./controls/camera/CameraActions.py#L49) and may therefore be modified to suit individual needs.
+See [camera_controls.talon](controls/camera/camera_controls.talon) and [CameraActions.py](controls/camera/CameraActions.py) for details.
 
 ## Character movement
-Similarly to the camera movement direction list, character movement direction names are defined in the [``user.game_directions``](./controls/BasicMovementActions.py#L15) list and can be modified with game-specific contexts. 2 contexts for WSAD/arrow keys are already provided and can be enabled in .talon files with tags: [``user.wsad_game_controls``](./controls/wsad_controls.py) or [``user.game_basic_movement_arrows``](./controls/game_basic_movement_controls_arrows.py).
+Similarly to the camera movement direction list, character movement direction names are defined in the [``user.game_directions``](./controls/movement/BasicMovementActions.py#L15) list and can be modified with game-specific contexts. 2 contexts for WSAD/arrow keys are already provided and can be enabled in .talon files with tags: [``user.wsad_game_controls``](./controls/movement/movement_keys/wsad_controls.py) or [``user.game_basic_movement_arrows``](./controls/movement/movement_keys/basic_movement_controls_arrows.py).
 
-If you want to use your own direction names with the standard voice commands for movement, be sure to enable the [``user.game_basic_movement``](./controls/BasicMovementActions.py#L15) tag in your game control scheme.
+If you want to use your own direction names with the standard voice commands for movement, be sure to enable the [``user.game_basic_movement``](./controls/movement/BasicMovementActions.py#L15) tag in your game control scheme.
 
 ## Automated setup and cleanup
 To achieve automated setup and cleanup, the user needs to provide a list of their games and their respective app.names in a file under: [games.csv](../../../settings/games.csv), like so:
@@ -156,7 +156,7 @@ The list of game keys is returned by the [``user.get_held_game_keys()``](control
 Feel free to customize everything as you like. I couldn't have provided an interface that is ideal for every game that exists because there are just so many mechanics in games that it is impossible to fit everything in here. You will need to customize keybindings for your games by overwriting actions. You will likely find a generic action in need of an additional parameter due to how your game handles trading or attack. See Gothic I & II [attack mode change](https://github.com/ziemus/talon_voice_games/blob/master/Gothic/gothic12_common.py#L77), [attack action override](https://github.com/ziemus/talon_voice_games/blob/master/Gothic/gothic12_common.py#L127) and [conditional attack on pop](https://github.com/ziemus/talon_voice_games/blob/master/Gothic/gothic12_common.py#L145), for example.
 
 ## Ready control schemes
-Predefined game control schemes made for a specific type of a game like [first/third person perspective game](./controls/first_person_game_controls.talon) and [actionRPG](./controls/action_rpg_controls.talon) already come with camera and movement controls enabled.
+Predefined game control schemes made for a specific type of a game like [first/third person perspective game](./controls/control_scheme/first_person_game_controls.talon) and [actionRPG](./controls/control_scheme/action_rpg_controls.talon) already come with camera and movement controls enabled.
 
 If you want to see what a control scheme for a specific game looks like, take a look at my other repository where I store my game voice control schemes, [talon_voice_games](https://github.com/ziemus/talon_voice_games).
 
