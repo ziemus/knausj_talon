@@ -94,9 +94,13 @@ Almost everything is included in this directory so you can just copy and paste i
 ## External modifications (required)
 
 ### mouse.py
-I modified [mouse.py](./../../../plugin/mouse/mouse.py) so that the default ``on_pop()`` uses a custom ``user.mouse_hold`` setting instead of the hardcoded value of 16000 nanoseconds. My noise controls also use that setting so if you start using just the game mode code without taking my mouse.py file then you will be getting errors/warnings about an undefined setting.
+I added 3 custom settings to [mouse.py](./../../../plugin/mouse/mouse.py): ``user.mouse_enable_hiss``, ``user.mouse_hold`` and ``user.mouse_wait`` that must be declared in order for game mode controls to work.
 
-There is also the custom ``user.mouse_enable_hiss`` setting that needs to be declared and set to false in order to use his with the hot swappable noise binding.
+``user.mouse_enable_hiss`` needs to be set to false in order to use hiss with the hot swappable noise binding, just like with ``user.pop_click``, see [How to use it? > Hot-swappable noise controls](#hot-swappable-noise-controls-1).
+
+``user.mouse_hold`` and ``user.mouse_wait`` work similarly to ``key_hold`` and ``key_wait`` but for mouse buttons and come in handy when the game engine doesn't register the hardcoded mouse hold value of 16000 nanoseconds from the default ``on_pop()`` in mouse.py (which is quite often). ``user.mouse_hold`` and ``user.mouse_wait`` settings are required for ``user.game_click()`` and similar actions.
+
+You may declare them in a different file if you'd rather not change the community-maintained ones, but ommiting their declaration will cause Talon to log warnings about undefined settings and ``user.game_click()`` will not work.
 
 ### modes.talon
 The command enabling the game mode is defined in [modes.talon](../modes.talon). Other commands were also modified so that enabling any other mode turns off the game mode.
