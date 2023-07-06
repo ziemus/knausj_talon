@@ -100,7 +100,7 @@ I added 3 custom settings to [mouse.py](./../../../plugin/mouse/mouse.py): ``use
 
 ``user.mouse_hold`` and ``user.mouse_wait`` work similarly to ``key_hold`` and ``key_wait`` but for mouse buttons and come in handy when the game engine doesn't register the hardcoded mouse hold value of 16000 nanoseconds from the default ``on_pop()`` in mouse.py (which is quite often). ``user.mouse_hold`` and ``user.mouse_wait`` settings are required for ``user.game_click()`` and similar actions.
 
-You may declare them in a different file if you'd rather not change the community-maintained ones, but ommiting their declaration will cause Talon to log warnings about undefined settings and ``user.game_click()`` will not work.
+You may declare them in a different file if you'd rather not change the community-maintained ones, but omitting their declaration will cause Talon to log warnings about undefined settings and ``user.game_click()`` will not work.
 
 ### modes.talon
 The command enabling the game mode is defined in [modes.talon](../modes.talon). Other commands were also modified so that enabling any other mode turns off the game mode.
