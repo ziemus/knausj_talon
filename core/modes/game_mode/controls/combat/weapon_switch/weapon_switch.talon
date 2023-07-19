@@ -1,4 +1,4 @@
-tag: user.game_weapons
+tag: user.game_weapon_switch
 and mode: user.game
 -
 weapon [switch] {user.game_previous_keyword} | nick:

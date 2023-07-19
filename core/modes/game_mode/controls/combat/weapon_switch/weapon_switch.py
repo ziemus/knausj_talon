@@ -1,7 +1,7 @@
 from talon import Module, actions, Context
 
 mod = Module()
-mod.tag("game_weapons")
+mod.tag("game_weapon_switch")
 ctx = Context()
 
 

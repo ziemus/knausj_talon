@@ -20,7 +20,7 @@ tag(): user.game_arrow_keys_toggle_wsad_movement
 tag(): user.game_quick_access_menu
 tag(): user.game_mount
 tag(): user.game_skills
-tag(): user.game_weapons
+tag(): user.game_weapon_switch
 tag(): user.game_tools
 tag(): user.game_weapon_aim
 

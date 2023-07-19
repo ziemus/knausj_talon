@@ -43,7 +43,7 @@ Many people have been separately developing their own game modes and game contro
 Most of the voice commands are provided in functional sets that can be turned on with tags in .talon files for any game. Examples include:
 * ``user.game_movement`` for [moving around](./controls/movement/basic_movement_controls.talon),
 * ``user.game_map`` for [map management](./controls/ui/map/map.talon),
-* ``user.game_weapon_aim`` for [aiming weapons](./controls/weapon/aim/weapon_aim.talon).
+* ``user.game_weapon_aim`` for [aiming weapons](./controls/combat/aim/weapon_aim.talon).
 
 This way the same voice commands don't need to be declared each time for every game separately and can be reused throughout different games, which simplifies getting used to voice controls for new users.
 
