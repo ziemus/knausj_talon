@@ -1,78 +1,10 @@
-from os import path
-import csv
-from talon import actions, scope, ui, resource, settings
+from talon import actions, scope, ui, settings
 from talon.ui import App
-from user.knausj_talon.core.user_settings import SETTINGS_DIR
 from .BaseGame import BaseGame
-
-DEFAULT_ICON_DIRECTORY = path.dirname(path.abspath(__file__)) + "/game_icons"
-
-
-def get_icon_path(app_name: str, icon: str):
-    if path.isfile(icon):
-        return icon
-
-    icon_ = icon + ".png"
-    if path.isfile(icon_):
-        return icon_
-
-    icon_ = DEFAULT_ICON_DIRECTORY + "/" + icon
-    if path.isfile(icon_):
-        return icon_
-
-    icon_ = DEFAULT_ICON_DIRECTORY + "/" + icon + ".png"
-    if path.isfile(icon_):
-        return icon_
-
-    icon_ = DEFAULT_ICON_DIRECTORY + "/" + app_name + ".png"
-    if path.isfile(icon_):
-        return icon_
-
-    return ""
-
-
-def get_games():
-    filename = "games.csv"
-    headers = ("AppName", "Icon")
-    path = SETTINGS_DIR / filename
-
-    if not path.is_file():
-        with open(path, "w", encoding="utf-8", newline="") as file:
-            writer = csv.writer(file)
-            writer.writerow(headers)
-
-    # Now read via resource to take advantage of talon's
-    # ability to reload this script for us when the resource changes
-    with resource.open(str(path), "r") as f:
-        rows = list(csv.reader(f))
-
-    mapping = {}
-    if len(rows) >= 2:
-        actual_headers = rows[0]
-        if not actual_headers == list(headers):
-            print(f'"{filename}": Malformed headers - {actual_headers}.' +
-                  f" Should be {list(headers)}. Ignoring row.")
-        for row in rows[1:]:
-            if len(row) == 0:
-                # Windows newlines are sometimes read as empty rows. :champagne:
-                continue
-            if len(row) == 1:
-                icon = app_name = row[0]
-            else:
-                app_name, icon = row[:2]
-                if len(row) > 2:
-                    print(f'"{filename}": More than two values in row: {row}.' +
-                          " Ignoring the extras.")
-            icon = get_icon_path(app_name, icon)
-            game = BaseGame(app_name, icon)
-            mapping[app_name] = game
-
-    return mapping
-
+from .game_library import games
 
 class GameModeHelper:
     _current_game: BaseGame = None
-    _games: dict[str:BaseGame] = get_games()
 
     def add_active_game_icon():
         if GameModeHelper.is_current_game_active():
@@ -112,12 +44,18 @@ class GameModeHelper:
     def get_game_from_library(app: App):
         game = None
         if GameModeHelper._is_game_in_library(app.name):
-            icon = GameModeHelper._games[app.name]
+            icon = games[app.name]
             game = BaseGame(app.name, icon)
         return game
+    
+    def get_current_game():
+        cg = GameModeHelper._current_game
+        isn = cg is None
+        print(f"game is none: {isn}")
+        return GameModeHelper._current_game
 
     def _is_game_in_library(app: App):
-        return app.name in GameModeHelper._games.keys()
+        return app.name in games.keys()
 
 
 def on_app_activate(_):
@@ -141,8 +79,9 @@ ui.register("app_deactivate", on_app_deactivate)
 
 
 def on_app_launch(app):
-    if app.name in GameModeHelper._games.keys():
-        GameModeHelper._current_game = GameModeHelper._games[app.name]
+    if app.name in games.keys():
+        GameModeHelper._current_game = games[app.name]
+        print(f"launched game: {GameModeHelper._current_game.get_app_name()}")
 
 
 ui.register("app_launch", on_app_launch)
