@@ -1,11 +1,11 @@
 from talon import actions, Module
+from user.knausj_talon.core.modes.game_mode.binding import BindingExecutor
 
 mod = Module()
 
 
 @mod.action_class
 class Attack:
-#weapon?
     def game_attack(is_held: bool = None):
         """Perform a primary attack. Defaults to LMB.
         If is_held is None, defaults to a single click.
@@ -21,11 +21,11 @@ class Attack:
         No binding by default, needs to be overridden if needed.
         The return value does not matter.
         Returns 0 by default to stop talon from outputting errors to log."""
-        return 0
+        BindingExecutor.execute("stealth_kill")
 
     def game_stealth_choke():
         """Perform a non-lethal elimination.
         No binding by default, needs to be overridden if needed.
         The return value does not matter.
         Returns 0 by default to stop talon from outputting errors to log."""
-        return 0
+        BindingExecutor.execute("stealth_choke")

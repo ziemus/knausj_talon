@@ -1,4 +1,5 @@
 from talon import Module, actions
+from user.knausj_talon.core.modes.game_mode.binding import BindingExecutor
 
 mod = Module()
 mod.tag("game_inventory_tabs")
@@ -14,12 +15,12 @@ class Actions:
 
     def game_inventory_tab_next():
         """Go to the next inventory tab."""
-        return 0
+        BindingExecutor.execute("inventory_tab_next")
 
     def game_inventory_tab_previous():
         """Go to the previous inventory tab."""
-        return 0
+        BindingExecutor.execute("inventory_tab_previous")
 
     def game_inventory_show():
         """Show or had inventory"""
-        actions.key("i")
+        BindingExecutor.execute("inventory_show")

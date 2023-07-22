@@ -1,4 +1,6 @@
 from talon import actions, Module, ctrl
+from user.knausj_talon.core.modes.game_mode.binding import BindingExecutor
+from user.knausj_talon.core.modes.game_mode import GameModeHelper
 
 mod = Module()
 
@@ -10,27 +12,29 @@ class MiscellaneousMovement():
         If is_hold is True, press the jump key down indefinitely
         If is_hold is False, release the jump key.
         Key defaults to space."""
+        #TODO 
+        key = GameModeHelper.get_current_game().get_binding("jump")
         if is_hold is None:
-            actions.key("space")
+            actions.key(key)
         else:
-            ctrl.key_press("space", down=is_hold, up=not is_hold)
+            ctrl.key_press(key, down=is_hold, up=not is_hold)
 
     def game_crouch():
         """Duck or crouch"""
-        actions.key("c")
+        BindingExecutor.execute("crouch")
 
     def game_dodge():
         """Dodge roll. Defaults to pressing ctrl."""
-        actions.key("ctrl")
+        BindingExecutor.execute("dodge")
 
     def game_long_dodge():
         """Long dodge roll. Defaults to pressing the ctrl key for 650 milliseconds."""
-        actions.user.press_game_key("ctrl", 1, 650000)
+        BindingExecutor.execute("long_dodge")
 
     def game_dive_start():
         """Start diving"""
-        actions.key("ctrl:down")
+        BindingExecutor.execute("dive_start")
 
     def game_dive_stop():
         """Stop diving"""
-        actions.key("ctrl:up")
+        BindingExecutor.execute("dive_stop")

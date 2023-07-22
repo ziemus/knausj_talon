@@ -1,4 +1,5 @@
 from talon import actions, Module
+from user.knausj_talon.core.modes.game_mode.binding import BindingExecutor
 
 mod = Module()
 mod.tag("game_mount")
@@ -10,12 +11,13 @@ class Actions:
     def game_mount():
         """Begin mounted ride.
         Defaults to user.game_use if not overridden"""
-        actions.user.game_use()
+        BindingExecutor.execute_or_substitute("mount", "use")
 
     def game_dismount():
         """Get off your high horse.
         Defaults to user.game_mount if not overridden."""
-        actions.user.game_mount()
+        #TODO chaining more than 2
+        BindingExecutor.execute_or_substitute("dismount", "mount")
 
     def game_mount_ride_faster():
         """Defaults to user.game_switch_sprint(True) if not overridden."""

@@ -1,4 +1,5 @@
 from talon import Module, actions, Context
+from user.knausj_talon.core.modes.game_mode.binding import BindingExecutor
 
 game_camera_module = Module()
 
@@ -117,31 +118,36 @@ class CameraZoomActions:
 
     def game_camera_zoom_level_switch():
         """Change zoom level, as in an isometric cRPG. Defaults to pressing z."""
-        actions.key("z")
+        BindingExecutor.execute("camera_zoom_level_switch")
 
     def game_camera_zoom_in():
         """Zoom in the camera. Defaults to a singular scroll up.
         Adjust the setting: user.mouse_wheel_down_amount to adjust the zoom amount."""
+        #TODO 
         actions.user.mouse_scroll_up()
 
     def game_camera_zoom_out():
         """Zoom out the camera. Defaults to a singular scroll down.
         Adjust the setting: user.mouse_wheel_down_amount to adjust the zoom amount."""
+        #TODO 
         actions.user.mouse_scroll_down()
 
     def game_camera_zoom_in_continuous():
         """Zoom in the camera continuously. Defaults to a singular scroll up.
         Adjust the setting: user.mouse_continuous_scroll_amount to adjust the zoom amount.
         """
+        #TODO 
         actions.user.mouse_scroll_up_continuous()
 
     def game_camera_zoom_out_continuous():
         """Zoom out the camera continuously. Defaults to a singular scroll down.
         Adjust the setting: user.mouse_continuous_scroll_amount to adjust the zoom amount.
         """
+        #TODO 
         actions.user.mouse_scroll_down_continuous()
 
     def game_camera_zoom_continuous_stop():
         """Stop continuous camera zoom. Defaults to user.mouse_scroll_stop().
         See also the settings: user.mouse_enable_pop_stops_scroll, user.mouse_enable_hiss_stops_scroll"""
+        #TODO 
         actions.user.mouse_scroll_stop()

@@ -1,3 +1,50 @@
 {
-    "use": "e"
+    "use": "e",
+    "hold_use": "e:down",
+    "release_use": "e:up",
+
+    "interactable_objects_highlight_start": "tab",
+
+    "inventory_show": "i",
+
+    "map_show": "m",
+    "map_marker_place": "RMB",
+    "map_center": "g",
+    "map_level_up": "pageup",
+    "map_level_down": "pagedown",
+    "map_filters_show": "tab",
+    
+    "manual_save": "f9",
+    "quick_save": "f5",
+    
+    "menu": "escape",
+    "character_sheet_show": "c",
+    "crafting_menu_show_and": "o",
+    "quest_log_show": "j",
+    "bestiary_show": "n",
+    
+    "quick_access_menu_show": "tab:down",
+    "quick_access_menu_hide": "tab:up",
+    
+    "skill_tree_show": "k",
+
+    "lean_left_start": "q:down",
+    "lean_left_stop": "q:up",
+    "lean_right_start": "e:down",
+    "lean_right_stop": "e:up",
+
+    "jump": "space",
+    "crouch": "c",
+    "dodge": "ctrl",
+    "long_dodge": {
+        "key" : "ctrl",
+        "times": 1,
+        "hold": 650000
+    },
+    "dive_start": "ctrl:down",
+    "dive_stop": "ctrl:up",
+
+    "weapon_draw": "h",
+
+    "camera_zoom_level_switch": "z"
 }

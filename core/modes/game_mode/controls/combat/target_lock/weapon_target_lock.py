@@ -1,4 +1,5 @@
 from talon import Module, Context, actions, ctrl
+from user.knausj_talon.core.modes.game_mode.binding import BindingExecutor
 
 is_weapon_target_lock: bool = False
 mod = Module()
@@ -34,12 +35,12 @@ class Actions:
         """Start target locking.
         Doesn't default to any key, needs overwriting to suit a specific game control scheme.
         The returned value does not matter, it is only there to stop talon from outputting errors to log."""
-        return 0
+        BindingExecutor.execute("target_lock_start")
 
     def game_weapon_target_lock_stop():
         """Stops target locking (releases RMB).
         Defaults to calling game_weapon_target_lock_start()."""
-        actions.user.game_weapon_target_lock_start()
+        BindingExecutor.execute_or_substitute("target_lock_stop", "target_lock_start")
 
     def game_is_weapon_target_lock():
         """"""

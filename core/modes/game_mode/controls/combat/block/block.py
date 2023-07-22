@@ -1,4 +1,5 @@
 from talon import Module, Context, actions, ctrl
+from user.knausj_talon.core.modes.game_mode.binding import BindingExecutor
 
 is_weapon_block: bool = False
 mod = Module()
@@ -37,7 +38,7 @@ class Actions:
         Doesn't do anything by default, as there is no universal blocking binding in games
         and this is not a mechanic all games have.
         Return value does not matter. Returns 0 by default to stop talon from outputting errors to log."""
-        return 0
+        BindingExecutor.execute("block_start")
 
     def game_weapon_block_stop():
         """Stops blocking. Doesn't track blocking state.
@@ -45,7 +46,7 @@ class Actions:
         Doesn't do anything by default, as there is no universal blocking binding in games
         and this is not a mechanic all games have.
         Return value does not matter. Returns 0 by default to stop talon from outputting errors to log."""
-        return 0
+        BindingExecutor.execute("block_stop")
 
     def game_weapon_block_state_set(is_block: bool):
         """Used to track the state of blocking.

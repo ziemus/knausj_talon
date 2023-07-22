@@ -1,4 +1,5 @@
 from talon import actions, Module
+from user.knausj_talon.core.modes.game_mode.binding import BindingExecutor
 
 mod = Module()
 
@@ -7,32 +8,32 @@ mod = Module()
 class Menus:
     def game_manual_save():
         """"""
-        return
+        BindingExecutor.execute("manual_save")
 
     def game_quick_save():
         """"""
-        actions.key("f5")
+        BindingExecutor.execute("quick_save")
 
     def game_quick_load():
         """Load quick save. Left blank to be overridden if needed."""
-        return
+        BindingExecutor.execute("quick_load")
 
     def game_menu():
         """"""
-        actions.key("escape")
+        BindingExecutor.execute("menu")
 
     def game_character_sheet_show():
         """Show character sheet"""
-        actions.key("c")
+        BindingExecutor.execute("character_sheet_show")
 
     def game_crafting_menu_show():
         """Show or hide crafting menu"""
-        actions.key("o")
+        BindingExecutor.execute("crafting_menu_show")
 
     def game_quest_log_show():
         """Show or hide quest log or journal"""
-        actions.key("j")
+        BindingExecutor.execute("quest_log_show")
 
     def game_bestiary_show():
         """Show or hide glossary/bestiary/index/notebook"""
-        actions.key("n")
+        BindingExecutor.execute("bestiary_show")
