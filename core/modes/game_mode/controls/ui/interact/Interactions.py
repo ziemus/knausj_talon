@@ -1,6 +1,5 @@
 from talon import actions, Module
-
-from user.knausj_talon.core.modes.game_mode.binding import BindingExecutor
+from user.knausj_talon.core.modes.game_mode.binding.BindingExecutor import BindingExecutor
 
 mod = Module()
 
@@ -20,6 +19,7 @@ class Interactions:
 
     def game_take_all():
         """Take all selected objects. Defaults to user.game_take() if not overridden."""
+        #TODO chain more than 2
         BindingExecutor.execute_or_substitute("take_all", "take")
    
     def game_loot():
@@ -49,8 +49,7 @@ class Interactions:
 
     def game_long_use():
         """Hold use/interact key (e by default) for approximately half a second"""
-        #TODO
-        actions.user.game_hold_key_native("e", 650000)
+        BindingExecutor.execute("long_use")
 
     def game_hold_use():
         """hold use/interact key indefinitely (e by default)"""

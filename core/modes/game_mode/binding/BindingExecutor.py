@@ -41,16 +41,15 @@ class BindingExecutor:
                 actions.user.release_game_key(key)
         else:
             actions.key(f"{key}:{times}")
-        
 
     def __execute_inputs(binding, action):
-        inputs = BindingExecutor.__parse(binding[action])
+        inputs = binding[action]
         is_series = isinstance(inputs, list)
         if is_series:
             for input in inputs:
                 BindingExecutor.__execute_input(input)
             return
-        BindingExecutor.__execute_input(input)
+        BindingExecutor.__execute_input(inputs)
         
     def execute(action: str):
         keybinding = GameModeHelper.get_current_game().get_binding()
@@ -59,10 +58,7 @@ class BindingExecutor:
         elif action not in default_keybinding.keys():
             app.notify("Undefined binding", f"for action: {action}")
             return
-        
         BindingExecutor.__execute_inputs(keybinding, action)
-
-        
         
     def execute_or_substitute(primary_action: str, secondary_action: str):
         custom = GameModeHelper.get_current_game().get_binding()
@@ -77,5 +73,4 @@ class BindingExecutor:
             BindingExecutor.__execute_inputs(default, secondary_action)
         else:
             app.notify("Undefined binding", f"action: {primary_action} with substitute action: {secondary_action}")
-
         

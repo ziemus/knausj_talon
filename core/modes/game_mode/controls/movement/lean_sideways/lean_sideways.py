@@ -1,5 +1,5 @@
 from talon import Module, Context, actions, ctrl
-from user.knausj_talon.core.modes.game_mode.binding import BindingExecutor
+from user.knausj_talon.core.modes.game_mode.binding.BindingExecutor import BindingExecutor
 
 lean_direction = None
 mod = Module()

@@ -1,5 +1,9 @@
 {
     "use": "e",
+    "long_use": {
+        "key":"e",
+        "duration": 650000
+    },
     "hold_use": "e:down",
     "release_use": "e:up",
 

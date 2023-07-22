@@ -1,5 +1,5 @@
 from talon import Module, actions, Context
-from user.knausj_talon.core.modes.game_mode.binding import BindingExecutor
+from user.knausj_talon.core.modes.game_mode.binding.BindingExecutor import BindingExecutor
 
 mod = Module()
 mod.tag("game_weapon_switch")

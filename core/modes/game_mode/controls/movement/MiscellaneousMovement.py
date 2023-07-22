@@ -1,5 +1,5 @@
 from talon import actions, Module, ctrl
-from user.knausj_talon.core.modes.game_mode.binding import BindingExecutor
+from user.knausj_talon.core.modes.game_mode.binding.BindingExecutor import BindingExecutor
 from user.knausj_talon.core.modes.game_mode import GameModeHelper
 
 mod = Module()

@@ -1,5 +1,5 @@
 from talon import actions, Module
-from user.knausj_talon.core.modes.game_mode.binding import BindingExecutor
+from user.knausj_talon.core.modes.game_mode.binding.BindingExecutor import BindingExecutor
 
 mod = Module()
 mod.tag("game_mount")
