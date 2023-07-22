@@ -8,7 +8,9 @@
     "inventory_show": "i",
 
     "map_show": "m",
-    "map_marker_place": "RMB",
+    "map_marker_place": {
+        "mouse": 1
+    },
     "map_center": "g",
     "map_level_up": "pageup",
     "map_level_down": "pagedown",
@@ -38,7 +40,6 @@
     "dodge": "ctrl",
     "long_dodge": {
         "key" : "ctrl",
-        "times": 1,
         "hold": 650000
     },
     "dive_start": "ctrl:down",
