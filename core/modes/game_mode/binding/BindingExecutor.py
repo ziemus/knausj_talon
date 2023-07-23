@@ -74,13 +74,14 @@ class BindingExecutor:
             actions.mouse_scroll(y=wheel_amount)
             return 
         # assumed keyboard input
-        if is_duration:
-            actions.user.press_game_key(key, times, duration)
-        elif is_held_released:
+        
+        if is_held_released:
             if is_hold_down:
                 actions.user.game_hold_key_native(key)
             else:
                 actions.user.release_game_key(key)
+        elif is_duration:
+            actions.user.press_game_key(key, times, duration)
         else:
             actions.key(f"{key}:{times}")
 
