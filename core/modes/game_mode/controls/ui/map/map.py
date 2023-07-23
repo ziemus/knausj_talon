@@ -59,31 +59,29 @@ class Actions:
     def game_map_zoom_in():
         """Zoom in the map. Defaults to a singular scroll up.
         Adjust the setting: user.mouse_wheel_down_amount to adjust the zoom amount."""
-        #TODO 
-        actions.user.mouse_scroll_up()
+        BindingExecutor.execute("map_zoom_in")
 
     def game_map_zoom_out():
         """Zoom out the map. Defaults to a singular scroll down.
         Adjust the setting: user.mouse_wheel_down_amount to adjust the zoom amount."""
-        #TODO 
-        actions.user.mouse_scroll_down()
+        BindingExecutor.execute("map_zoom_out")
 
     def game_map_zoom_in_continuous():
         """Zoom in the map continuously. Defaults to a singular scroll up.
         Adjust the setting: user.mouse_continuous_scroll_amount to adjust the zoom amount.
         """
-        #TODO 
+        #TODO BindingExecutor.execute("map_zoom_in_continuous")
         actions.user.mouse_scroll_up_continuous()
 
     def game_map_zoom_out_continuous():
         """Zoom out the map continuously. Defaults to a singular scroll down.
         Adjust the setting: user.mouse_continuous_scroll_amount to adjust the zoom amount.
         """
-        #TODO 
+        #TODO BindingExecutor.execute("map_zoom_out_continuous")
         actions.user.mouse_scroll_down_continuous()
 
     def game_map_zoom_continuous_stop():
         """Stop continuous map zoom. Defaults to user.mouse_scroll_stop().
         See also the settings: user.mouse_enable_pop_stops_scroll, user.mouse_enable_hiss_stops_scroll"""
-        #TODO 
+        #TODO BindingExecutor.execute("map_zoom_continuous_stop")
         actions.user.mouse_scroll_stop()

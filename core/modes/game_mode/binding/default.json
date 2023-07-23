@@ -6,50 +6,133 @@
     },
     "hold_use": "e:down",
     "release_use": "e:up",
-
-    "interactable_objects_highlight_start": "tab",
-
-    "inventory_show": "i",
-
-    "map_show": "m",
-    "map_marker_place": {
-        "mouse": 1
-    },
-    "map_center": "g",
-    "map_level_up": "pageup",
-    "map_level_down": "pagedown",
-    "map_filters_show": "tab",
-    
-    "manual_save": "f9",
-    "quick_save": "f5",
-    
-    "menu": "escape",
-    "character_sheet_show": "c",
-    "crafting_menu_show_and": "o",
-    "quest_log_show": "j",
-    "bestiary_show": "n",
-    
-    "quick_access_menu_show": "tab:down",
-    "quick_access_menu_hide": "tab:up",
-    
-    "skill_tree_show": "k",
-
     "lean_left_start": "q:down",
     "lean_left_stop": "q:up",
     "lean_right_start": "e:down",
     "lean_right_stop": "e:up",
-
     "jump": "space",
     "crouch": "c",
     "dodge": "ctrl",
     "long_dodge": {
         "key" : "ctrl",
-        "hold": 650000
+        "duration": 650000
     },
     "dive_start": "ctrl:down",
     "dive_stop": "ctrl:up",
 
-    "weapon_draw": "h",
+    
+    "interactable_objects_highlight_start": "tab",
 
-    "camera_zoom_level_switch": "z"
+
+    "manual_save": "f9",
+    "quick_save": "f5",
+    "menu": "escape",
+
+
+    "inventory_show": "i",
+    "character_sheet_show": "c",
+    "crafting_menu_show_and": "o",
+    "quest_log_show": "j",
+    "bestiary_show": "n",
+    "skill_tree_show": "k",
+    
+    
+    "quick_access_menu_show": "tab:down",
+    "quick_access_menu_hide": "tab:up",
+    
+
+    "weapon_aim_start": {
+        "mouse_button": 1,
+        "hold_down": true
+    },
+    "weapon_aim_stop": [
+        {
+            "mouse_button": 1,
+            "hold_down": false
+        },
+        {
+            "mouse_button": 0,
+            "hold_down": false
+        }
+    ],
+    "weapon_draw": "h",
+    "weapon_switch_previous": {
+        "wheel_direction": "up",
+        "wheel_amount": {
+            "setting": "user.game_item_ability_switch_scroll_amount"
+        }
+    },
+    "weapon_switch_next": {
+        "wheel_direction": "down",
+        "wheel_amount": {
+            "setting": "user.game_item_ability_switch_scroll_amount"
+        }
+    },
+    
+
+    "tool_switch_previous": {
+        "wheel_direction": "up",
+        "wheel_amount": {
+            "setting": "user.game_item_ability_switch_scroll_amount"
+        }
+    },
+    "tool_switch_next": {
+        "wheel_direction": "down",
+        "wheel_amount": {
+            "setting": "user.game_item_ability_switch_scroll_amount"
+        }
+    },
+
+
+    "skill_switch_previous": {
+        "wheel_direction": "up",
+        "wheel_amount": {
+            "setting": "user.game_item_ability_switch_scroll_amount"
+        }
+    },
+    "skill_switch_next": {
+        "wheel_direction": "down",
+        "wheel_amount": {
+            "setting": "user.game_item_ability_switch_scroll_amount"
+        }
+    },
+
+
+    "camera_zoom_level_switch": "z",
+    "camera_zoom_in": {
+        "wheel_direction": "up",
+        "wheel_amount": {
+            "setting": "user.mouse_wheel_down_amount"
+        }
+    },
+    "camera_zoom_out": {
+        "wheel_direction": "down",
+        "wheel_amount": {
+            "setting": "user.mouse_wheel_down_amount"
+        }
+    },
+
+
+    "map_show": "m",
+    "map_marker_place": {
+        "mouse_button": 1
+    },
+    "map_center": "g",
+    "map_level_up": "pageup",
+    "map_level_down": "pagedown",
+    "map_filters_show": "tab",
+    "map_zoom_in": {
+        "wheel_direction": "up",
+        "wheel_amount": {
+            "setting": "user.mouse_wheel_down_amount"
+        }
+    },
+    "map_zoom_out": {
+        "wheel_direction": "down",
+        "wheel_amount": {
+            "setting": "user.mouse_wheel_down_amount"
+        }
+    }
+    
+    
 }

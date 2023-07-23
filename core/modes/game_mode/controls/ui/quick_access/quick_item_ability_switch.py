@@ -1,4 +1,5 @@
 from talon import Module, actions, Context
+from user.knausj_talon.core.modes.game_mode.binding.BindingExecutor import BindingExecutor
 
 mod = Module()
 mod.list("game_number_shortcuts")
@@ -34,38 +35,38 @@ class Actions:
 
     def game_weapon_switch_previous():
         """Switch selected weapon. Defaults to scrolling up by user.game_item_switch_scroll_amount"""
-        actions.mouse_scroll(y=-scroll_amount.get())
+        BindingExecutor.execute("weapon_switch_previous")
 
     def game_weapon_switch_next():
         """Switch selected weapon. Defaults to scrolling down by user.game_item_switch_scroll_amount"""
-        actions.mouse_scroll(y=scroll_amount.get())
+        BindingExecutor.execute("weapon_switch_next")
 
     def game_tool_switch_previous():
         """Switch selected tool or trap, like in a souls-like game.
         Defaults to scrolling up by user.game_item_switch_scroll_amount"""
-        actions.mouse_scroll(y=-scroll_amount.get())
+        BindingExecutor.execute("tool_switch_previous")
 
     def game_tool_switch_next():
         """Switch selected tool or trap, like in a souls-like game.
         Defaults to scrolling down by user.game_item_switch_scroll_amount"""
-        actions.mouse_scroll(y=scroll_amount.get())
+        BindingExecutor.execute("tool_switch_next")
 
     def game_skill_switch_previous():
         """Switch selected skill.
         Defaults to scrolling up by user.game_item_switch_scroll_amount"""
-        actions.mouse_scroll(y=-scroll_amount.get())
+        BindingExecutor.execute("skill_switch_previous")
 
     def game_skill_switch_next():
         """Switch selected skill.
         Defaults to scrolling down by user.game_item_switch_scroll_amount"""
-        actions.mouse_scroll(y=scroll_amount.get())
+        BindingExecutor.execute("skill_switch_next")
 
     def game_spell_switch_previous():
         """Switch selected spell. Defaults to calling actions.user.game_skill_use().
         Defined as a separate action for games that differentiate between skill and spell controls."""
-        actions.user.game_skill_switch_previous()
+        BindingExecutor.execute_or_substitute("spell_switch_previous", "skill_switch_previous")
 
     def game_spell_switch_next():
         """Switch selected spell. Defaults to calling actions.user.game_skill_use().
         Defined as a separate action for games that differentiate between skill and spell controls."""
-        actions.user.game_skill_switch_next()
+        BindingExecutor.execute_or_substitute("spell_switch_next", "skill_switch_next")
