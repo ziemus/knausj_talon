@@ -37,7 +37,6 @@ class Actions:
         It defaults to pressing down the right mouse button.
         Tracks aiming state."""
         global is_weapon_aim
-        #actions.user.game_press_mouse(1, True)
         BindingExecutor.execute("weapon_aim_start")
         is_weapon_aim = True  #in case game_weapon_aim_toggle is overridden
 
@@ -45,8 +44,6 @@ class Actions:
         """Stops aiming (releases RMB). Releases firing button (LMB).
         Tracks aiming state."""
         global is_weapon_aim
-        #actions.user.game_press_mouse(1, False)
-        #actions.user.game_press_mouse(0, False)
         BindingExecutor.execute("weapon_aim_stop")
         is_weapon_aim = False  #in case game_weapon_aim_toggle is overridden
 

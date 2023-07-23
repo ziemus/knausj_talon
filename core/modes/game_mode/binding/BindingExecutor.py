@@ -32,9 +32,11 @@ class BindingExecutor:
 
     def __get_input_value(input, value_id):
         value = input.get(value_id)
-        setting = value.get("setting")
-        value = value if setting is None else settings.get(setting)
-        return value
+        try:
+            setting = value.get("setting")
+            return settings.get(setting)
+        except AttributeError:
+            return value
 
     def __execute_input(input):
         is_simple = isinstance(input, str)
