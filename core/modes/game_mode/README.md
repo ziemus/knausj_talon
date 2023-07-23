@@ -10,6 +10,7 @@
     1. [Hot-swappable noise controls](#hot-swappable-noise-controls)
     1. [First/third person camera movement](#firstthird-person-camera-movement)
     1. [Automated setup and cleanup](#automated-setup-and-cleanup)
+    1. [Bindings in .json files](#bindings-in-json-files)
 1. [Difficulties when gaming by voice](#difficulties-when-gaming-by-voice)
     1. [Latency vs. difficulty](#latency-vs-difficulty)
     1. [Camera movement](#camera-movement)
@@ -21,6 +22,13 @@
     1. [First/third person camera movement](#firstthird-person-camera-movement-1)
     1. [Character movement](#character-movement)
     1. [Automated setup and cleanup](#automated-setup-and-cleanup-1)
+    1. [Bindings in .json files](#bindings-in-json-files-1)
+        1. [A simple example](#a-simple-example)
+        1. [Types of supported inputs](#types-of-supported-inputs)
+            1. [Singular inputs](#singular-inputs)
+            1. [A sequence of inputs](#a-sequence-of-inputs)
+        1. [Input modifiers](#input-modifiers)
+        1. [Using talon settings](#using-talon-settings)
     1. [Customization](#customization)
     1. [Ready control schemes](#ready-control-schemes)
 
@@ -73,6 +81,9 @@ Camera control in first (and third) person perspective is one of the bigger diff
 [Upon disabling the game mode](game_mode.py#L22), keys frequently used in video games are released so that the user doesn't have to release them manually. 
 
 Similarly, automated game setup and cleanup happens on launching, closing, focusing back in and out of the game window, see the following code for details: [game_controls_setup.py](./game_controls_setup.py).
+
+## Bindings in .json files
+Instead of writing code to simply change keybindings for a game you may provide bindings in a user friendly manner with a .json file. They may be changed on the fly. They support keyboard, mouse and wheel inputs, as well as sequences of various inputs. A default binding is also provided.
 
 # Difficulties when gaming by voice
 
@@ -148,13 +159,149 @@ If you want to use your own direction names with the standard voice commands for
 ## Automated setup and cleanup
 To achieve automated setup and cleanup, the user needs to provide a list of their games and their respective app.names in a file under: [games.csv](../../../settings/games.csv), like so:
 ```
-AppName,Icon
-Talos,
-Darkest.exe,Darkest Dungeon
+AppName,Icon,BindingJsonPath
+Talos,,
+Darkest.exe,Darkest Dungeon,
 ```
 An icon to be displayed on the status bar can be provided when using [chaosparrot's Talon HUD](https://github.com/chaosparrot/talon_hud). The icons need to be stored under [``game_icons``](./game_icons) in png format. If the user doesn't provide an icon name explicitly, the name assumed by default is: ``{AppName}.PNG``, eg., ``Talos.PNG`` or ``Darkest.exe.PNG``. Using icons is fully optional.
 
 The list of game keys is returned by the [``user.get_held_game_keys()``](controls/BasicGameActions.py#L227) action. Like any action, it can be overridden to suit your game. If a certain game requires additional cleanup or setup, you may override the [``user.custom_game_cleanup()``](controls/BasicGameActions.py#L240) and [``user.custom_game_setup()``](controls/BasicGameActions.py#L236) actions.
+
+## Bindings in .json files
+To provide a json binding file for a specific game, you **must** first add the game to the [game list file](../../../settings/games.csv) **alongside the path to its binding file** in the ```BindingJsonPath``` column. You may leave it blank and use only the default bindings.
+
+**If you provide a game specific binding, it will take precedence over the default bindings. The default bindings will still be active** even if you provide a game-specific binding so that you **do not have to** copy-paste the defaults into every game-specific binding.
+
+You may see the default binding here: [default.json](./binding/default.json#L2).
+
+Both the game list file and all bindings file can be modified on the fly.
+
+### A simple example
+To modify a binding, see what input identifier an action uses, for example: [game_use()](./controls/ui/interact/Interactions.py#L46) calls [```BindingExecutor.execute()```](./binding/BindingExecutor.py#L96) with the ```action``` parameter set to ```"use"``` which means ```BindingExecutor.execute()``` will look for the ```"use"``` field in the active binding, which by default is:
+```
+{
+    "use": "e",
+    ...
+}
+```
+The default input of ```"use"``` is set to a single press of the "E" key and simply calls ```actions.key("e")```.
+
+If you want to play, let's say, Superliminal, you'd rather have ```game_use``` action execute a left mouse button click. First add that game to your game list file alongside the path to the game-specific binding:
+```
+AppName,Icon,BindingJsonPath
+Superliminal,,/path/to/superliminal_binding.json
+```
+Then provide this binding in your `superliminal_binding.json` file and save it:
+```
+{
+    "use": {
+        "mouse_button": "LMB"
+    }
+}
+```
+If everything is configured correctly, after launching (or switching back to) Superliminal, ```BindingExecutor.execute("use")``` call will look for the ```"use"``` binding provided in ```superliminal_binding.json```.
+
+If you make a typo in the input identifier name and wright "user", instead of "use", ```BindingExecutor.execute()``` will still try to find "use" in the game-specific binding and after not finding it, it will try to find it in the default binding. If you ever use a binding that is not provided in any .json file, though, a notification will be displayed.
+
+### Types of supported inputs
+#### Singular inputs
+If you want to use mouse buttons, mouse wheel or non-standard key inputs you must do so using json syntax. Every singular input should specify if it uses a mouse button, mouse wheel or keys, using input identifies like below:
+```
+{
+    "mouse_button_input": {
+        "mouse_button": 0
+    },
+    "mouse_wheel_input": {
+        "mouse_wheel_amount": 150
+        "mouse_wheel_direction": "up"
+    },
+    "key_input": {
+        "key": "ctrl"
+    },
+    "standard_talon_key_input": "ctrl-a a:down s:3 tab escape"
+}
+```
+In case of `mouse_button`, variations of `"LMB"`/`"rmb"`/`"lEFt"`/`"mid"` and so on are understood (as case-insensitive) and automatically translated to actual mouse button identifiers in code. You may also provide actual numbers (`0` for LMB, `1` for RMB, `2` for MMB...), if you prefer to.
+
+In case of `mouse_wheel_direction` you may specify either `"up"`/`"down"` or `-1`/`1`.
+
+In the case of mouse wheel you may only specify `mouse_wheel_amount` as the direction is by default set to down.
+
+If you specify multiple input types in a singular input, eg.:
+```
+{
+    "example_mismatched_identifiers": {
+        "key": "e",
+        "mouse_button": 1
+    }
+}
+```
+it will not result in an error. But in that case, mouse buttons will take precedence before mouse wheel, and mouse wheel will take precedence before keys. If you want to specify a sequence of inputs, see below.
+#### A sequence of inputs
+You can declare a series of inputs as a list. Those inputs will be executed consecutively:
+```
+{
+    
+    "series_of_inputs": [
+        "a:down",
+        {
+            "mouse_button": 0
+        },
+        {
+            "key": "a:up"
+        }
+    ]
+}
+```
+### Input modifiers
+You may use 3 input modifiers with non-standard key input and mouse buttons: `hold_down`, `duration`, `times`.
+
+`hold_down` specifies if the mouse button or key should be pressed down indefinitely or released, eg. ```hold_down: true``` will hold down a mouse key and ```hold_down: false``` will release it. It takes precedence over the `duration` and `times` modifiers so if you specify `hold_down` end either (or both) `duration`/`times` only `hold_down` will take effect.
+Example:
+```
+{
+    "example_hold_down_e": {
+        "key": "e",
+        "hold_down": true
+    },
+    "example_release_rmb": {
+        "mouse_button": 2,
+        "hold_down": false
+    }
+}
+```
+
+`duration` specifies the number of nanoseconds that a key/mouse button will be pressed down for, eg. ```duration: 10000``` sets this time to 10000 nanoseconds,
+```
+{
+    "example_long_press_e": {
+        "key": "e",
+        "duration": 10000
+    }
+}
+```
+
+`times` specifies the amount of times the key or the mouse button should be pressed down. Defaults to 1 if not specified. Eg. combining `times` and `duration` for clicking twice each time for 10000 nanoseconds:
+```
+{
+    "example_double_click": {
+        "mouse_button": 0,
+        "times": 2,
+        "duration": 10000
+    }
+}
+```
+### Using Talon settings
+Every input identifier and modifier can specify a setting instead of an explicit value. In that case the value of the setting will be used as the input value. This comes in handy when specifying mouse wheel amounts, eg.
+```
+{
+    "input_with_a_setting": {
+        "mouse_wheel_amount": {
+            "setting": "user.mouse_wheel_down_amount"
+        }
+    }
+}
+```
 
 ## Customization
 Feel free to customize everything as you like. I couldn't have provided an interface that is ideal for every game that exists because there are just so many mechanics in games that it is impossible to fit everything in here. You will need to customize keybindings for your games by overwriting actions. You will likely find a generic action in need of an additional parameter due to how your game handles trading or attack. See Gothic I & II [attack mode change](https://github.com/ziemus/talon_voice_games/blob/master/Gothic/gothic12_common.py#L77), [attack action override](https://github.com/ziemus/talon_voice_games/blob/master/Gothic/gothic12_common.py#L127) and [conditional attack on pop](https://github.com/ziemus/talon_voice_games/blob/master/Gothic/gothic12_common.py#L145), for example.
