@@ -11,6 +11,8 @@
     "lean_right_start": "e:down",
     "lean_right_stop": "e:up",
     "jump": "space",
+    "sprint_start": "shift:down",
+    "sprint_stop": "shift:up",
     "crouch": "c",
     "dodge": "ctrl",
     "long_dodge": {
