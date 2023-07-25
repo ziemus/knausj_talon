@@ -51,6 +51,15 @@ class GameModeHelper:
     def get_current_game():
         return GameModeHelper._current_game
     
+    def get_binding(action_name: str = None):
+        return GameModeHelper._current_game.get_binding(action_name)
+    
+    def is_binding(action_name: str):
+        return not GameModeHelper._current_game.get_binding(action_name) is None
+    
+    def is_no_binding(action_name: str):
+        return GameModeHelper._current_game.get_binding(action_name) is None
+    
     def _set_current_game(game: BaseGame):
         GameModeHelper._current_game = game
 
@@ -91,7 +100,7 @@ def update_current_game(name, flags):
     after changing its binding path in the game library file.
     Without updating the current game after changing the library there's a chance
     GameModeHelper._current_game would still be set to a BaseGame without a binding."""
-    cg = GameModeHelper.get_current_game()
+    cg = GameModeHelper._current_game
     if cg is None:
         return
     app_name = cg.get_app_name()

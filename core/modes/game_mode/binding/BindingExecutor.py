@@ -95,7 +95,7 @@ class BindingExecutor:
         BindingExecutor.__execute_input(inputs)
         
     def execute(action: str):
-        keybinding = GameModeHelper.get_current_game().get_binding()
+        keybinding = GameModeHelper.get_binding()
         if action not in keybinding.keys():
             keybinding = default_keybinding.get_binding()
         elif action not in default_keybinding.keys():
@@ -104,7 +104,7 @@ class BindingExecutor:
         BindingExecutor.__execute_inputs(keybinding, action)
         
     def execute_or_substitute(primary_action: str, secondary_action: str):
-        custom = GameModeHelper.get_current_game().get_binding()
+        custom = GameModeHelper.get_binding()
         default = default_keybinding.get_binding()
         if primary_action in custom.keys():
             BindingExecutor.__execute_inputs(custom, primary_action)
