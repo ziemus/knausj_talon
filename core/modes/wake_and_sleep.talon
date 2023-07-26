@@ -14,7 +14,7 @@ mode: all
     speech.disable()
     user.engine_sleep()
 ^mouse off drowse$:
-    user.mouse_sleep()
+    tracking.control_toggle(false)
     speech.disable()
 ^drowse [<phrase>]$:        speech.disable()
 ^(way key | wakey | wakeup | wake up | talon wake)$:
@@ -22,5 +22,5 @@ mode: all
     user.hud_enable()
 ^wake mouse$:
     speech.enable()
-    tracking.control_toggle(1)
+    tracking.control_toggle(true)
     user.hud_enable()
