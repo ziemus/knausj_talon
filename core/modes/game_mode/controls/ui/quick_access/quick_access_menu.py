@@ -1,4 +1,5 @@
 from talon import actions, Module
+from user.knausj_talon.core.modes.game_mode.binding.BindingExecutor import BindingExecutor
 
 mod = Module()
 mod.tag("game_quick_access_menu")
@@ -35,12 +36,12 @@ class Actions:
         """Toggles the quick access menu on. Defaults to pressing down the tab key.
         Tracks the state of the quick access menu (displayed/not displayed)."""
         global is_quick_access_menu_shown
-        actions.key("tab:down")
+        BindingExecutor.execute("quick_access_menu_show")
         is_quick_access_menu_shown = True
 
     def game_quick_access_menu_hide():
         """Toggles the quick access menu off. Defaults to releasing the tab key.
         Tracks the state of the quick access menu (displayed/not displayed)."""
         global is_quick_access_menu_shown
-        actions.key("tab:up")
+        BindingExecutor.execute("quick_access_menu_hide")
         is_quick_access_menu_shown = False

@@ -1,4 +1,5 @@
 from talon import actions, Module
+from user.knausj_talon.core.modes.game_mode.binding.BindingExecutor import BindingExecutor
 
 mod = Module()
 
@@ -8,7 +9,7 @@ class Interactions:
 
     def game_take():
         """Take an object. Defaults to user.game_use if not overridden."""
-        actions.user.game_use()
+        BindingExecutor.execute_or_substitute("take", "use")
 
     def game_take_number(digits: int):
         """Take a specified number of objects.
@@ -18,38 +19,42 @@ class Interactions:
 
     def game_take_all():
         """Take all selected objects. Defaults to user.game_take() if not overridden."""
-        actions.user.game_take()
+        #TODO chain more than 2
+        BindingExecutor.execute_or_substitute("take_all", "take")
    
     def game_loot():
         """Loot an object. Defaults to user.game_use if not overridden."""
-        actions.user.game_use()
+        BindingExecutor.execute_or_substitute("loot", "use")
 
     def game_talk():
         """Talk to an NPC.
         Defaults to user.game_use if not overridden."""
-        actions.user.game_use()    
+        BindingExecutor.execute_or_substitute("talk", "use")
 
     def game_interactable_objects_highlight_start():
         """Highlight interactable objects, defaults to pressing tab."""
-        actions.key("tab")
+        BindingExecutor.execute("interactable_objects_highlight_start")
 
     def game_interactable_objects_highlight_stop():
         """Stop highlighting interactable objects.
         Defaults to calling actions.user.game_interactable_objects_highlight_start()."""
-        actions.user.game_interactable_objects_highlight_start()
+        BindingExecutor.execute_or_substitute(
+            "interactable_objects_highlight_stop",
+            "interactable_objects_highlight_start"
+        )
 
     def game_use():
         """Basic use/interact with an object (e by default)"""
-        actions.key("e")
+        BindingExecutor.execute("use")
 
     def game_long_use():
         """Hold use/interact key (e by default) for approximately half a second"""
-        actions.user.game_hold_key_native("e", 650000)
+        BindingExecutor.execute("long_use")
 
     def game_hold_use():
         """hold use/interact key indefinitely (e by default)"""
-        actions.key("e:down")
+        BindingExecutor.execute("hold_use")
 
     def game_release_use():
         """release use/interact key (e by default)"""
-        actions.key("e:up")
+        BindingExecutor.execute("release_use")

@@ -1,4 +1,5 @@
 from talon import Module
+from user.knausj_talon.core.modes.game_mode.binding.BindingExecutor import BindingExecutor
 
 mod = Module()
 
@@ -11,4 +12,4 @@ class Crafting:
         Not every game has crafting mechanics
         so this action is only there to be overridden if needed
         without having to declare a new voice command"""
-        return
+        BindingExecutor.execute("craft")

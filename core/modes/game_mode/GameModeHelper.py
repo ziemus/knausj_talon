@@ -1,78 +1,10 @@
-from os import path
-import csv
-from talon import actions, scope, ui, resource, settings
+from talon import actions, scope, ui, fs, settings
 from talon.ui import App
-from user.knausj_talon.core.user_settings import SETTINGS_DIR
 from .BaseGame import BaseGame
-
-DEFAULT_ICON_DIRECTORY = path.dirname(path.abspath(__file__)) + "/game_icons"
-
-
-def get_icon_path(app_name: str, icon: str):
-    if path.isfile(icon):
-        return icon
-
-    icon_ = icon + ".png"
-    if path.isfile(icon_):
-        return icon_
-
-    icon_ = DEFAULT_ICON_DIRECTORY + "/" + icon
-    if path.isfile(icon_):
-        return icon_
-
-    icon_ = DEFAULT_ICON_DIRECTORY + "/" + icon + ".png"
-    if path.isfile(icon_):
-        return icon_
-
-    icon_ = DEFAULT_ICON_DIRECTORY + "/" + app_name + ".png"
-    if path.isfile(icon_):
-        return icon_
-
-    return ""
-
-
-def get_games():
-    filename = "games.csv"
-    headers = ("AppName", "Icon")
-    path = SETTINGS_DIR / filename
-
-    if not path.is_file():
-        with open(path, "w", encoding="utf-8", newline="") as file:
-            writer = csv.writer(file)
-            writer.writerow(headers)
-
-    # Now read via resource to take advantage of talon's
-    # ability to reload this script for us when the resource changes
-    with resource.open(str(path), "r") as f:
-        rows = list(csv.reader(f))
-
-    mapping = {}
-    if len(rows) >= 2:
-        actual_headers = rows[0]
-        if not actual_headers == list(headers):
-            print(f'"{filename}": Malformed headers - {actual_headers}.' +
-                  f" Should be {list(headers)}. Ignoring row.")
-        for row in rows[1:]:
-            if len(row) == 0:
-                # Windows newlines are sometimes read as empty rows. :champagne:
-                continue
-            if len(row) == 1:
-                icon = app_name = row[0]
-            else:
-                app_name, icon = row[:2]
-                if len(row) > 2:
-                    print(f'"{filename}": More than two values in row: {row}.' +
-                          " Ignoring the extras.")
-            icon = get_icon_path(app_name, icon)
-            game = BaseGame(app_name, icon)
-            mapping[app_name] = game
-
-    return mapping
-
+from .game_library import games, game_library_path
 
 class GameModeHelper:
     _current_game: BaseGame = None
-    _games: dict[str:BaseGame] = get_games()
 
     def add_active_game_icon():
         if GameModeHelper.is_current_game_active():
@@ -112,15 +44,41 @@ class GameModeHelper:
     def get_game_from_library(app: App):
         game = None
         if GameModeHelper._is_game_in_library(app.name):
-            icon = GameModeHelper._games[app.name]
+            icon = games[app.name]
             game = BaseGame(app.name, icon)
         return game
+    
+    def get_current_game():
+        return GameModeHelper._current_game
+    
+    def get_binding(action_name: str = None):
+        return GameModeHelper._current_game.get_binding(action_name)
+    
+    def is_binding(action_name: str):
+        return not GameModeHelper._current_game.get_binding(action_name) is None
+    
+    def is_no_binding(action_name: str):
+        return GameModeHelper._current_game.get_binding(action_name) is None
+    
+    def _set_current_game(game: BaseGame):
+        GameModeHelper._current_game = game
 
     def _is_game_in_library(app: App):
-        return app.name in GameModeHelper._games.keys()
+        return app.name in games.keys()
+
+
+def track_current_game(app_name: str):
+    if app_name in games.keys():
+        cg_updated = games[app_name]
+        GameModeHelper._set_current_game(cg_updated)
+
+
+def on_app_launch(app):
+    track_current_game(app.name)
 
 
 def on_app_activate(_):
+    on_app_launch(_)
     if GameModeHelper.is_current_game_active_and_game_mode():
         is_sprinting = settings.get("user.game_sprint_state_default")
         GameModeHelper.game_hud_add_sprint_icon(is_sprinting)
@@ -136,13 +94,20 @@ def on_app_deactivate(deactivated_app):
         GameModeHelper.game_hud_remove_icons()
 
 
-ui.register("app_activate", on_app_activate)
-ui.register("app_deactivate", on_app_deactivate)
-
-
-def on_app_launch(app):
-    if app.name in GameModeHelper._games.keys():
-        GameModeHelper._current_game = GameModeHelper._games[app.name]
+def update_current_game(name, flags):
+    """Update current game on game library change.
+    Needed to effectively update the active binding on GameModeHelper._current_game
+    after changing its binding path in the game library file.
+    Without updating the current game after changing the library there's a chance
+    GameModeHelper._current_game would still be set to a BaseGame without a binding."""
+    cg = GameModeHelper._current_game
+    if cg is None:
+        return
+    app_name = cg.get_app_name()
+    track_current_game(app_name)
 
 
 ui.register("app_launch", on_app_launch)
+ui.register("app_activate", on_app_activate)
+ui.register("app_deactivate", on_app_deactivate)
+fs.watch(game_library_path, update_current_game)

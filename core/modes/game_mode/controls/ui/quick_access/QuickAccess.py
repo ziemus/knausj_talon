@@ -1,4 +1,5 @@
 from talon import actions, Module
+from user.knausj_talon.core.modes.game_mode.binding.BindingExecutor import BindingExecutor
 
 mod = Module()
 
@@ -17,7 +18,7 @@ class QuickAccess:
         without having to declare a new voice command.
         The return value does not matter.
         Returns 0 by default to stop talon from outputting errors to log."""
-        return 0
+        BindingExecutor.execute("heal")
 
     def game_potion_drink():
         """Shortcut for potion drinking.
@@ -26,4 +27,4 @@ class QuickAccess:
         without having to declare a new voice command.
         The return value does not matter.
         Returns 0 by default to stop talon from outputting errors to log."""
-        return 0
+        BindingExecutor.execute("potion_drink")

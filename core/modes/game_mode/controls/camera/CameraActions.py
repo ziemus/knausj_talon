@@ -1,4 +1,5 @@
 from talon import Module, actions, Context
+from user.knausj_talon.core.modes.game_mode.binding.BindingExecutor import BindingExecutor
 
 game_camera_module = Module()
 
@@ -101,11 +102,11 @@ class CameraActions:
 
     def game_camera_first_person():
         """Change camera to first person perspective. No action performed by default. Needs to be overridden."""
-        return
+        BindingExecutor.execute("camera_first_person")
 
     def game_camera_third_person():
         """Change camera to third person perspective. Defaults to calling actions.user.game_camera_first_person()"""
-        actions.user.game_camera_first_person()
+        BindingExecutor.execute_or_substitute("camera_third_person", "camera_first_person")
 
 
 game_camera_module.tag("game_camera_zoom")
@@ -117,31 +118,34 @@ class CameraZoomActions:
 
     def game_camera_zoom_level_switch():
         """Change zoom level, as in an isometric cRPG. Defaults to pressing z."""
-        actions.key("z")
+        BindingExecutor.execute("camera_zoom_level_switch")
 
     def game_camera_zoom_in():
         """Zoom in the camera. Defaults to a singular scroll up.
         Adjust the setting: user.mouse_wheel_down_amount to adjust the zoom amount."""
-        actions.user.mouse_scroll_up()
+        BindingExecutor.execute("camera_zoom_in")
 
     def game_camera_zoom_out():
         """Zoom out the camera. Defaults to a singular scroll down.
         Adjust the setting: user.mouse_wheel_down_amount to adjust the zoom amount."""
-        actions.user.mouse_scroll_down()
+        BindingExecutor.execute("camera_zoom_out")
 
     def game_camera_zoom_in_continuous():
         """Zoom in the camera continuously. Defaults to a singular scroll up.
         Adjust the setting: user.mouse_continuous_scroll_amount to adjust the zoom amount.
         """
+        #TODO BindingExecutor.execute("camera_zoom_in_continuous")
         actions.user.mouse_scroll_up_continuous()
 
     def game_camera_zoom_out_continuous():
         """Zoom out the camera continuously. Defaults to a singular scroll down.
         Adjust the setting: user.mouse_continuous_scroll_amount to adjust the zoom amount.
         """
+        #TODO BindingExecutor.execute("camera_zoom_out_continuous")
         actions.user.mouse_scroll_down_continuous()
 
     def game_camera_zoom_continuous_stop():
         """Stop continuous camera zoom. Defaults to user.mouse_scroll_stop().
         See also the settings: user.mouse_enable_pop_stops_scroll, user.mouse_enable_hiss_stops_scroll"""
+        #TODO BindingExecutor.execute("camera_zoom_continuous_stop")
         actions.user.mouse_scroll_stop()

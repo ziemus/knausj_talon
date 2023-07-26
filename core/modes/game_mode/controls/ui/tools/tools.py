@@ -1,4 +1,5 @@
 from talon import Module, actions, Context
+from user.knausj_talon.core.modes.game_mode.binding.BindingExecutor import BindingExecutor
 
 mod = Module()
 mod.tag("game_tools")
@@ -13,4 +14,4 @@ class Actions:
     def game_tool_use():
         """Use selected tool or trap, like in a souls-like game.
         As not every game has this mechanic, it's left blank to be overridden if needed."""
-        return
+        BindingExecutor.execute("tool_use")

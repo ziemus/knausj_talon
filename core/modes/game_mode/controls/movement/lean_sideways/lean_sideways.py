@@ -1,4 +1,5 @@
 from talon import Module, Context, actions, ctrl
+from user.knausj_talon.core.modes.game_mode.binding.BindingExecutor import BindingExecutor
 
 lean_direction = None
 mod = Module()
@@ -71,16 +72,16 @@ class Actions:
 
     def game_lean_left_start():
         """Start leaning left. Defaults to holding down q."""
-        actions.key("q:down")
+        BindingExecutor.execute("lean_left_start")
 
     def game_lean_left_stop():
         """Stop leaning left. Defaults to releasing q."""
-        actions.key("q:up")
+        BindingExecutor.execute("lean_left_stop")
 
     def game_lean_right_start():
         """Start leaning right. Defaults to holding down e."""
-        actions.key("e:down")
+        BindingExecutor.execute("lean_right_start")
 
     def game_lean_right_stop():
         """Stop leaning right. Defaults to releasing e."""
-        actions.key("e:up")
+        BindingExecutor.execute("lean_right_stop")
