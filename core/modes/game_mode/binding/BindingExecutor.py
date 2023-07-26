@@ -98,7 +98,7 @@ class BindingExecutor:
         keybinding = GameModeHelper.get_binding()
         if action not in keybinding.keys():
             keybinding = default_keybinding.get_binding()
-        elif action not in default_keybinding.keys():
+        if action not in keybinding.keys():
             app.notify("Undefined binding", f"for action: {action}")
             return
         BindingExecutor.__execute_inputs(keybinding, action)
