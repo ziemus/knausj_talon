@@ -21,7 +21,7 @@ alphabet_list = get_list_from_csv("alphabet.csv", ("Letter", "Spoken Form"),
 
 # used for number keys & function keys respectively
 digits = "zero one two three four five six seven eight nine".split()
-f_digits = "one two three four five six seven eight nine ten eleven twelve".split()
+f_digits = "one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty".split()
 
 mod = Module()
 mod.list("letter", desc="The spoken phonetic alphabet")
