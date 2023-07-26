@@ -157,7 +157,7 @@ Similarly to the camera movement direction list, character movement direction na
 If you want to use your own direction names with the standard voice commands for movement, be sure to enable the [``user.game_basic_movement``](./controls/movement/BasicMovementActions.py#L15) tag in your game control scheme.
 
 ## Automated setup and cleanup
-To achieve automated setup and cleanup, the user needs to provide a list of their games and their respective app.names in a file under: [games.csv](../../../settings/games.csv), like so:
+To achieve automated setup and cleanup, the user needs to provide a list of their games and their respective app.names in a file under: [game_library/games.csv](game_library/games.csv), like so:
 ```
 AppName,Icon,BindingJsonPath
 Talos,,
@@ -168,7 +168,7 @@ An icon to be displayed on the status bar can be provided when using [chaosparro
 The list of game keys is returned by the [``user.get_held_game_keys()``](controls/BasicGameActions.py#L227) action. Like any action, it can be overridden to suit your game. If a certain game requires additional cleanup or setup, you may override the [``user.custom_game_cleanup()``](controls/BasicGameActions.py#L240) and [``user.custom_game_setup()``](controls/BasicGameActions.py#L236) actions.
 
 ## Bindings in .json files
-To provide a json binding file for a specific game, you **must** first add the game to the [game list file](../../../settings/games.csv) **alongside the path to its binding file** in the ```BindingJsonPath``` column. You may leave it blank and use only the default bindings.
+To provide a json binding file for a specific game, you **must** first add the game to the game list file [game_library/games.csv](game_library/games.csv) **alongside the path to its binding file** in the ```BindingJsonPath``` column. You may leave it blank and use only the default bindings.
 
 **If you provide a game specific binding, it will take precedence over the default bindings. The default bindings will still be active** even if you provide a game-specific binding so that you **do not have to** copy-paste the defaults into every game-specific binding.
 
