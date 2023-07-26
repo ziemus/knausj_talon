@@ -299,7 +299,7 @@ def on_pop():
                                 actions.tracking.control_enabled() or
                                 actions.tracking.control1_enabled())
         should_click = (setting_val == 2 and not actions.tracking.control_zoom_enabled()
-                       ) or (setting_val == 1 and is_using_eye_tracker and
+                       ) or (setting_val == 1 and
                              not actions.tracking.control_zoom_enabled())
         if should_click:
             hold = setting_mouse_hold.get()
