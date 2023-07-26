@@ -5,6 +5,6 @@ and not mode: sleep
 target lock [toggle] | tar:
 	user.game_weapon_target_lock_toggle()
 target lock start | tar start:
-    user.game_weapon_target_lock_toggle(1)
+    user.game_weapon_target_lock_toggle(true)
 target lock done | tar done:
-	user.game_weapon_target_lock_toggle(0)
+	user.game_weapon_target_lock_toggle(false)
