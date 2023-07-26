@@ -4,9 +4,9 @@ and mode: user.game
 (sprint | print) [toggle]:
     user.game_switch_sprint()
 (sprint | print) start:
-    user.game_switch_sprint(1)
+    user.game_switch_sprint(true)
 (sprint | print) done:
-    user.game_switch_sprint(0)
+    user.game_switch_sprint(false)
 run [toggle]:
     user.game_start_running()
 walk [toggle]:

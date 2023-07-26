@@ -6,9 +6,9 @@ touch | click:
 righty:
 	user.game_click(1)
 curse stay:
-    user.mouse_stay_in_place(1)
+    user.mouse_stay_in_place(true)
 curse come:
-    user.mouse_stay_in_place(0)
+    user.mouse_stay_in_place(false)
 (scroll | wheel) up:
     user.mouse_scroll_up()
 (scroll | wheel) down:

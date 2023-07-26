@@ -5,6 +5,6 @@ and not mode: sleep
 (wheel | quick access) [menu] [toggle]:
 	user.game_quick_access_menu_toggle()
 (wheel | quick access) [menu] show:
-	user.game_quick_access_menu_toggle(1)
+	user.game_quick_access_menu_toggle(true)
 (wheel | quick access) [menu] (hide | done):
-	user.game_quick_access_menu_toggle(0)
+	user.game_quick_access_menu_toggle(false)

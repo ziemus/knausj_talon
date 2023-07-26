@@ -5,6 +5,6 @@ and not mode: sleep
 aim [toggle]:
 	user.game_weapon_aim_toggle()
 aim start:
-    user.game_weapon_aim_toggle(1)
+    user.game_weapon_aim_toggle(true)
 aim done:
-	user.game_weapon_aim_toggle(0)
+	user.game_weapon_aim_toggle(false)
