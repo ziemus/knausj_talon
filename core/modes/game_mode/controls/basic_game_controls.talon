@@ -17,6 +17,3 @@ and not mode: sleep
     key(`)
 ^control mouse$:
     tracking.control_toggle()
-
-use:
-	user.game_use()

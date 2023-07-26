@@ -78,7 +78,6 @@ fs.watch(GameLibrary._GAME_LIBRARY_PATH, GameLibrary.get_games)
 def _track_current_game(app_name: str):
     if app_name in GameLibrary._games.keys():
         GameLibrary._current_game = GameLibrary._games[app_name]
-        print(app_name)
 
 
 def track_current_game(app):
