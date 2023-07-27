@@ -1,6 +1,6 @@
 from talon import actions, Module, ctrl
 from user.knausj_talon.core.modes.game_mode.binding.BindingExecutor import BindingExecutor
-from user.knausj_talon.core.modes.game_mode import GameModeHelper
+from user.knausj_talon.core.modes.game_mode.GameModeHelper import GameModeHelper
 
 mod = Module()
 
@@ -12,8 +12,7 @@ class MiscellaneousMovement():
         If is_hold is True, press the jump key down indefinitely
         If is_hold is False, release the jump key.
         Key defaults to space."""
-        #TODO 
-        key = GameModeHelper.get_current_game().get_binding("jump")
+        key = GameModeHelper.get_binding("jump")
         if is_hold is None:
             actions.key(key)
         else:
