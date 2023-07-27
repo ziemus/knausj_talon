@@ -1,6 +1,6 @@
 from threading import Lock
-from user.knausj_talon.core.modes.game_mode.GameModeHelper import GameModeHelper
-from talon import Module, Context, actions, noise, settings
+from ...GameModeHelper import GameModeHelper
+from talon import Module, Context, actions, noise, settings, cron
 
 mod = Module()
 mod.list("game_noises")
@@ -93,6 +93,18 @@ setting_hiss_default = mod.setting(
 
 default_noise_settings = {"pop": setting_pop_default, "hiss": setting_hiss_default}
 
+setting_minimum_hiss_duration = mod.setting(
+    "game_minimum_hiss_duration",
+    type=str,
+    default="180ms",
+    desc="""Minimum hiss noise duration.
+    Stops sibilant speech from triggering hiss callback in games.
+    Needs to be provided with a time unit, as for talon.cron.after() call.
+    Defaults to 180ms.
+    """
+)
+
+hiss_job = None
 
 @mod.action_class
 class GameNoiseActions:
@@ -189,16 +201,29 @@ def on_pop(_):
             actions.user.game_after_on_pop()
 
 
+def on_hiss_start():
+    _execute_noise_binding("hiss", True)
+
+def on_hiss_stop():
+	_execute_noise_binding("hiss", False)
+
 def on_hiss(is_active):
-    global lock_binding
+    global lock_binding, hiss_job
 
     if not GameModeHelper.is_game_mode():
         return
 
     with lock_binding:
         is_execute_binding, is_execute_after = actions.user.game_before_on_hiss()
+
         if not settings.get("user.mouse_enable_hiss") and is_execute_binding:
-            _execute_noise_binding("hiss", is_active)
+            if is_active:
+                delay = setting_minimum_hiss_duration.get()
+                hiss_job = cron.after(delay, on_hiss_start)
+            else:
+                cron.cancel(hiss_job)
+                on_hiss_stop()
+
         if is_execute_after:
             actions.user.game_after_on_hiss()
 
