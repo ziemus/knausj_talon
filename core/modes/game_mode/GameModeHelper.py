@@ -2,6 +2,7 @@ from talon import actions, scope, ui
 from talon.ui import App
 from .BaseGame import BaseGame
 from .game_library.game_library import GameLibrary
+from .binding.ActiveBinding import ActiveBinding
 
 class GameModeHelper:
 
@@ -51,13 +52,13 @@ class GameModeHelper:
         return GameLibrary._current_game
     
     def get_binding(action_name: str = None):
-        return GameLibrary._current_game.get_binding(action_name)
-    
-    def is_binding(action_name: str):
-        return not GameLibrary._current_game.get_binding(action_name) is None
+        return ActiveBinding.get(action_name)
     
     def is_no_binding(action_name: str):
-        return GameLibrary._current_game.get_binding(action_name) is None
+        return ActiveBinding.is_no_binding(action_name)
+
+    def is_binding(action_name: str):
+        return ActiveBinding.is_binding(action_name)
 
     def _is_game_in_library(app: App):
         return app.name in GameLibrary._games.keys()

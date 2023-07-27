@@ -1,10 +1,6 @@
 from typing import Union
-from talon import actions, app, settings
-from .HotswappableKeybinding import HotswappableKeybinding
-from ..GameModeHelper import GameModeHelper
-
-default_keybinding_path = "./user/knausj_talon/core/modes/game_mode/binding/default.json"
-default_keybinding: HotswappableKeybinding = HotswappableKeybinding(default_keybinding_path)
+from talon import actions, settings
+from .ActiveBinding import ActiveBinding
 
 mouse_button_str = {
     "LEFT": 0,
@@ -85,35 +81,19 @@ class BindingExecutor:
         else:
             actions.key(f"{key}:{times}")
 
-    def __execute_inputs(binding, action):
-        inputs = binding[action]
+    def __execute_inputs(inputs):
         is_series = isinstance(inputs, list)
         if is_series:
             for input in inputs:
                 BindingExecutor.__execute_input(input)
             return
         BindingExecutor.__execute_input(inputs)
-        
+    
     def execute(action: str):
-        keybinding = GameModeHelper.get_binding()
-        if action not in keybinding.keys():
-            keybinding = default_keybinding.get_binding()
-        if action not in keybinding.keys():
-            app.notify("Undefined binding", f"for action: {action}")
-            return
-        BindingExecutor.__execute_inputs(keybinding, action)
+        inputs = ActiveBinding.get(action)
+        BindingExecutor.__execute_inputs(inputs)
         
     def execute_or_substitute(primary_action: str, secondary_action: str):
-        custom = GameModeHelper.get_binding()
-        default = default_keybinding.get_binding()
-        if primary_action in custom.keys():
-            BindingExecutor.__execute_inputs(custom, primary_action)
-        elif secondary_action in custom.keys():
-            BindingExecutor.__execute_inputs(custom, secondary_action)
-        elif primary_action in default.keys():
-            BindingExecutor.__execute_inputs(default, primary_action)
-        elif secondary_action in default.keys():
-            BindingExecutor.__execute_inputs(default, secondary_action)
-        else:
-            app.notify("Undefined binding", f"action: {primary_action} with substitute action: {secondary_action}")
+        inputs = ActiveBinding.get_alternative(primary_action, secondary_action)
+        BindingExecutor.__execute_inputs(inputs)
         
