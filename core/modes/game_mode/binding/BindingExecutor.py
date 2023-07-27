@@ -53,7 +53,7 @@ class BindingExecutor:
         times = 1 if times is None else times
 
         is_mouse_button = not mouse is None
-        is_wheel = not (wheel_direction is None and wheel_amount is None)
+        is_wheel = not wheel_amount is None
         is_duration = not duration is None
         is_held_released = not is_hold_down is None
 
