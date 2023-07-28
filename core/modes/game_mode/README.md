@@ -26,8 +26,16 @@
         1. [A simple example](#a-simple-example)
         1. [Types of supported inputs](#types-of-supported-inputs)
             1. [Singular inputs](#singular-inputs)
+                1. [`mouse_button`](#mouse_button)
+                1. [`wheel_amount`](#wheel_amount)
+                1. [`key`](#key)
+                1. [Standard Talon key input](#standard-talon-key-input)
             1. [A sequence of inputs](#a-sequence-of-inputs)
         1. [Input modifiers](#input-modifiers)
+            1. [`hold_down`](#hold_down)
+            1. [`duration`](#duration)
+            1. [`times`](#times)
+            1. [`wheel_direction`](#wheel_direction)
         1. [Using talon settings](#using-talon-settings)
     1. [Customization](#customization)
     1. [Ready control schemes](#ready-control-schemes)
@@ -227,8 +235,7 @@ If you want to use mouse buttons, mouse wheel or non-standard key inputs you mus
         "mouse_button": 0
     },
     "mouse_wheel_input": {
-        "mouse_wheel_amount": 150
-        "mouse_wheel_direction": "up"
+        "wheel_amount": 150
     },
     "key_input": {
         "key": "ctrl"
@@ -236,11 +243,6 @@ If you want to use mouse buttons, mouse wheel or non-standard key inputs you mus
     "standard_talon_key_input": "ctrl-a a:down s:3 tab escape"
 }
 ```
-In case of `mouse_button`, variations of `"LMB"`/`"rmb"`/`"lEFt"`/`"mid"` and so on are understood (as case-insensitive) and automatically translated to actual mouse button identifiers in code. You may also provide actual numbers (`0` for LMB, `1` for RMB, `2` for MMB...), if you prefer to.
-
-In case of `mouse_wheel_direction` you may specify either `"up"`/`"down"` or `-1`/`1`.
-
-In the case of mouse wheel you may only specify `mouse_wheel_amount` as the direction is by default set to down.
 
 If you specify multiple input types in a singular input, eg.:
 ```
@@ -252,6 +254,19 @@ If you specify multiple input types in a singular input, eg.:
 }
 ```
 it will not result in an error. But in that case, mouse buttons will take precedence before mouse wheel, and mouse wheel will take precedence before keys. If you want to specify a sequence of inputs, see below.
+
+##### `mouse_button`
+In the case of `mouse_button`, variations of `"LMB"`/`"rmb"`/`"lEFt"`/`"mid"` and so on are understood (as case-insensitive) and automatically translated to actual mouse button identifiers in code. You may also provide actual numbers (`0` for LMB, `1` for RMB, `2` for MMB...), if you prefer to.
+
+##### `wheel_amount`
+Specifies mouse wheel scroll amount. You may specify `wheel_amount` without a direction modifier, as the direction is by default set to down. `wheel_amount` should be set to a nonnegative value, but maybe said to a negative value to scroll up. You may also modifier to set scroll direction, see [`wheel_direction`](#wheel_direction).
+
+##### `key`
+Specifies the key to be pressed. Should be limited to a singular key. Should match the default `actions.key()` pattern. May be used with standard talon key modifiers (":down"/":up":":3"). See more: [unofficial Talon wiki](https://talon.wiki/key_action/).
+
+##### Standard Talon key input
+You may provide a standard Talon key input as a string, see: [unofficial Talon wiki](https://talon.wiki/key_action/).
+
 #### A sequence of inputs
 You can declare a series of inputs as a list. Those inputs will be executed consecutively:
 ```
@@ -268,9 +283,11 @@ You can declare a series of inputs as a list. Those inputs will be executed cons
     ]
 }
 ```
-### Input modifiers
-You may use 3 input modifiers with non-standard key input and mouse buttons: `hold_down`, `duration`, `times`.
 
+### Input modifiers
+You may use 3 input modifiers with non-standard key input and mouse buttons: `hold_down`, `duration`, `times`. 1 modifier may be used with mouse wheel: `wheel_direction`.
+
+#### `hold_down`
 `hold_down` specifies if the mouse button or key should be pressed down indefinitely or released, eg. ```hold_down: true``` will hold down a mouse key and ```hold_down: false``` will release it. It takes precedence over the `duration` and `times` modifiers so if you specify `hold_down` end either (or both) `duration`/`times` only `hold_down` will take effect.
 Example:
 ```
@@ -286,6 +303,7 @@ Example:
 }
 ```
 
+#### `duration`
 `duration` specifies the number of nanoseconds that a key/mouse button will be pressed down for, eg. ```duration: 10000``` sets this time to 10000 nanoseconds,
 ```
 {
@@ -296,6 +314,7 @@ Example:
 }
 ```
 
+#### `times`
 `times` specifies the amount of times the key or the mouse button should be pressed down. Defaults to 1 if not specified. Eg. combining `times` and `duration` for clicking twice each time for 10000 nanoseconds:
 ```
 {
@@ -306,6 +325,18 @@ Example:
     }
 }
 ```
+
+#### `wheel_direction`
+`wheel_direction` specifies the direction in which to scroll when using `wheel_amount`. You may specify either `"up"`/`"down"` or `-1`/`1`. You do not need to provide it, as a defaults to `"down"` (`1`).
+```
+{
+    "example_scroll_up": {
+        "wheel_amount": 150,
+        "wheel_direction": "up"       
+    }
+}
+```
+
 ### Using Talon settings
 Every input identifier and modifier can specify a setting instead of an explicit value. In that case the value of the setting will be used as the input value. This comes in handy when specifying mouse wheel amounts, eg.
 ```
