@@ -120,16 +120,31 @@ The command enabling the game mode is defined in [modes.talon](../modes.talon). 
 You may provide a deafult binding with 4 settings in a .talon file, like so:
 ```
 settings():
-# do not use the default pop handler - must be set to 0 in order to use the hot-swappable noise controls
+# do not use the default pop callback from mouse.py
+# must be set to 0 in order to use the hot-swappable noise controls
     user.mouse_enable_pop_click = 0
 # call actions.user.game_dodge() on pop
     user.game_noise_pop_binding_default = "dodge"
-# do not use the default hiss handler - must be set to 0 in order to use the hot-swappable noise controls - this is a custom setting from this repo
+# do not use the default hiss callback
+# must be set to 0 in order to use the hot-swappable noise controls
+# this is a custom setting from this repo
+# note: there is no default hiss callback in the community repository
     user.mouse_enable_hiss = 0
 # no default binding for hiss
     user.game_noise_hiss_binding_default = "off"
+
+# ADDITIONAL 5TH SETTING
+# eliminate hiss detection in sibilant speech
+# essentionl for Talon v0.4+ due to high hiss sensitivity
+# the default is 180 milliseconds ("180ms")
+# so this setting value doesn't need to be declared every time
+# but may be lengthened or shortened to suit personal requirements
+    user.game_minimum_hiss_duration = "200ms"
 ```
+
 See [noise_controls.py](./controls/noise/noise_controls.py) and [noise_controls.talon](./controls/noise/noise_controls.talon) for more details, [available actions](./controls/noise/noise_controls.py#L40) and their [names and aliases](./controls/noise/noise_controls.py#L12) for use with the default binding settings and voice commands. Those mappings can be expanded in code if you find yourself in need of more available bindings.
+
+Note that if you're using Talon Voice v0.4 or newer, hiss detection may seem very aggressive compared to previous versions. Therefore you will need to delay hiss detection in order not to trigger hiss callback in sibilants speech (eg. "S"-es/"Z"-s in words like "Stop", "freeZe"). **By default it is delayed by 180 milliseconds** but may be lengthened or shortened to suit personal preferences.
 
 ## First/third person camera movement
 To be able to use the camera controls, set the ``user.game_camera_controls`` tag for your game and define 3 settings:
