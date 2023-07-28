@@ -29,7 +29,7 @@ def _start_game_movement():
     global is_moving, current_game_movement_direction_key
     if current_game_movement_direction_key is None:
         current_game_movement_direction_key = setting_default_movement_direction.get()
-    actions.user.hold_game_key(current_game_movement_direction_key)
+    actions.user.game_hold_key_native(current_game_movement_direction_key)
     is_moving = True
 
 

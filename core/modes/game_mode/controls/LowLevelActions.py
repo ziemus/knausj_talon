@@ -31,14 +31,6 @@ class LowLevelActions():
             wait = 0 if i == 0 else hold
             ctrl.key_press(key, hold=hold, wait=wait)
 
-    def hold_game_key(key: str, duration: str = None):
-        """Hold key infinitely or for the specified duration"""
-        actions.key(key + ":down")
-        if duration is None:
-            return
-        actions.sleep(duration)
-        actions.user.release_game_key(key)
-
     def game_hold_key_native(key: str, duration: int = None):
         """Hold key infinitely or for the specified duration"""
         if duration is None:
