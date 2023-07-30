@@ -112,19 +112,10 @@ Credits to [u/MrDrumble on r/disabledgamers](https://np.reddit.com/r/disabledgam
 # How to use it?
 Almost everything is included in this directory so you can just copy and paste it onto your own repository to start using it. There are just 2 modification outside of this directory that need to be made.
 
-## External modifications (required)
-
-### mouse.py
-I added 3 custom settings to [mouse.py](./../../../plugin/mouse/mouse.py): ``user.mouse_enable_hiss``, ``user.mouse_hold`` and ``user.mouse_wait`` that must be declared in order for game mode controls to work.
-
-``user.mouse_enable_hiss`` needs to be set to false in order to use hiss with the hot swappable noise binding, just like with ``user.pop_click``, see [How to use it? > Hot-swappable noise controls](#hot-swappable-noise-controls-1).
-
-``user.mouse_hold`` and ``user.mouse_wait`` work similarly to ``key_hold`` and ``key_wait`` but for mouse buttons and come in handy when the game engine doesn't register the hardcoded mouse hold value of 16000 nanoseconds from the default ``on_pop()`` in mouse.py (which is quite often). ``user.mouse_hold`` and ``user.mouse_wait`` settings are required for ``user.game_click()`` and similar actions.
-
-You may declare them in a different file if you'd rather not change the community-maintained ones, but omitting their declaration will cause Talon to log warnings about undefined settings and ``user.game_click()`` will not work.
+## External modifications (not required)
 
 ### modes.talon
-The command enabling the game mode is defined in [modes.talon](../modes.talon). Other commands were also modified so that enabling any other mode turns off the game mode.
+The command for enabling game mode is defined in my main repo in [modes.talon](../modes.talon). Other commands were also modified so that enabling any other mode turns off game mode. This is useful to have, but not necessary as turning game mode on and off is automated when using a game list file. See more details under: [How to use it? > Automated setup and cleanup](#automated-setup-and-cleanup-1).
 
 ## Hot-swappable noise controls
 You may provide a deafult binding with 4 settings in a .talon file, like so:

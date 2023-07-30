@@ -1,6 +1,6 @@
 import os
 
-from talon import Context, Module, actions, app, clip, cron, ctrl, imgui, ui, noise
+from talon import Context, Module, actions, settings, app, clip, cron, ctrl, imgui, ui, noise
 from talon_plugins import eye_zoom_mouse
 
 key = actions.key
@@ -9,9 +9,6 @@ scroll_amount = 0
 click_job = None
 scroll_job = None
 gaze_job = None
-_stay_job = None
-_stay_x = 0
-_stay_y = 0
 cancel_scroll_on_pop = True
 control_mouse_forced = False
 
@@ -36,45 +33,30 @@ default_cursor = {
 }
 
 # todo figure out why notepad++ still shows the cursor sometimes.
-hidden_cursor = os.path.join(os.path.dirname(os.path.realpath(__file__)),
-                             r"Resources\HiddenCursor.cur")
+hidden_cursor = os.path.join(
+    os.path.dirname(os.path.realpath(__file__)), r"Resources\HiddenCursor.cur"
+)
 
 mod = Module()
 ctx = Context()
 
-mod.list("mouse_button", desc="List of mouse button words to mouse_click index parameter")
-mod.tag("mouse_cursor_commands_enable",
-        desc="Tag enables hide/show mouse cursor commands")
+mod.list(
+    "mouse_button", desc="List of mouse button words to mouse_click index parameter"
+)
+mod.tag(
+    "mouse_cursor_commands_enable", desc="Tag enables hide/show mouse cursor commands"
+)
 setting_mouse_enable_pop_click = mod.setting(
     "mouse_enable_pop_click",
     type=int,
     default=0,
-    desc=
-    "Pop noise clicks left mouse button. 0 = off, 1 = on with eyetracker but not with zoom mouse mode, 2 = on but not with zoom mouse mode",
-)
-setting_mouse_hiss = mod.setting(
-    "mouse_enable_hiss",
-    type=bool,
-    default=False,
-    desc="enable default hiss behavior, false by default",
-)
-setting_mouse_hiss = mod.setting(
-    "mouse_enable_hiss",
-    type=bool,
-    default=False,
-    desc="enable default hiss behavior, false by default",
+    desc="Pop noise clicks left mouse button. 0 = off, 1 = on with eyetracker but not with zoom mouse mode, 2 = on but not with zoom mouse mode",
 )
 setting_mouse_enable_pop_stops_scroll = mod.setting(
     "mouse_enable_pop_stops_scroll",
     type=int,
     default=0,
     desc="When enabled, pop stops continuous scroll modes (wheel upper/downer/gaze)",
-)
-setting_mouse_enable_hiss_stops_scroll = mod.setting(
-    "mouse_enable_hiss_stops_scroll",
-    type=int,
-    default=0,
-    desc="When enabled, hiss stops continuous scroll modes (wheel upper/downer/gaze)",
 )
 setting_mouse_wake_hides_cursor = mod.setting(
     "mouse_wake_hides_cursor",
@@ -106,18 +88,7 @@ setting_mouse_wheel_horizontal_amount = mod.setting(
     default=40,
     desc="The amount to scroll left/right",
 )
-setting_mouse_hold = mod.setting(
-    "mouse_hold",
-    type=int,
-    default=16000,
-    desc="nanoseconds to wait between mouse button press and release",
-)
-setting_mouse_wait = mod.setting(
-    "mouse_wait",
-    type=int,
-    default=0,
-    desc="nanoseconds to wait between consecutive mouse button release and press",
-)
+
 continuous_scoll_mode = ""
 
 
@@ -131,7 +102,6 @@ def gui_wheel(gui: imgui.GUI):
 
 @mod.action_class
 class Actions:
-
     def mouse_show_cursor():
         """Shows the cursor"""
         show_cursor_helper(True)
@@ -243,17 +213,6 @@ class Actions:
         rect = ui.active_window().rect
         ctrl.mouse_move(rect.left + (rect.width / 2), rect.top + (rect.height / 2))
 
-    def mouse_stay_in_place(is_stay: bool):
-        """stay in place so that for example
-        content that is not hoverable
-        but activates on hover
-        can be read without turning the eye tracker off only for a couple of seconds
-        which in theory may damage it if done too frequently"""
-        if is_stay:
-            _start_stay_job()
-        else:
-            _stop_stay_job()
-
 
 def show_cursor_helper(show):
     """Show/hide the cursor"""
@@ -264,21 +223,25 @@ def show_cursor_helper(show):
         import win32con
 
         try:
-            Registrykey = winreg.OpenKey(winreg.HKEY_CURRENT_USER,
-                                         r"Control Panel\Cursors", 0, winreg.KEY_WRITE)
+            Registrykey = winreg.OpenKey(
+                winreg.HKEY_CURRENT_USER, r"Control Panel\Cursors", 0, winreg.KEY_WRITE
+            )
 
             for value_name, value in default_cursor.items():
                 if show:
-                    winreg.SetValueEx(Registrykey, value_name, 0, winreg.REG_EXPAND_SZ,
-                                      value)
+                    winreg.SetValueEx(
+                        Registrykey, value_name, 0, winreg.REG_EXPAND_SZ, value
+                    )
                 else:
-                    winreg.SetValueEx(Registrykey, value_name, 0, winreg.REG_EXPAND_SZ,
-                                      hidden_cursor)
+                    winreg.SetValueEx(
+                        Registrykey, value_name, 0, winreg.REG_EXPAND_SZ, hidden_cursor
+                    )
 
             winreg.CloseKey(Registrykey)
 
-            ctypes.windll.user32.SystemParametersInfoA(win32con.SPI_SETCURSORS, 0, None,
-                                                       0)
+            ctypes.windll.user32.SystemParametersInfoA(
+                win32con.SPI_SETCURSORS, 0, None, 0
+            )
 
         except OSError:
             print(f"Unable to show_cursor({str(show)})")
@@ -295,19 +258,24 @@ def on_pop():
         # Otherwise respect the mouse_enable_pop_click setting
         setting_val = setting_mouse_enable_pop_click.get()
 
-        is_using_eye_tracker = (actions.tracking.control_zoom_enabled() or
-                                actions.tracking.control_enabled() or
-                                actions.tracking.control1_enabled())
-        should_click = (setting_val == 2 and not actions.tracking.control_zoom_enabled()
-                       ) or (setting_val == 1 and
-                             not actions.tracking.control_zoom_enabled())
+        is_using_eye_tracker = (
+            actions.tracking.control_zoom_enabled()
+            or actions.tracking.control_enabled()
+            or actions.tracking.control1_enabled()
+        )
+        should_click = (
+            setting_val == 2 and not actions.tracking.control_zoom_enabled()
+        ) or (
+            setting_val == 1
+            and not actions.tracking.control_zoom_enabled()
+        )
         if should_click:
-            hold = setting_mouse_hold.get()
+            hold = settings.get("user.mouse_hold")
             ctrl.mouse_click(button=0, hold=hold)
 
 
 def on_hiss(active):
-    if active and setting_mouse_enable_hiss_stops_scroll.get() >= 1 and (gaze_job or
+    if active and settings.get("user.mouse_enable_hiss_stops_scroll") >= 1 and (gaze_job or
                                                                          scroll_job):
         stop_scroll()
 
@@ -316,7 +284,6 @@ noise.register("hiss", on_hiss)
 
 
 def mouse_scroll(amount):
-
     def scroll():
         global scroll_amount
         if continuous_scoll_mode:
@@ -343,8 +310,9 @@ def start_scroll():
 
 def gaze_scroll():
     # print("gaze_scroll")
-    if (eye_zoom_mouse.zoom_mouse.state == eye_zoom_mouse.STATE_IDLE
-       ):  # or eye_zoom_mouse.zoom_mouse.state == eye_zoom_mouse.STATE_SLEEP:
+    if (
+        eye_zoom_mouse.zoom_mouse.state == eye_zoom_mouse.STATE_IDLE
+    ):  # or eye_zoom_mouse.zoom_mouse.state == eye_zoom_mouse.STATE_SLEEP:
         x, y = ctrl.mouse_pos()
 
         # the rect for the window containing the mouse
@@ -365,7 +333,7 @@ def gaze_scroll():
             return
 
         midpoint = rect.y + rect.height / 2
-        amount = int(((y - midpoint) / (rect.height / 10))**3)
+        amount = int(((y - midpoint) / (rect.height / 10)) ** 3)
         actions.mouse_scroll(by_lines=False, y=amount)
 
     # print(f"gaze_scroll: {midpoint} {rect.height} {amount}")
@@ -396,75 +364,3 @@ def start_cursor_scrolling():
     global scroll_job, gaze_job
     stop_scroll()
     gaze_job = cron.interval("60ms", gaze_scroll)
-
-
-def _mouse_stay():
-    ctrl.mouse_move(_stay_x, _stay_y, dx=0, dy=0)
-
-
-def _start_stay_job():
-    global _stay_job, _stay_x, _stay_y
-    if _stay_job:
-        return
-    _stay_x, _stay_y = ctrl.mouse_pos()
-    _stay_job = cron.interval("1ms", _mouse_stay)
-
-
-def _stop_stay_job():
-    global _stay_job
-    if not _stay_job:
-        return
-    cron.cancel(_stay_job)
-    _stay_job = None
-
-
-if app.platform == "mac":
-    from talon import tap
-
-    def on_move(e):
-        if not config.control_mouse:
-            buttons = ctrl.mouse_buttons_down()
-            # print(str(ctrl.mouse_buttons_down()))
-            if not e.flags & tap.DRAG and buttons:
-                e.flags |= tap.DRAG
-                # buttons is a set now
-                e.button = list(buttons)[0]
-                e.modify()
-
-    tap.register(tap.MMOVE | tap.HOOK, on_move)
-
-
-def _mouse_stay():
-    ctrl.mouse_move(_stay_x, _stay_y, dx=0, dy=0)
-
-
-def _start_stay_job():
-    global _stay_job, _stay_x, _stay_y
-    if _stay_job:
-        return
-    _stay_x, _stay_y = ctrl.mouse_pos()
-    _stay_job = cron.interval("1ms", _mouse_stay)
-
-
-def _stop_stay_job():
-    global _stay_job
-    if not _stay_job:
-        return
-    cron.cancel(_stay_job)
-    _stay_job = None
-
-
-if app.platform == "mac":
-    from talon import tap
-
-    def on_move(e):
-        if not config.control_mouse:
-            buttons = ctrl.mouse_buttons_down()
-            # print(str(ctrl.mouse_buttons_down()))
-            if not e.flags & tap.DRAG and buttons:
-                e.flags |= tap.DRAG
-                # buttons is a set now
-                e.button = list(buttons)[0]
-                e.modify()
-
-    tap.register(tap.MMOVE | tap.HOOK, on_move)
