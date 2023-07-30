@@ -2,14 +2,18 @@ from talon import actions, ui
 from .controls.movement.BasicMovementActions import _nullify_current_movement_direction_key
 from .GameModeHelper import GameModeHelper
 
+def game_cleanup():
+    actions.user.game_weapon_aim_toggle(False)
+    actions.user.game_weapon_block_toggle(False)
+    actions.user.user.game_switch_sprint(False)
+    actions.user.switch_game_movement(False)
+    actions.user.release_held_game_keys()
 
 def _on_app_launch_close(app):
-    global current_game_movement_direction_key
-    if GameModeHelper._is_game_in_library(app):
-        actions.user.game_sprint_state_reset()
-        actions.user.game_movement_state_reset()
+    if GameModeHelper.is_game_in_library(app):
+        actions.user.custom_game_setup()
+        game_cleanup()
         _nullify_current_movement_direction_key()
-        actions.user.release_held_game_keys()
         actions.user.game_noise_control_reset()
 
 
@@ -17,15 +21,10 @@ ui.register("app_close", _on_app_launch_close)
 ui.register("app_launch", _on_app_launch_close)
 
 
-def on_app_activate(app):
-    if GameModeHelper._is_game_in_library(app):
-        actions.user.custom_game_setup()
+def window_focus_cleanup(app):
+    if GameModeHelper.is_game_in_library(app):
+        game_cleanup()
 
 
-def on_app_deactivate(deactivated_app):
-    if GameModeHelper._is_game_in_library(deactivated_app):
-        actions.user.custom_game_cleanup()
-
-
-ui.register("app_activate", on_app_activate)
-ui.register("app_deactivate", on_app_deactivate)
+ui.register("app_activate", window_focus_cleanup)
+ui.register("app_deactivate", window_focus_cleanup)

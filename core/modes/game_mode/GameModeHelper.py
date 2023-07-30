@@ -43,7 +43,7 @@ class GameModeHelper:
 
     def get_game_from_library(app: App):
         game = None
-        if GameModeHelper._is_game_in_library(app.name):
+        if GameModeHelper.is_game_in_library(app.name):
             icon = GameLibrary._games[app.name]
             game = BaseGame(app.name, icon)
         return game
@@ -60,15 +60,12 @@ class GameModeHelper:
     def is_binding(action_name: str):
         return ActiveBinding.is_binding(action_name)
 
-    def _is_game_in_library(app: App):
+    def is_game_in_library(app: App):
         return app.name in GameLibrary._games.keys()
 
 
 def on_app_deactivate(deactivated_app):
-    if GameLibrary._current_game is None:
-        return
-    is_deactivated_game = deactivated_app.name == GameLibrary._current_game.get_app_name()
-    if is_deactivated_game and GameModeHelper.is_game_mode():
+    if GameLibrary.is_app_current_game(deactivated_app):
         GameModeHelper.game_hud_remove_icons()
 
 

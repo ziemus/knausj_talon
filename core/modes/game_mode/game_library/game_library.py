@@ -1,6 +1,7 @@
 from os import path
 import csv
-from talon import fs, ui
+from talon import fs, ui, actions
+from talon.ui import App
 from pathlib import Path
 from ..BaseGame import BaseGame
 
@@ -70,6 +71,11 @@ class GameLibrary:
                 game = BaseGame(app_name, icon, binding_path)
                 GameLibrary._games[app_name] = game
 
+    def is_app_current_game(app: App):
+        if GameLibrary._current_game is None:
+            return False
+        return app.name == GameLibrary._current_game.get_app_name()
+
 
 GameLibrary.get_games(GameLibrary._GAME_LIBRARY_PATH, "r")
 
@@ -78,14 +84,24 @@ fs.watch(GameLibrary._GAME_LIBRARY_PATH, GameLibrary.get_games)
 def _track_current_game(app_name: str):
     if app_name in GameLibrary._games.keys():
         GameLibrary._current_game = GameLibrary._games[app_name]
+        actions.mode.disable("command")
+        actions.mode.disable("dictation")
+        actions.user.enable_game_mode()
 
 
 def track_current_game(app):
     _track_current_game(app.name)
 
 
+def on_app_deactivate(app):
+    if GameLibrary.is_app_current_game(app):
+        actions.mode.enable("command")
+        actions.user.disable_game_mode()
+
+
 ui.register("app_launch", track_current_game)
 ui.register("app_activate", track_current_game)
+ui.register("app_deactivate", on_app_deactivate)
 
 def update_current_game(name, flags):
     """Update current game on game library change.
