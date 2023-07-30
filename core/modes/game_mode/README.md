@@ -90,6 +90,8 @@ Camera control in first (and third) person perspective is one of the bigger diff
 
 Similarly, automated game setup and cleanup happens on launching, closing, focusing back in and out of the game window, see the following code for details: [game_controls_setup.py](./game_controls_setup.py).
 
+Game mode is automatically launched and disabled if you focus in/out of the game window or launch a game, provided you add the game to your game list. See more details under: [How to use it? > Automated setup and cleanup](#automated-setup-and-cleanup-1).
+
 ## Bindings in .json files
 Instead of writing code to simply change keybindings for a game you may provide bindings in a user friendly manner with a .json file. They may be changed on the fly. They support keyboard, mouse and wheel inputs, as well as sequences of various inputs. A default binding is also provided.
 
@@ -180,15 +182,18 @@ Similarly to the camera movement direction list, character movement direction na
 If you want to use your own direction names with the standard voice commands for movement, be sure to enable the [``user.game_basic_movement``](./controls/movement/BasicMovementActions.py#L15) tag in your game control scheme.
 
 ## Automated setup and cleanup
-To achieve automated setup and cleanup, the user needs to provide a list of their games and their respective app.names in a file under: [game_library/games.csv](game_library/games.csv), like so:
+To achieve automated setup, cleanup and game mode enabling/disabling, the user needs to provide a list of their games and their respective `app.name`s in the file under: [game_library/games.csv](game_library/games.csv), like so:
 ```
 AppName,Icon,BindingJsonPath
 Talos,,
 Darkest.exe,Darkest Dungeon,
 ```
-An icon to be displayed on the status bar can be provided when using [chaosparrot's Talon HUD](https://github.com/chaosparrot/talon_hud). The icons need to be stored under [``game_icons``](./game_icons) in png format. If the user doesn't provide an icon name explicitly, the name assumed by default is: ``{AppName}.PNG``, eg., ``Talos.PNG`` or ``Darkest.exe.PNG``. Using icons is fully optional.
 
-The list of game keys is returned by the [``user.get_held_game_keys()``](controls/BasicGameActions.py#L227) action. Like any action, it can be overridden to suit your game. If a certain game requires additional cleanup or setup, you may override the [``user.custom_game_cleanup()``](controls/BasicGameActions.py#L240) and [``user.custom_game_setup()``](controls/BasicGameActions.py#L236) actions.
+Icon - an icon to be displayed on the status bar can be provided when using [chaosparrot's Talon HUD](https://github.com/chaosparrot/talon_hud). The icons need to be stored under [``game_icons``](./game_icons) in png format. If the user doesn't provide an icon name explicitly, the name assumed by default is: ``{AppName}.PNG``, eg., ``Talos.PNG`` or ``Darkest.exe.PNG``. Using icons is fully optional.
+
+BindingJsonPath - the path to .json file containing the game's bindings. see the next section for more details.
+
+The list of game keys is returned by [``user.get_held_game_keys()``](controls/BasicGameActions.py#L227) action. Like any action, it can be overridden to suit your game. If a certain game requires additional cleanup or setup, you may override [``user.custom_game_cleanup()``](controls/BasicGameActions.py#L240) and [``user.custom_game_setup()``](controls/BasicGameActions.py#L236) actions.
 
 ## Bindings in .json files
 To provide a json binding file for a specific game, you **must** first add the game to the game list file [game_library/games.csv](game_library/games.csv) **alongside the path to its binding file** in the ```BindingJsonPath``` column. You may leave it blank and use only the default bindings.
