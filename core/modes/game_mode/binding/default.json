@@ -22,6 +22,9 @@
     "dive_start": "ctrl:down",
     "dive_stop": "ctrl:up",
 
+    "block_start": "",
+    "block_stop": "",
+
     
     "interactable_objects_highlight_start": "tab",
 

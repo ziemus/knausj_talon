@@ -5,7 +5,7 @@ from .GameModeHelper import GameModeHelper
 def game_cleanup():
     actions.user.game_weapon_aim_toggle(False)
     actions.user.game_weapon_block_toggle(False)
-    actions.user.user.game_switch_sprint(False)
+    actions.user.game_switch_sprint(False)
     actions.user.switch_game_movement(False)
     actions.user.release_held_game_keys()
 
