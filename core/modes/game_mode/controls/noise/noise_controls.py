@@ -128,7 +128,7 @@ class GameNoiseActions:
         Doesn't do anything by default."""
         return 0
 
-    def game_before_on_hiss() -> tuple[bool, bool]:
+    def game_before_on_hiss(is_start: bool) -> tuple[bool, bool]:
         """Customizable behavior.  This action is called before the binding for hiss is executed.
         Handy for quickly interrupting a game interaction that requires a more precise timing than
         talon is able to achieve with a simple voice command (noises are detected more quickly).
@@ -141,7 +141,7 @@ class GameNoiseActions:
         Both are True by default."""
         return (True, True)
 
-    def game_after_on_hiss():
+    def game_after_on_hiss(is_start: bool):
         """Customizable behavior. This action is called after the binding for hiss is executed
         only if game_before_on_hiss returned True as the second element of the returned tuple.
         Doesn't do anything by default."""
@@ -214,7 +214,7 @@ def on_hiss(is_active):
         return
 
     with lock_binding:
-        is_execute_binding, is_execute_after = actions.user.game_before_on_hiss()
+        is_execute_binding, is_execute_after = actions.user.game_before_on_hiss(is_active)
 
         if not settings.get("user.mouse_enable_hiss") and is_execute_binding:
             if is_active:
@@ -225,7 +225,7 @@ def on_hiss(is_active):
                 on_hiss_stop()
 
         if is_execute_after:
-            actions.user.game_after_on_hiss()
+            actions.user.game_after_on_hiss(is_active)
 
 
 noise.register("pop", on_pop)

@@ -73,14 +73,14 @@ and mode: user.game
 @ctx.action_class("user")
 class UserActions:
 
-    def game_before_on_hiss():
-        if is_weapon_block:
+    def game_before_on_hiss(is_start: bool):
+        if is_start and is_weapon_block:
             actions.user.game_weapon_block_stop()  # let your guard down to attack
             # but do not change the block state as game_weapon_block_toggle would do
             # this will tell game_after_on_hiss to return to blocking
         return (True, True)
 
-    def game_after_on_hiss():
-        if is_weapon_block:
+    def game_after_on_hiss(is_start: bool):
+        if not is_start and is_weapon_block:
             #if blocking previously, return to blocking after the attack
             actions.user.game_weapon_block_start()
