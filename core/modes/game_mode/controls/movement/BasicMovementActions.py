@@ -21,6 +21,7 @@ lock_is_moving = Lock()
 
 
 def _nullify_current_movement_direction_key():
+    global current_game_movement_direction_key
     current_game_movement_direction_key = None
 
 
@@ -39,6 +40,7 @@ def _stop_game_movement():
     directions = actions.user.get_game_movement_keys()
     for key in directions:
         actions.user.release_game_key(key)
+    actions.user.release_game_key(current_game_movement_direction_key)
     is_moving = False
 
 
