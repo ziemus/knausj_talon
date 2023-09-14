@@ -5,6 +5,8 @@ touch | click:
 	user.game_click(0)
 righty:
 	user.game_click(1)
+middle click | mid click | mick:
+    user.game_click(2)
 curse stay:
     user.mouse_stay_in_place(true)
 curse come:
