@@ -109,9 +109,9 @@ def update_current_game(name, flags):
     after changing its binding path in the game library file.
     Without updating the current game after changing the library there's a chance
     current_game would still be set to a BaseGame without a binding."""
-    if GameLibrary.current_game is None:
+    if GameLibrary._current_game is None:
         return
-    app_name = GameLibrary.current_game.get_app_name()
+    app_name = GameLibrary._current_game.get_app_name()
     _track_current_game(app_name)
 
 
