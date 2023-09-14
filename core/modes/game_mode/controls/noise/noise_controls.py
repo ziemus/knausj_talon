@@ -146,6 +146,18 @@ class GameNoiseActions:
         only if game_before_on_hiss returned True as the second element of the returned tuple.
         Doesn't do anything by default."""
         return 0
+    
+    def on_pop_start():
+        """"""
+        _execute_noise_binding("pop", True)
+
+    def on_hiss_start():
+        """"""
+        _execute_noise_binding("hiss", True)
+
+    def on_hiss_stop():
+        """"""
+        _execute_noise_binding("hiss", False)
 
     def game_noise_control_reset():
         """reset to default"""
@@ -196,16 +208,9 @@ def on_pop(_):
     with lock_binding:
         is_execute_binding, is_execute_after = actions.user.game_before_on_pop()
         if not settings.get("user.mouse_enable_pop_click") and is_execute_binding:
-            _execute_noise_binding("pop", True)
+            actions.user.on_pop_start()
         if is_execute_after:
             actions.user.game_after_on_pop()
-
-
-def on_hiss_start():
-    _execute_noise_binding("hiss", True)
-
-def on_hiss_stop():
-	_execute_noise_binding("hiss", False)
 
 def on_hiss(is_active):
     global lock_binding, hiss_job
@@ -219,10 +224,10 @@ def on_hiss(is_active):
         if not settings.get("user.mouse_enable_hiss") and is_execute_binding:
             if is_active:
                 delay = setting_minimum_hiss_duration.get()
-                hiss_job = cron.after(delay, on_hiss_start)
+                hiss_job = cron.after(delay, actions.user.on_hiss_start)
             else:
                 cron.cancel(hiss_job)
-                on_hiss_stop()
+                actions.user.on_hiss_stop()
 
         if is_execute_after:
             actions.user.game_after_on_hiss(is_active)
