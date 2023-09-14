@@ -45,3 +45,11 @@ class Actions:
     def game_is_weapon_target_lock():
         """"""
         return is_weapon_target_lock
+    
+    def game_weapon_target_lock_previous():
+        """Switch target lock to the previous target."""
+        BindingExecutor.execute("target_lock_previous")
+
+    def game_weapon_target_lock_next():
+        """Switch target lock to the next target."""
+        BindingExecutor.execute("target_lock_next")
