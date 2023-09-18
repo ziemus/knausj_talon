@@ -32,6 +32,7 @@ noise_action_names = {
     "attack": "attack",
     "block toggle": "block toggle",
     "long attack": "long attack",
+    "long block": "long block",
     "off": "off",
     "default": "default",
 }
@@ -70,6 +71,8 @@ action_name_to_action = {
         lambda is_active: actions.user.game_attack(is_active),
     "block toggle":
         lambda _: actions.user.game_weapon_block_toggle(),
+    "long block":
+        lambda is_active: actions.user.game_weapon_block_toggle(is_active),
     "aim toggle":
         lambda _: actions.user.game_weapon_aim_toggle(),
 }
@@ -190,6 +193,7 @@ def _execute_noise_binding(noise, is_active):
         "long click",
         "jump",
         "long attack",
+        "long block",
         "right long click",
     ] or (action_name == "move" and noise == "hiss")
 
