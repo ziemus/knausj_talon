@@ -1,4 +1,9 @@
 {
+    "move_forward": "w",
+    "move_backward": "s",
+    "strife_left": "a",
+    "strife_right": "d",
+
     "use": "e",
     "long_use": {
         "key":"e",

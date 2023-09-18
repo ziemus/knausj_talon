@@ -1,20 +1,26 @@
 from threading import Lock
-from talon import actions, Module
+from talon import actions, Module, Context
+from ...binding.ActiveBinding import ActiveBinding
 
 game_movement_module = Module()
-
-setting_default_movement_direction = game_movement_module.setting(
-    "game_default_movement_key",
-    type=str,
-    default="w",
-    desc="""Default movement key.
-    Can be modified so that you don't have to issue the movement direction change command
-    by voice after launching the game every time.""")
-
 game_movement_module.list("game_directions")
 game_movement_module.tag("game_basic_movement")
 
-# TODO get current user.game_directions list according to the active context
+FORWARD = "move_forward"
+BACKWARD = "move_backward"
+LEFT = "strife_left"
+RIGHT = "strife_right"
+
+game_directions = {
+    "north": FORWARD,
+    "south": BACKWARD,
+    "west": LEFT,
+    "east": RIGHT,
+}
+
+ctx = Context()
+ctx.lists["user.game_directions"] = game_directions
+
 current_game_movement_direction_key: str = None
 is_moving: bool = False
 lock_is_moving = Lock()
@@ -29,7 +35,7 @@ def _start_game_movement():
     """Start moving in game direction. Not thread safe."""
     global is_moving, current_game_movement_direction_key
     if current_game_movement_direction_key is None:
-        current_game_movement_direction_key = setting_default_movement_direction.get()
+        current_game_movement_direction_key = ActiveBinding.get(FORWARD)
     actions.user.game_hold_key_native(current_game_movement_direction_key)
     is_moving = True
 
@@ -37,17 +43,19 @@ def _start_game_movement():
 def _stop_game_movement():
     """Stop in-game movement by releasing all movement keys (according to the active context). Not thread safe."""
     global is_moving
-    directions = actions.user.get_game_movement_keys()
-    for key in directions:
+    if not current_game_movement_direction_key is None:
+        actions.user.release_game_key(current_game_movement_direction_key)
+    for direction_id in [FORWARD, BACKWARD, LEFT, RIGHT]:
+        key = ActiveBinding.get(direction_id)
         actions.user.release_game_key(key)
-    actions.user.release_game_key(current_game_movement_direction_key)
     is_moving = False
 
 
-def _set_game_movement_direction(new_direction_key: str):
+def _set_game_movement_direction(direction_id: str):
     """Sets the key currently used to move in game. Not thread safe."""
     global current_game_movement_direction_key
-    current_game_movement_direction_key = new_direction_key
+    key = ActiveBinding.get(direction_id)
+    current_game_movement_direction_key = key
 
 
 def _switch_game_movement(do_turn_on: bool = None):
@@ -59,10 +67,12 @@ def _switch_game_movement(do_turn_on: bool = None):
 
 
 def _switch_game_movement_direction(direction_key: str):
-    _set_game_movement_direction(direction_key)
     if is_moving:
         _stop_game_movement()
+        _set_game_movement_direction(direction_key)
         _start_game_movement()
+    else:
+        _set_game_movement_direction(direction_key)
 
 @game_movement_module.action_class
 class GameActions:
@@ -96,21 +106,6 @@ class GameActions:
             else:
                 _switch_game_movement_direction(direction_key)
 
-
-    def get_game_movement_keys():
-        """this method must be overridden with game-specific contexts
-        unless the game movement is the standard WSAD
-
-        It should return the same list of values
-        as the context for the specific game
-        stores under context.lists['user.game_directions']
-        until talon allows to obtain the list directly
-        """
-        # TODO get current user.game_directions list according to the active context
-        # Or create tags or different types of movement controls: arrows
-        # and apply contexts for them specificly, overriding this method too
-        return []
-
     def game_movement_state_reset():
         """Resets is_moving to False
         in case the game overrides movement behavior
@@ -121,3 +116,12 @@ class GameActions:
         global is_moving, lock_is_moving
         with lock_is_moving:
             is_moving = False
+
+    def game_movement_go(direction_id: str):
+        """Start moving in the specified direction"""
+        # let us assume it is a regular key like W/S/A/D
+        global is_moving, lock_is_moving
+        with lock_is_moving:
+            _switch_game_movement(False)
+            _set_game_movement_direction(direction_id)
+            _switch_game_movement(True)

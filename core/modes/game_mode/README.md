@@ -168,9 +168,25 @@ The direction names are defined in the list: [``user.game_camera_direction``](./
 See [camera_controls.talon](controls/camera/camera_controls.talon) and [CameraActions.py](controls/camera/CameraActions.py) for details.
 
 ## Character movement
-Similarly to the camera movement direction list, character movement direction names are defined in the [``user.game_directions``](./controls/movement/BasicMovementActions.py#L15) list and can be modified with game-specific contexts. 2 contexts for WSAD/arrow keys are already provided and can be enabled in .talon files with tags: [``user.wsad_game_controls``](./controls/movement/movement_keys/wsad_controls.py) or [``user.game_basic_movement_arrows``](./controls/movement/movement_keys/basic_movement_controls_arrows.py).
+You may use basic movement controls if you enable the tag [``user.game_basic_movement``](./controls/movement/BasicMovementActions.py#L15) in your game's control scheme. It is by default enabled in generic control schemes like `game_action_rpg` and `first_person_game_controls`.
 
-If you want to use your own direction names with the standard voice commands for movement, be sure to enable the [``user.game_basic_movement``](./controls/movement/BasicMovementActions.py#L15) tag in your game control scheme.
+You can use `"move"` and `"stop"` commands to move your character. It is advisable to bind pop to move so that you may turn on and off character movement with a quick sound.
+
+You may also issue movement direction names ("`north`", "`south`", "`west`", "`east`") to change current direction while moving. Issuing them while your character is standing still will change the currently **used** direction but will not move your character.
+
+To start moving in a given direction when your character is standing still you may say either `"{direction_name} move"` or `"go"`/`"get"`/`"gel"`/`"jar"` (shorthands for `"go forward"`/`"go backward"`/`"go left"`/`"go right"`). See more: [basic_movement_controls.talon](./controls/movement/basic_movement_controls.talon).
+
+Similarly to the camera movement direction list, character movement direction names are defined in the [`user.game_directions`](./controls/movement/BasicMovementActions.py#L15) list. They map to respective direction identifiers from the json binding file (`north` to `move_forward`, `south` to `move_backward`, `west` to `strife_left`, and `east` to `strife_right`) which are by default WSAD. If you want to add more direction names, create a context for your game and then override `user.game_directions` like a regular Talon list, but be sure to use the proper direction identifiers. If you want to change the bindings you need to provide them in a binding file for your game, as explained below in [Bindings in .json files](#bindings-in-json-files-1), eg. for GOTHIC 1:
+
+```
+{
+    "move_forward": "up",
+    "move_backward": "down",
+    "strife_left": "delete",
+    "strife_right": "pagedown"
+}
+```
+They MUST be simple strings, 1 key each (see comments on game_movement_strife_left, etc.). Otherwise, you will need to overwrite game_movement* actions.
 
 ## Automated setup and cleanup
 To achieve automated setup, cleanup and game mode enabling/disabling, the user needs to provide a list of their games and their respective `app.name`s in the file under: [game_library/games.csv](game_library/games.csv), like so:
