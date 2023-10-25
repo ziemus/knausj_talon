@@ -16,3 +16,5 @@ and mode: user.game
     user.game_camera_first_person()
 [camera] third person [switch | toggle]:
     user.game_camera_third_person()
+[camera | cam] center:
+    user.game_camera_center()

@@ -1,5 +1,5 @@
 from talon import Module, actions, Context
-from user.knausj_talon.core.modes.game_mode.binding.BindingExecutor import BindingExecutor
+from ...binding.BindingExecutor import BindingExecutor
 
 game_camera_module = Module()
 
@@ -107,6 +107,10 @@ class CameraActions:
     def game_camera_third_person():
         """Change camera to third person perspective. Defaults to calling actions.user.game_camera_first_person()"""
         BindingExecutor.execute_or_substitute("camera_third_person", "camera_first_person")
+
+    def game_camera_center():
+        """"""
+        BindingExecutor.execute("camera_center")
 
 
 game_camera_module.tag("game_camera_zoom")
