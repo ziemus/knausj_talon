@@ -95,7 +95,6 @@ def track_current_game(app):
 
 def on_app_deactivate(app):
     if GameLibrary.is_app_current_game(app):
-        actions.mode.enable("command")
         actions.user.disable_game_mode()
 
 
