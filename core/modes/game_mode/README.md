@@ -14,10 +14,10 @@
 1. [Difficulties when gaming by voice](#difficulties-when-gaming-by-voice)
     1. [Latency vs. difficulty](#latency-vs-difficulty)
     1. [Camera movement](#camera-movement)
-1. [How to use it?](#how-to-use-it)
-    1. [External modifications (required)](#external-modifications-required)
-        1. [mouse.py](#mousepy)
+1. [How to install it?](#how-to-install-it)
+    1. [External modification (not required)](#external-modification-not-required)
         1. [modes.talon](#modestalon)
+1. [How to use it?](#how-to-use-it)
     1. [Hot-swappable noise controls](#hot-swappable-noise-controls-1)
     1. [First/third person camera movement](#firstthird-person-camera-movement-1)
     1. [Character movement](#character-movement)
@@ -109,13 +109,15 @@ You may still want to use a voice command for turning around, though, as setting
 
 Credits to [u/MrDrumble on r/disabledgamers](https://np.reddit.com/r/disabledgamers/comments/9z9nim/my_lowcost_handsfree_gaming_setup_suggestions/) for coming up with the air mouse solution. You can watch it in action on MrDrumble's YouTube channel: [Cheap, Hands-Free PC Gaming Setup](https://www.youtube.com/watch?v=5NbK83dt6sI).
 
-# How to use it?
+# How to install it?
 Almost everything is included in this directory so you can just copy and paste it onto your own repository to start using it. There is 1 external modification outside of this directory that can to be made.
 
 ## External modification (not required)
 
 ### modes.talon
 The command for enabling game mode is defined in my main repo in [modes.talon](../modes.talon). Other commands were also modified so that enabling any other mode turns off game mode. This is useful to have, but not necessary as turning game mode on and off is automated when using a game list file. See more details under: [How to use it? > Automated setup and cleanup](#automated-setup-and-cleanup-1).
+
+# How to use it?
 
 ## Hot-swappable noise controls
 You may provide a deafult binding with 4 settings in a .talon file, like so:
