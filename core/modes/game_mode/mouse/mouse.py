@@ -10,8 +10,8 @@ setting_mouse_hiss = mod.setting(
 )
 setting_mouse_enable_hiss_stops_scroll = mod.setting(
     "mouse_enable_hiss_stops_scroll",
-    type=int,
-    default=0,
+    type=bool,
+    default=False,
     desc="When enabled, hiss stops continuous scroll modes (wheel upper/downer/gaze)",
 )
 setting_mouse_hold = mod.setting(
