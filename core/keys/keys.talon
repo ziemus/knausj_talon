@@ -10,3 +10,6 @@ go <user.arrow_keys>: user.move_cursor(arrow_keys)
 press <user.modifiers>: key(modifiers)
 # for consistency with dictation mode and explicit arrow keys if you need them.
 press <user.keys>: key(keys)
+
+# non breaking space doesn't work with insert() so it cannot be added to punctuation_words in keys.py
+no [break] space: user.paste("\u00A0")
