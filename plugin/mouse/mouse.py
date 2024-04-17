@@ -15,7 +15,7 @@ hiss_scroll_up = False
 
 default_cursor = {
     "AppStarting": r"%SystemRoot%\Cursors\aero_working.ani",
-    "Arrow": r"%SystemRoot%\Cursors\aero_arrow.cur",
+    "Arrow": r"%SystemRoot%\Cursors\cross_r.cur",
     "Hand": r"%SystemRoot%\Cursors\aero_link.cur",
     "Help": r"%SystemRoot%\Cursors\aero_helpsel.cur",
     "No": r"%SystemRoot%\Cursors\aero_unavail.cur",
@@ -286,17 +286,10 @@ class UserActions:
         else:
             # Otherwise respect the mouse_enable_pop_click setting
             setting_val = settings.get("user.mouse_enable_pop_click")
-
-            is_using_eye_tracker = (
-                actions.tracking.control_zoom_enabled()
-                or actions.tracking.control_enabled()
-                or actions.tracking.control1_enabled()
-            )
             should_click = (
                 setting_val == 2 and not actions.tracking.control_zoom_enabled()
             ) or (
                 setting_val == 1
-                and is_using_eye_tracker
                 and not actions.tracking.control_zoom_enabled()
             )
             if should_click:

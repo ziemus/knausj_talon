@@ -143,7 +143,6 @@ punctuation_words = {
     "comma": ",",
     # Workaround for issue with conformer b-series; see #946
     "coma": ",",
-    "period": ".",
     "full stop": ".",
     "semicolon": ";",
     "colon": ":",
@@ -166,6 +165,20 @@ punctuation_words = {
     "left paren": "(",
     "R paren": ")",
     "right paren": ")",
+    "Brit quote": "\u2018",
+    "Brit quoter": "\u2019",
+    #guillemet is not recognized
+    "R geemay": "»",
+    "L geemay": "«",
+    "raquo": "»",
+    "laquo": "«",
+    "low double quote": "„",
+    "high double quote": "”",
+    "low dub": "„",
+    "hi dub": "”",
+    #non breaking space doesn't work with insert() so it cannot be added to punctuation_words
+    "no break dash": "\u2011",
+    "no dash": "\u2011",
 }
 symbol_key_words = {
     "dot": ".",
