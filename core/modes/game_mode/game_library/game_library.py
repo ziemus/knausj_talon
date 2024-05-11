@@ -1,6 +1,6 @@
 from os import path
 import csv
-from talon import fs, ui, actions
+from talon import fs, ui, actions, scope
 from talon.ui import App
 from pathlib import Path
 from ..BaseGame import BaseGame
@@ -88,6 +88,11 @@ def _track_current_game(app_name: str):
         actions.mode.disable("dictation")
         actions.user.enable_game_mode()
 
+        if "sleep" in scope.get("mode"):
+            actions.mode.disable("sleep")
+            actions.mode.save()
+            actions.mode.enable("sleep")
+
 
 def track_current_game(app):
     _track_current_game(app.name)
@@ -96,6 +101,15 @@ def track_current_game(app):
 def on_app_deactivate(app):
     if GameLibrary.is_app_current_game(app):
         actions.user.disable_game_mode()
+
+        if "sleep" in scope.get("mode"):
+            actions.mode.disable("sleep")
+            actions.mode.enable("command")
+            actions.mode.save()
+            actions.mode.disable("command")
+            actions.mode.enable("sleep")
+        else:
+            actions.mode.enable("command")
 
 
 ui.register("app_launch", track_current_game)
