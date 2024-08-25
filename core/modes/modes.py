@@ -1,7 +1,9 @@
-from talon import Module, actions, app, speech_system
+from talon import Context, Module, actions, app, speech_system
 from user.talon_hud.content.programming_language_poller import add_statusbar_programming_icon
 
 mod = Module()
+ctx_sleep = Context()
+ctx_awake = Context()
 
 modes = {
     "admin": "enable extra administration commands terminal (docker, etc)",
@@ -12,6 +14,26 @@ modes = {
 
 for key, value in modes.items():
     mod.mode(key, value)
+
+ctx_sleep.matches = r"""
+mode: sleep
+"""
+
+ctx_awake.matches = r"""
+not mode: sleep
+"""
+
+
+@ctx_sleep.action_class("speech")
+class ActionsSleepMode:
+    def disable():
+        actions.app.notify("Talon is already asleep")
+
+
+@ctx_awake.action_class("speech")
+class ActionsAwakeMode:
+    def enable():
+        actions.app.notify("Talon is already awake")
 
 
 @mod.action_class
@@ -24,11 +46,11 @@ class Actions:
         # app.notify(engine)
         if "dragon" in engine:
             if app.platform == "mac":
-                actions.user.engine_sleep()
+                actions.user.dragon_engine_sleep()
             elif app.platform == "windows":
-                actions.user.engine_wake()
+                actions.user.dragon_engine_wake()
                 # note: this may not do anything for all versions of Dragon. Requires Pro.
-                actions.user.engine_mimic("switch to command mode")
+                actions.user.dragon_engine_command_mode()
 
     def dragon_mode():
         """For windows and Mac with Dragon, disables Talon commands and exits Dragon's command mode"""
@@ -39,11 +61,11 @@ class Actions:
             # app.notify("dragon mode")
             actions.speech.disable()
             if app.platform == "mac":
-                actions.user.engine_wake()
+                actions.user.dragon_engine_wake()
             elif app.platform == "windows":
-                actions.user.engine_wake()
+                actions.user.dragon_engine_wake()
                 # note: this may not do anything for all versions of Dragon. Requires Pro.
-                actions.user.engine_mimic("start normal mode")
+                actions.user.dragon_engine_normal_mode()
 
     def command_mode_set_up():
             """Custom command mode set up actions"""
