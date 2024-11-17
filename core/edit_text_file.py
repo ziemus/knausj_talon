@@ -1,5 +1,6 @@
 import os
 import subprocess
+from pathlib import Path
 
 from talon import Context, Module, app
 
@@ -9,25 +10,39 @@ SETTINGS_DIR = os.path.join(REPO_DIR, "settings")
 
 mod = Module()
 ctx = Context()
+mod.list(
+    "edit_file",
+    desc="Absolute paths to frequently edited files (Talon list, CSV, etc.)",
+)
 
-mod.list("talon_settings_csv", desc="Absolute paths to talon user settings csv files.")
-_csvs = {
+_edit_files = {
+    "additional words": os.path.join(
+        REPO_DIR, "core", "vocabulary", "vocabulary.talon-list"
+    ),
+    "alphabet": os.path.join(REPO_DIR, "core", "keys", "letter.talon-list"),
+    "homophones": os.path.join(REPO_DIR, "core", "homophones", "homophones.csv"),
+    "search engines": os.path.join(
+        REPO_DIR, "core", "websites_and_search_engines", "search_engine.talon-list"
+    ),
+    "unix utilities": os.path.join(
+        REPO_DIR, "tags", "terminal", "unix_utility.talon-list"
+    ),
+    "websites": os.path.join(
+        REPO_DIR, "core", "websites_and_search_engines", "website.talon-list"
+    ),
+}
+
+_settings_csvs = {
     name: os.path.join(SETTINGS_DIR, file_name)
     for name, file_name in {
         "abbreviations": "abbreviations.csv",
-        "additional words": "additional_words.csv",
-        "alphabet": "alphabet.csv",
-        "directories": "directories.csv",
         "file extensions": "file_extensions.csv",
-        "search engines": "search_engines.csv",
-        "system paths": "system_paths.csv",
-        "unix utilities": "unix_utilities.csv",
-        "websites": "websites.csv",
         "words to replace": "words_to_replace.csv",
     }.items()
 }
-_csvs["homophones"] = os.path.join(REPO_DIR, "core", "homophones", "homophones.csv")
-ctx.lists["self.talon_settings_csv"] = _csvs
+
+_edit_files.update(_settings_csvs)
+ctx.lists["self.edit_file"] = _edit_files
 
 
 @mod.action_class
@@ -58,7 +73,9 @@ class WinActions:
 class MacActions:
     def edit_text_file(path):
         # -t means try to open in a text editor.
-        open_with_subprocess(path, ["/usr/bin/open", "-t", path])
+        open_with_subprocess(
+            path, ["/usr/bin/open", "-t", Path(path).expanduser().resolve()]
+        )
 
 
 @linuxctx.action_class("self")
@@ -67,7 +84,11 @@ class LinuxActions:
         # we use xdg-open for this even though it might not open a text
         # editor. we could use $EDITOR, but that might be something that
         # requires a terminal (eg nano, vi).
-        open_with_subprocess(path, ["/usr/bin/xdg-open", path])
+        try:
+            open_with_subprocess(path, ["xdg-open", Path(path).expanduser().resolve()])
+        except FileNotFoundError:
+            app.notify(f"xdg-open missing. Could not open file for editing: {path}")
+            raise
 
 
 # Helper for linux and mac.
