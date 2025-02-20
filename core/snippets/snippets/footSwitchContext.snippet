@@ -1,0 +1,57 @@
+name: footSwitchContext
+phrase: foot switch context
+---
+
+language: python
+-
+@ctx.action_class
+class FootSwitchActions:
+    def foot_switch_olympus_top_down():
+        actions.next()
+
+    def foot_switch_olympus_top_up(held: bool):
+        if held:
+            actions.next()
+
+    def foot_switch_olympus_center_down():
+        actions.next()
+
+    def foot_switch_olympus_center_up(held: bool):
+        if held:
+            actions.next()
+
+    def foot_switch_olympus_left_down():
+        actions.next()
+
+    def foot_switch_olympus_left_up(held: bool):
+        if held:
+            actions.next()
+
+    def foot_switch_olympus_right_down():
+        actions.next()
+
+    def foot_switch_olympus_right_up(held: bool):
+        if held:
+            actions.next()
+
+    def foot_switch_pcsensor_center_down():
+        actions.next()
+
+    def foot_switch_pcsensor_center_up(held: bool):
+        if held:
+            actions.next()
+
+    def foot_switch_pcsensor_left_down():
+        actions.next()
+
+    def foot_switch_pcsensor_left_up(held: bool):
+        if held:
+            actions.next()
+
+    def foot_switch_pcsensor_right_down():
+        actions.next()
+
+    def foot_switch_pcsensor_right_up(held: bool):
+        if held:
+            actions.next()
+---
