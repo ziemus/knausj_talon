@@ -3,8 +3,10 @@ from .controls.movement.BasicMovementActions import _nullify_current_movement_di
 from .GameModeHelper import GameModeHelper
 
 def game_cleanup():
-    actions.user.game_weapon_aim_toggle(False)
-    actions.user.game_weapon_block_toggle(False)
+    if actions.user.game_is_weapon_aim():
+        actions.user.game_weapon_aim_toggle(False)
+    if actions.user.game_get_is_block():
+        actions.user.game_weapon_block_toggle(False)
     actions.user.game_switch_sprint(False)
     actions.user.switch_game_movement(False)
     actions.user.release_held_game_keys()

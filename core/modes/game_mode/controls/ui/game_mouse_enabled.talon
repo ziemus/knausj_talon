@@ -21,5 +21,8 @@ wheel downer:
     user.mouse_scroll_down_continuous()
 drag:
 	user.mouse_drag(0)
+right drag | dragger:
+    user.mouse_drag(1)
 end drag | drag end:
     user.mouse_drag_end()
+

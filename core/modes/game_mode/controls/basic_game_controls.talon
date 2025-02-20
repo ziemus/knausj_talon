@@ -21,3 +21,5 @@ use:
 	user.game_use()
 jump:
 	user.game_jump()
+
+^game focus out [of]$: key(alt-tab)
