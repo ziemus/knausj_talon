@@ -15,6 +15,7 @@ reading mode: key(ctrl-h)
 lil up: key(up:20)
 lil day: key(down:20)
 go page: key(shift-ctrl-n)
+page by page: key(alt-v p:2)
 
 go page <user.number_string>:
 	key(shift-ctrl-n)
