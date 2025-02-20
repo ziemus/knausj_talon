@@ -7,22 +7,22 @@ settings():
     # speech.timeout = 0.3
 
     # Uncomment to enable dark mode for talon help menus
-    # imgui.dark_mode = true
+    imgui.dark_mode = true
 
     # If `true`, automatically show the picker GUI when the file manager has focus
     user.file_manager_auto_show_pickers = false
 
-    # Set the number of command lines to display per help page
+    # Set the number of command linesto display per help page
     user.help_max_command_lines_per_page = 50
 
     # Set the number of contexts to display per help page
-    user.help_max_contexts_per_page = 20
+    user.help_max_contexts_per_page = 40
 
     # Uncomment to always sort help contexts alphabetically.
     # user.help_sort_contexts_by_specificity = false
 
     # Set the scroll amount for continuous scroll/gaze scroll
-    user.mouse_continuous_scroll_amount = 80
+    user.mouse_continuous_scroll_amount = 300
 
     # Set the maximum acceleration factor when scrolling continuously. 1=constant speed/no acceleration.
     user.mouse_continuous_scroll_acceleration = 1
@@ -48,13 +48,13 @@ settings():
     user.mouse_enable_hiss_scroll = false
 
     # If `true`, hide the continuous scroll/gaze scroll GUI
-    user.mouse_hide_mouse_gui = false
+    user.mouse_hide_mouse_gui = true
 
     # If `true`, hide the cursor when enabling zoom mouse
     user.mouse_wake_hides_cursor = false
 
     # Set the amount to scroll up/down
-    user.mouse_wheel_down_amount = 120
+    user.mouse_wheel_down_amount = 300
 
     # Set the amount to scroll left/right
     user.mouse_wheel_horizontal_amount = 40
@@ -93,7 +93,7 @@ settings():
     # user.window_snap_screen = "size aware"
 
     # Puts Talon into sleep mode if no commands are spoken for a defined period of time.
-    # user.listening_timeout_minutes = 3
+    user.listening_timeout_minutes = 3
 
     # Time in seconds to wait for the clipboard to change when trying to get selected text
     # user.selected_text_timeout = 0.25

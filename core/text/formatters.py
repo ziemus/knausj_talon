@@ -186,17 +186,11 @@ def lower(text: str) -> str:
     return text.lower()
 
 
-def separate_characters_by_space(word, is_end):
-    formatted_word = ""
-    if not is_end:
-        for c in word:
-            formatted_word += c + " "
-    else:
-        length = len(word)
-        for j in range(length - 1):
-            formatted_word += word[j] + " "
-        formatted_word += word[length - 1]
-    return formatted_word
+def separate_characters_by_space(text):
+    formatted_text = ""
+    for c in text:
+        formatted_text += c + " "
+    return formatted_text[0:len(formatted_text)-1]
 
 
 def unformat_upper(text: str) -> str:
@@ -241,9 +235,10 @@ formatter_list = [
     CustomFormatter("ALL_LOWERCASE", lambda text: text.lower()),
     CustomFormatter("COMMA_SEPARATED", lambda text: re.sub(r"\s+", ", ", text)),
     CustomFormatter("REMOVE_FORMATTING", remove_code_formatting),
-    CustomFormatter("SPACE_AFTER_CHARACTER", lambda _, word, is_end: separate_characters_by_space(word, is_end)),
+    CustomFormatter("SPACE_AFTER_CHARACTER", lambda text: separate_characters_by_space(text)),
     # The sentence formatter being called `CAPITALIZE_FIRST_WORD` is a bit of a misnomer, but kept for backward compatibility.
     SentenceFormatter("CAPITALIZE_FIRST_WORD"),
+    TitleFormatter("CAPITALIZE_ALL_WORDS"),
     # This is the formatter that actually just capitalizes the first word
     CapitalizeFormatter("CAPITALIZE"),
     CodeFormatter("NO_SPACES", "", lower, lower),

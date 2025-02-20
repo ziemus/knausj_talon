@@ -16,10 +16,10 @@ escape: escape
 space: space
 tab: tab
 insert: insert
-junk: buckspace
+junk: backspace
 wipe: backspace
-delete: backspace
-deal: backspace
+delete: delete
+deal: delete
 forward delete: delete
 menu key: menu
 print screen: printscr
