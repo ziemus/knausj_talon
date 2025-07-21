@@ -9,9 +9,12 @@ minus: minus
 end ten: enter
 enter: enter
 day: pagedown
+dei: pagedown
+dey: pagedown
 page down: pagedown
 ceil: pageup
 page up: pageup
+pad trap: pageup
 escape: escape
 space: space
 tab: tab
@@ -20,6 +23,8 @@ junk: backspace
 wipe: backspace
 delete: delete
 deal: delete
+dill: delete
+del: delete
 forward delete: delete
 menu key: menu
 print screen: printscr
