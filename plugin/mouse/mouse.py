@@ -163,20 +163,3 @@ class UserActions:
         if should_click:
             hold = settings.get("user.mouse_hold")
             ctrl.mouse_click(button=0, hold=hold)
-
-    def noise_trigger_hiss(active: bool):
-        if (
-            active
-            and settings.get("user.mouse_enable_hiss_stops_scroll")
-            and (gaze_job or scroll_job)
-        ):
-            actions.user.mouse_scroll_stop()
-        
-        if settings.get("user.mouse_enable_hiss_scroll"):
-            if active:
-                if hiss_scroll_up:
-                    actions.user.mouse_scroll_up_continuous()
-                else:
-                    actions.user.mouse_scroll_down_continuous()
-            else:
-                actions.user.mouse_scroll_stop()
