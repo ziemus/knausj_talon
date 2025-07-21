@@ -22,13 +22,13 @@ settings():
     # user.help_sort_contexts_by_specificity = false
 
     # Set the scroll amount for continuous scroll
-    user.mouse_continuous_scroll_amount = 40
+    user.mouse_continuous_scroll_amount = 20
 
     # Set the scroll multiplier for gaze scroll
     user.mouse_gaze_scroll_speed_multiplier = 1.0
 
     # Set the maximum acceleration factor when scrolling continuously. 1=constant speed/no acceleration.
-    user.mouse_continuous_scroll_acceleration = 1
+    user.mouse_continuous_scroll_acceleration = 2
 
     # If `true`, stop continuous scroll/gaze scroll with a pop
     user.mouse_enable_pop_stops_scroll = true
@@ -45,7 +45,7 @@ settings():
     user.mouse_enable_pop_click = 1
 
     # If `true`, use a hissing noise to scroll continuously
-    user.mouse_enable_hiss_scroll = false
+    user.mouse_enable_hiss_scroll = true
 
     # How much time a hiss must last for to be considered a hiss rather than
     # part of speech, in ms
