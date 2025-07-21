@@ -652,6 +652,11 @@ ctx.lists["user.cpp_standard_objects"] = {
 	"get time": "get_time",
 	"put time": "put_time",
 	"quoted": "quoted",
+
+    # namespaces
+    "literals": "literals",
+    "string literals": "string_literals",
+    "string view literals": "string_view_literals",
 }
 
 ctx.lists["user.cpp_cast_style"] = {
@@ -1167,8 +1172,7 @@ class UserActions:
         actions.insert("this")
 
     def code_define_class():
-        actions.insert("class  {};")
-        actions.edit.left()
+        actions.insert("class  \n{\n\t\n};")
         actions.edit.left()
         actions.edit.left()
         actions.edit.left()
@@ -1218,10 +1222,29 @@ class cpp_actions:
         """Build a declarator from a raw type."""
         return build_declarator(parse_type(raw_type), var_name)
     
-    def code_operator_stream_insertion():
+    def cpp_operator_stream_insertion():
         """"""
         actions.insert(" << ")
 
-    def code_operator_stream_extraction():
+    def cpp_operator_stream_extraction():
         """"""
         actions.insert(" >> ")
+
+    def cpp_define_unnamed_namespace():
+        """"""
+        actions.insert("namespace\n{\n\t\n}\n")
+        actions.key("up:2 end")
+
+    def cpp_define_namespace():
+        """"""
+        actions.insert("namespace\n{\n\t\n}\n")
+        actions.key("up:4 end")
+        actions.insert(" ")
+    
+    def cpp_define_named_namespace(name: str):
+        """"""
+        actions.insert("namespace ")
+        actions.user.insert_formatted(name, "PUBLIC_CAMEL_CASE")
+        actions.insert("\n{\n\t\n}\n")
+        actions.key("up:2 end")
+        

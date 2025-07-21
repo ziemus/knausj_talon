@@ -27,7 +27,6 @@ settings():
     user.code_protected_variable_formatter = "SNAKE_CASE"
     user.code_public_variable_formatter = "SNAKE_CASE"
 
-
 ^funky <user.text>$: user.code_default_function(text)
 ^static funky <user.text>$: user.code_private_static_function(text)
 
@@ -45,7 +44,12 @@ state type deaf:
 state struct:
     insert('struct  {};')
     key('left:4')
-
+state [name] space [over]:
+    user.cpp_define_namespace()
+state [name] space <phrase> [over]:
+    user.cpp_define_named_namespace(phrase)
+state unnamed [name] space:
+    user.cpp_define_unnamed_namespace()
 
 # XXX - create a preprocessor tag for these, as they will match cpp, etc
 state [pre] define: "#define "
@@ -142,5 +146,5 @@ member <user.prose> over:
     name = user.formatted_text(prose, "SNAKE_CASE")
     insert("_{name}")
 
-op insert: user.code_operator_stream_insertion()
-op extract: user.code_operator_stream_extraction()
+op insert: user.cpp_operator_stream_insertion()
+op extract: user.cpp_operator_stream_extraction()
