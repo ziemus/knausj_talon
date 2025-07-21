@@ -5,6 +5,7 @@ settings():
 	user.mouse_continuous_scroll_amount = 250
 	user.mouse_wheel_down_amount = 250
 	user.mouse_enable_pop_click = 0
+	user.mouse_enable_hiss_scroll = false
 	user.mouse_hide_mouse_gui = 1
 	key_hold = 64.0
 	key_wait = 16.0
