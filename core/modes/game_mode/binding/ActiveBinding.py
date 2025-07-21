@@ -8,7 +8,7 @@ class ActiveBinding:
     default_keybinding: HotswappableKeybinding = HotswappableKeybinding(default_keybinding_path)
     
     def get(action: str = None):
-        keybinding = GameLibrary._current_game.get_binding()
+        keybinding = GameLibrary.get_current_game().get_binding()
         if action not in keybinding.keys():
             keybinding = ActiveBinding.default_keybinding.get_binding()
         if action not in keybinding.keys():
@@ -16,7 +16,7 @@ class ActiveBinding:
         return keybinding.get(action)
     
     def get_alternative(primary: str, secondary: str):
-        custom = GameLibrary._current_game.get_binding()
+        custom = GameLibrary.get_current_game().get_binding()
         default = ActiveBinding.default_keybinding.get_binding()
         keybinding = custom
         action = primary

@@ -16,6 +16,9 @@ class GameLibrary:
     _games: dict[str:BaseGame] = {}
     _current_game: BaseGame = None
 
+    def get_current_game():
+        return GameLibrary._current_game
+
     def __get_icon_path(app_name: str, icon: str):
         if path.isfile(icon):
             return icon
