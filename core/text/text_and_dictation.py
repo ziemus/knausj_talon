@@ -126,6 +126,30 @@ def text(m) -> str:
     return format_phrase(m)
 
 
+@mod.capture(rule="(let | letter) {self.letter}+ fin")
+def letters_spaced_prose_prefixed_postfixed(m) -> str:
+    """A sequence of letters separated with spaces."""
+    return " ".join(m.letter_list)
+
+
+@mod.capture(rule="spell {self.letter}+ fin")
+def letters_prose_prefixed_postfixed(m) -> str:
+    """A sequence of letters unseparated."""
+    return "".join(m.letter_list)
+
+
+@mod.capture(rule="(let | letter) ship {self.letter}+ fin")
+def letters_caps_spaced_prose_prefixed_postfixed(m) -> str:
+    """A sequence of letters separated with spaces."""
+    return " ".join(m.letter_list).upper()
+
+
+@mod.capture(rule="spell ship {self.letter}+ fin")
+def letters_caps_prose_prefixed_postfixed(m) -> str:
+    """A sequence of letters unseparated."""
+    return "".join(m.letter_list).upper()
+
+
 @mod.capture(
     rule=(
         "("
@@ -135,6 +159,10 @@ def text(m) -> str:
         "| <user.prose_currency>"
         "| <user.prose_time>"
         "| <user.number_prose_prefixed>"
+        "| <user.letters_prose_prefixed_postfixed>"
+        "| <user.letters_spaced_prose_prefixed_postfixed>"
+        "| <user.letters_caps_prose_prefixed_postfixed>"
+        "| <user.letters_caps_spaced_prose_prefixed_postfixed>"
         "| <user.prose_percent>"
         "| <user.prose_modifier>"
         "| <user.abbreviation>"
@@ -158,6 +186,8 @@ def prose(m) -> str:
         "| <user.prose_currency>"
         "| <user.prose_time>"
         "| <user.number_prose_prefixed>"
+        "| <user.letters_prose_prefixed_postfixed>"
+        "| <user.letters_spaced_prose_prefixed_postfixed>"
         "| <user.prose_percent>"
         "| <user.abbreviation>"
         "| <user.prose_contact>"
