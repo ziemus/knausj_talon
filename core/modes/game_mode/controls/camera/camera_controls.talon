@@ -5,8 +5,10 @@ and mode: user.game
     user.game_turn_camera('{game_camera_direction}')
 [camera] [turn] (tiny | tea) {user.game_camera_direction}:
     user.game_turn_camera('{game_camera_direction}', 0.25)
-[camera] [turn] (little | lil | lee | small) {user.game_camera_direction}:
+[camera] [turn] (little | lil | lee | le | small) {user.game_camera_direction}:
     user.game_turn_camera('{game_camera_direction}', 0.5)
+leroy:
+    user.game_turn_camera('right', 0.5)
 [camera] [turn] (big | be) {user.game_camera_direction}:
     user.game_turn_camera('{game_camera_direction}', 1.25)
 [camera] [turn] (around | round) | turn:
