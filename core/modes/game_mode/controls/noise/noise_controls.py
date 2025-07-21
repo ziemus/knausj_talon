@@ -24,6 +24,7 @@ noise_action_names = {
     "drag": "long click",
     "long click": "long click",
     "middle click": "middle click",
+    "middle long click": "middle long click",
     "mid click": "middle click",
     "righty": "right click",
     "right click": "right click",
@@ -65,6 +66,8 @@ action_name_to_action = {
         lambda is_active: actions.user.game_press_mouse(button=1, down=is_active),
     "middle click":
         lambda _: actions.user.game_click(2),
+    "middle long click":
+        lambda is_active: actions.user.game_press_mouse(button=2, down=is_active),
     "target lock toggle":
         lambda _: actions.user.game_weapon_target_lock_toggle(),
     "attack":
@@ -193,14 +196,16 @@ def _execute_noise_binding(noise, is_active):
 
     does_action_require_input = action_name in [
         "long click",
-        "jump",
         "long attack",
         "long block",
         "right long click",
-    ] or (action_name == "move" and noise == "hiss")
+        "middle long click",
+    ] or (action_name in ["move", "jump"] and noise in "hiss")
 
     if does_action_require_input:
         action_name_to_action[action_name](is_active)
+    elif noise == "pop" and action_name == "jump":
+        actions.user.game_jump()
     elif is_active:
         action_name_to_action[action_name](True)
 
