@@ -1,7 +1,7 @@
 from talon import Module, actions, cron
 import time
 
-HOLD_TIMEOUT = 0.2
+HOLD_TIMEOUT = 1.0
 
 OLYMPUS_LEFT = 0
 OLYMPUS_CENTER = 1
