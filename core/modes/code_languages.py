@@ -63,6 +63,7 @@ code_languages = [
     Language("json", "json", ["json"]),
     Language("shellscript", "shell script", ["sh"]),
     Language("xml", "xml", ["xml"]),
+    Language("gdscript", ["G D Script", "godot", "godoe"], ["gd", "tscn", "scn"]),
 ]
 
 # Files without specific extensions but are associated with languages
