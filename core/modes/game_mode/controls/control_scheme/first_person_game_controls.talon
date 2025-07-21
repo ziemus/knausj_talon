@@ -4,6 +4,7 @@ and tag: user.first_person_game_controls
 tag(): user.game_basic_movement
 tag(): user.game_camera_controls
 tag(): user.game_sprint_controls
+tag(): user.game_foot_switch_first_person
 
 #miscellaneous movement
 jump:
