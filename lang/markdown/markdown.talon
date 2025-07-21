@@ -42,5 +42,11 @@ list six:
     user.insert_snippet("```{markdown_code_block_language}\n$0\n```")
 
 link:
+    "[[]]"
+    key(left:2)
+ex link:
     "[]()"
     key(left:3)
+
+separate:
+    "___"
