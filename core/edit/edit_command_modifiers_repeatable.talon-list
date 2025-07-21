@@ -3,7 +3,7 @@ list: user.edit_modifier_repeatable
 word: word
 word left: wordLeft
 word right: wordRight
-up: lineUp
+it up: lineUp
 down: lineDown
 left: left
 right: right
