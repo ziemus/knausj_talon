@@ -80,6 +80,9 @@ settings():
     # .snippet files. Changing this setting requires a restart of Talon.
     # user.snippets_dir = "snippets"
 
+    # Set to the number of spaces to use for each tab when inserting snippets as raw text (without editor support). Set to -1 to insert tabs as tabs, such as in code editors that can expand tabs in pasted or typed text. This setting is provided for applications like web browsers and chat apps that do not understand code formatting.
+    user.snippet_raw_text_spaces_per_tab = 4
+
     # Uncomment to insert text longer than 10 characters (customizable) by pasting from
     # the clipboard. This is often faster than typing.
     # user.paste_to_insert_threshold = 10
@@ -126,3 +129,6 @@ settings():
 # Uncomment this to enable the curse yes/curse no commands (show hide mouse cursor). See issue #688.
 tag(): user.mouse_cursor_commands_enable
 tag(): user.emoji
+# Uncomment the below to enable the experimental window layout commands
+# defined in window_layout.talon
+# tag(): user.experimental_window_layout

@@ -23,3 +23,6 @@ superscript <number_small> [over]:
     key(ctrl-end enter)
     user.paste("<div id=\"sup{number_small}\"><sup>[{number_small}]</sup></div>")
     key(left:6)
+
+link: user.insert_snippet_by_name("wiki link")
+ex link: user.insert_snippet_by_name("link")

@@ -1,5 +1,10 @@
-# Compound of action(select, clear, copy, cut, paste, etc.) and modifier(word, line, etc.) commands for editing text.
+# Compound of action(select, clear, copy, cut, paste, etc.) and modifier(word,
+# line, etc.) commands for editing text.
 # eg: "select line", "clear all"
+# For overriding or creating aliases for specific actions, this function will
+# also accept strings, e.g. `user.edit_command("delete", "wordLeft")`.
+# See edit_command_modifiers.py to discover the correct string for the modify argument,
+# and `edit_command_actions.py` `simple_action_callbacks` to find strings for the action argument.
 <user.edit_action> <user.edit_modifier>: user.edit_command(edit_action, edit_modifier)
 
 # Zoom
@@ -49,7 +54,7 @@ copy that | copy dot | cap bat: edit.copy()
 cut that: edit.cut()
 
 # Paste
-(pace | paste) that | pad star: edit.paste()
+(pace | paste) (that | it) | pad star: edit.paste()
 (pace | paste) enter:
     edit.paste()
     key(enter)

@@ -7,6 +7,7 @@ tag(): user.navigation
 
 go app data: user.file_manager_open_directory("%AppData%")
 go program files: user.file_manager_open_directory("%programfiles%")
+
 powershell here:
     key(ctrl-l)
     insert("powershell")
