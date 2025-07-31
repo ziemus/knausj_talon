@@ -1,4 +1,5 @@
-from talon import Module, actions, Context
+from typing import List
+from talon import Module, actions, Context, cron
 from ...binding.BindingExecutor import BindingExecutor
 
 game_camera_module = Module()
@@ -42,6 +43,14 @@ setting_turn_vertically_delta = game_camera_module.setting(
 
         in my experience, it will never be perfectly accurate
         but it will be enough to play""")
+setting_turn_continuously_horizontally_delta = game_camera_module.setting(
+    "game_turn_continuously_horizontally_mouse_delta",
+    type=int,
+    default=10)
+setting_turn_continuously_vertically_delta = game_camera_module.setting(
+    "game_turn_continuously_vertically_mouse_delta",
+    type=int,
+    default=10)
 
 game_camera_module.tag("game_camera_controls")
 game_camera_module.list("game_camera_direction")
@@ -72,6 +81,19 @@ def _mouse_move(dx: int, dy: int):
         y += dy
         ctrl.mouse_move(x, y, dx=dx, dy=dy)
 
+_move_continuous_job = None
+_move_continuous_dx = None
+_move_continuous_dy = None
+_move_continuous_mult = 1.0
+
+def _mouse_move_continuous_helper():
+    global _move_continuous_dx, _move_continuous_dy, _move_continuous_mult
+
+    dx = (int)(_move_continuous_dx * _move_continuous_mult)
+    dy = (int)(_move_continuous_dy * _move_continuous_mult)
+
+    _mouse_move(dx, dy)
+
 
 @game_camera_module.action_class
 class CameraActions:
@@ -99,6 +121,54 @@ class CameraActions:
             dy = (int)(dy * cursor_movement_multiplier)
 
         _mouse_move(dx, dy)
+
+    def game_turn_camera_start(direction: str, cursor_movement_multiplier: float = 1.0):
+        """Moves camera in the specified direction until actions.user.game_turn_camera_stop() is called.
+        Can update active directions."""
+        actions.user.game_turn_camera_start([direction], cursor_movement_multiplier)
+
+    def game_turn_camera_start(directions: List[str], cursor_movement_multiplier: float = 1.0):
+        """Moves camera in the specified directions until actions.user.game_turn_camera_stop() is called.
+        Can update active directions."""
+        global _move_continuous_job, _move_continuous_dx, _move_continuous_dy, _move_continuous_mult
+
+        dx = dy = 0
+        if "right" in directions:
+            dx = setting_turn_continuously_horizontally_delta.get()
+        if "left" in directions:
+            dx = -setting_turn_continuously_horizontally_delta.get()
+        if "down" in directions:
+            dy = setting_turn_continuously_vertically_delta.get()
+        if "up" in directions:
+            dy = -setting_turn_continuously_vertically_delta.get()
+
+        if _move_continuous_job: # update
+            # if dx is 0 (no info) but wasn't -> don't update
+            if not (dx == 0 and _move_continuous_dx != 0):
+                _move_continuous_dx = dx
+            if not (dy == 0 and _move_continuous_dy != 0):
+                _move_continuous_dy = dy
+            _move_continuous_mult = cursor_movement_multiplier
+        else:
+            _move_continuous_dx = dx
+            _move_continuous_dy = dy
+            _move_continuous_mult = cursor_movement_multiplier
+            _move_continuous_job = cron.interval("16ms", _mouse_move_continuous_helper)
+
+    def game_turn_camera_stop(is_stop_horizontal: bool = True, is_stop_vertical: bool = True):
+        """Stops continuous camera movement in the specified axes."""
+        global _move_continuous_job, _move_continuous_dx, _move_continuous_dy
+        
+        if not _move_continuous_job:
+            return
+               
+        if is_stop_horizontal and is_stop_vertical:
+            cron.cancel(_move_continuous_job)
+            _move_continuous_job = None
+        if is_stop_horizontal:
+            _move_continuous_dx = 0
+        if is_stop_vertical:
+            _move_continuous_dy = 0
 
     def game_camera_first_person():
         """Change camera to first person perspective. No action performed by default. Needs to be overridden."""
