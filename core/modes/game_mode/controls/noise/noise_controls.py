@@ -205,7 +205,7 @@ def _execute_noise_binding(noise, is_active):
     if does_action_require_input:
         action_name_to_action[action_name](is_active)
     elif noise == "pop" and action_name == "jump":
-        actions.user.game_jump()
+        actions.user.game_jump(is_active)
     elif is_active:
         action_name_to_action[action_name](True)
 
