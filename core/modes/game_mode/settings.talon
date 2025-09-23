@@ -1,4 +1,5 @@
 mode: user.game
+and mode: all
 -
 settings():
     user.listening_timeout_minutes = -1
