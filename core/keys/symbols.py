@@ -76,7 +76,7 @@ symbols = [
     Symbol("[", None,["brack", "L brack", "bracket", "L bracket", "left bracket", "square", "L square", "left square",],),
     Symbol("]", None, ["R brack", "R bracket", "right bracket", "R square", "right square"]),
     Symbol("/", ["forward slash"], ["slash"]),
-    Symbol("\\", None, ["backslash"]),
+    Symbol("\\", None, ["backslash", "box slash"]),
     Symbol("{", None, ["brace", "L brace", "left brace", "curly bracket", "left curly bracket"],),
     Symbol("}", None, ["R brace", "right brace","R curly bracket", "right curly bracket"]),
     Symbol("<", None, ["angle", "L Angle", "left angle", "less than"]),

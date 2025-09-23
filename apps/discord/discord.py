@@ -19,7 +19,7 @@ app: discord
 
 ctx.lists["user.discord_destination"] = {
     "user": "@",
-    "voice": "!",
+    "voice chat": "!",
     "server": "*",
 }
 
