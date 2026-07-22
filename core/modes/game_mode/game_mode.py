@@ -13,12 +13,14 @@ class GameModeActions:
 
     def enable_game_mode():
         """Switches the game mode on"""
+        # TODO clean this up
         remove_statusbar_programming_icon()
         actions.mode.enable("user.game")
         GameModeHelper.add_active_game_icon()
 
     def disable_game_mode():
         """Switches the game mode off"""
+        # TODO clean this up
         actions.user.release_held_game_keys()
         actions.user.game_sprint_state_reset()
         GameModeHelper.game_hud_remove_icons()

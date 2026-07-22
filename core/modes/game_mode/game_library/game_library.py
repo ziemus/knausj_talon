@@ -87,6 +87,7 @@ fs.watch(GameLibrary._GAME_LIBRARY_PATH, GameLibrary.get_games)
 def _track_current_game(app_name: str):
     if app_name in GameLibrary._games.keys():
         GameLibrary._current_game = GameLibrary._games[app_name]
+        # TODO clean this up
         actions.mode.disable("command")
         actions.mode.disable("dictation")
         actions.user.enable_game_mode()
@@ -103,6 +104,7 @@ def track_current_game(app):
 
 def on_app_deactivate(app):
     if GameLibrary.is_app_current_game(app):
+        # TODO clean this up
         actions.user.disable_game_mode()
 
         if "sleep" in scope.get("mode"):

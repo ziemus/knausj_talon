@@ -1,4 +1,4 @@
-from talon import Context, Module, actions, app, speech_system
+from talon import Context, Module, actions, app, speech_system, cron
 from user.talon_hud.content.programming_language_poller import add_statusbar_programming_icon
 
 mod = Module()
@@ -35,6 +35,29 @@ class ActionsAwakeMode:
 
 @mod.action_class
 class Actions:
+    def command_mode():
+        """Enable command mode"""
+        actions.mode.disable("sleep")
+        actions.mode.disable("dictation")
+        actions.mode.enable("command")
+        cron.after("100ms", actions.user.command_mode_set_up)
+
+    def dictation_mode():
+        """Enable dictation mode"""
+        actions.mode.disable("sleep")
+        actions.mode.disable("command")
+        actions.mode.enable("dictation")
+        actions.user.code_clear_language_mode()
+        actions.user.gdb_disable()
+
+    def game_mode():
+        """Enable game mode"""
+        # TODO clean this up
+        actions.mode.disable("sleep")
+        actions.mode.disable("command")
+        actions.mode.disable("dictation")
+        actions.user.enable_game_mode()
+
     def talon_mode():
         """For windows and Mac with Dragon, enables Talon commands and Dragon's command mode."""
         actions.speech.enable()
